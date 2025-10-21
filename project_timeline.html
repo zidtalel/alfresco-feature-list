@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan de Projet de Test - CMS Alfresco (Timeline V2)</title>
+    <title>Plan de Projet de Test - CMS Alfresco (Timeline V2 - Responsive)</title>
     <style>
         /* Styles généraux */
         body {
@@ -33,7 +33,7 @@
             padding: 20px 0;
         }
 
-        /* Ligne verticale de la chronologie */
+        /* Ligne verticale de la chronologie (Desktop/Tablet) */
         .timeline::after {
             content: '';
             position: absolute;
@@ -41,20 +41,20 @@
             background-color: #9ca3af; /* Gris de la ligne */
             top: 0;
             bottom: 0;
-            left: 50%;
+            left: 50%; /* Centré sur desktop */
             margin-left: -2px;
         }
 
-        /* Carte de Sprint */
+        /* Carte de Sprint (Desktop/Tablet) */
         .sprint-card {
             padding: 10px 40px;
             position: relative;
             background-color: inherit;
-            width: 40%;
+            width: 40%; /* Demi-largeur sur desktop */
             margin-bottom: 40px;
         }
 
-        /* Positionnement des cartes (Gauche/Droite) */
+        /* Positionnement des cartes (Gauche/Droite) (Desktop/Tablet) */
         .sprint-card:nth-child(even) {
             left: 50%;
         }
@@ -78,7 +78,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Flèches pour relier la carte à la ligne */
+        /* Flèches pour relier la carte à la ligne (Desktop/Tablet) */
         .sprint-card:nth-child(odd) .sprint-content::after {
             content: " ";
             height: 0;
@@ -105,13 +105,13 @@
             border-color: transparent white transparent transparent;
         }
 
-        /* Cercle sur la ligne (Point de repère) */
+        /* Cercle sur la ligne (Point de repère) (Desktop/Tablet) */
         .sprint-card::after {
             content: '';
             position: absolute;
             width: 25px;
             height: 25px;
-            right: -17px;
+            right: -17px; /* Positionnement à droite pour les cartes impaires */
             background-color: #10b981; /* Vert de marque */
             border: 4px solid #d1fae5;
             top: 15px;
@@ -120,7 +120,7 @@
         }
 
         .sprint-card:nth-child(even)::after {
-            left: -17px;
+            left: -17px; /* Positionnement à gauche pour les cartes paires */
         }
 
         /* En-tête de la carte (Sprint et Date) */
@@ -183,6 +183,56 @@
             background-color: #f3f4f6;
             padding: 1px 4px;
             border-radius: 4px;
+        }
+
+        /* ======================================================= */
+        /* MEDIA QUERIES pour l'affichage mobile (max-width: 600px)*/
+        /* ======================================================= */
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 15px; /* Réduire le padding sur mobile */
+            }
+
+            .container {
+                /* S'assurer que le conteneur utilise l'espace disponible */
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 1.8em; /* Ajuster la taille du titre */
+            }
+
+            /* 1. Ligne verticale de la chronologie : Déplacer à gauche */
+            .timeline::after {
+                left: 30px; /* Déplacer la ligne verticale à gauche */
+                margin-left: 0;
+            }
+
+            /* 2. Carte de Sprint : Pleine largeur et positionnement à gauche */
+            .sprint-card {
+                width: 95%; /* Pleine largeur (presque) */
+                padding: 10px 0 10px 60px; /* Padding à gauche pour l'espace du marqueur */
+                left: 0 !important; /* Forcer le positionnement à gauche */
+                margin-bottom: 30px;
+            }
+
+            /* 3. Cercle sur la ligne : Positionner à gauche */
+            .sprint-card::after {
+                left: 22px !important; /* Positionner le cercle près de la nouvelle ligne */
+                right: auto; /* Supprimer l'ancien positionnement */
+            }
+
+            /* 4. Flèches : Supprimer les flèches ou les adapter pour pointer à droite */
+            .sprint-content::after {
+                /* Supprimer les flèches sur mobile pour un look plus simple */
+                content: none !important;
+            }
+
+            /* Retirer les ombres au survol sur mobile pour améliorer la performance/l'expérience tactile */
+            .sprint-card:hover .sprint-content {
+                transform: none;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Garder l'ombre par défaut */
+            }
         }
     </style>
 </head>
