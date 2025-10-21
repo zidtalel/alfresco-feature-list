@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Stories et Critères d'Acceptation Redmine</title>
+    <style>
+      /* Styles de base */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f7f6;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #007bff;
+        border-bottom: 3px solid #007bff;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      /* Styles pour la User Story */
+      .user-story-card {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin-bottom: 35px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+
+      .story-title {
+        color: #34495e;
+        font-size: 1.5em;
+        margin-top: 0;
+        border-bottom: 2px solid #34495e;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+
+      .story-content {
+        font-size: 1.1em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      /* Mise en évidence des mots clés de la User Story */
+      .en-tant-que {
+        font-weight: bold;
+        color: #2ecc71; /* Vert clair */
+        background-color: #e8f8f5;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+      .je-veux {
+        font-weight: bold;
+        color: #e67e22; /* Orange */
+        background-color: #fdedec;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+      .afin-de {
+        font-weight: bold;
+        color: #9b59b6; /* Violet */
+        background-color: #f4ecf7;
+        padding: 2px 4px;
+        border-radius: 4px;
+      }
+
+      /* Styles pour les Critères d'Acceptation */
+      .acceptance-criteria {
+        margin-top: 20px;
+        padding: 15px;
+        border-left: 5px solid #007bff;
+        background-color: #e9f7ff;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .criteria-title {
+        color: #007bff;
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .scenario {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px dashed #a0c3ff;
+        border-radius: 6px;
+        background-color: #ffffff;
+      }
+
+      .scenario-title {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+      }
+
+      .step-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .step-list li {
+        margin-bottom: 8px;
+        padding-left: 10px;
+        border-left: 2px solid #ccc;
+      }
+
+      /* Mise en évidence des mots clés Gherkin */
+      .given,
+      .when,
+      .then,
+      .and {
+        font-weight: bold;
+        padding: 2px 4px;
+        border-radius: 3px;
+        margin-right: 5px;
+        display: inline-block;
+      }
+
+      .given {
+        color: #2980b9; /* Bleu foncé */
+        background-color: #eef7ff;
+      }
+      .when {
+        color: #f39c12; /* Jaune/Orange */
+        background-color: #fef5e7;
+      }
+      .then {
+        color: #c0392b; /* Rouge brique */
+        background-color: #f9ebea;
+      }
+      /* 'Et' est souvent stylisé comme les autres pour la cohérence Gherkin */
+      .and {
+        color: #2c3e50;
+        background-color: #eaecee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>User Stories et Critères d'Acceptation (Redmine)</h1>
+
+      <div class="user-story-card">
+        <h2 class="story-title">Créer un nouveau projet</h2>
+        <div class="story-content">
+          <span class="en-tant-que">En tant que</span> administrateur de
+          l’application Redmine<br />
+          <span class="je-veux">Je veux</span> créer un nouveau projet<br />
+          <span class="afin-de">Afin de</span> gérer et suivre les tâches et
+          activités associées à ce projet
+        </div>
+
+        <div class="acceptance-criteria">
+          <div class="criteria-title">Critères d'Acceptation</div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 1 : Création d'un projet avec des informations valides
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> un administrateur
+                authentifié sur Redmine
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il accède à la page "Nouveau
+                projet"
+              </li>
+              <li>
+                <span class="and">Et qu'</span>il saisit des données valides
+                pour le projet
+              </li>
+              <li><span class="and">Et qu'</span>il clique sur "Créer"</li>
+              <li>
+                <span class="then">Alors</span> le projet est créé et ajouté à
+                la liste des projets
+              </li>
+              <li>
+                <span class="and">Et</span> un message de confirmation s’affiche
+              </li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 2 : Création d'un projet avec un identifiant déjà
+              existant
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> un administrateur
+                authentifié sur Redmine
+              </li>
+              <li>
+                <span class="and">Et qu'</span>un projet portant le même
+                identifiant existe déjà
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il tente de créer un nouveau
+                projet avec cet identifiant
+              </li>
+              <li>
+                <span class="then">Alors</span> le système affiche un message
+                d’erreur indiquant que l'identifiant existe déjà
+              </li>
+              <li><span class="and">Et</span> le projet n’est pas créé</li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 3 : Création d'un projet sans nom
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> un administrateur
+                authentifié sur Redmine
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il tente de créer un projet
+                sans saisir de nom
+              </li>
+              <li>
+                <span class="then">Alors</span> le système affiche un message
+                d’erreur indiquant que le nom du projet est obligatoire
+              </li>
+              <li><span class="and">Et</span> le projet n’est pas créé</li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 4 : Création d'un projet avec des caractères invalides
+              dans l'identifiant
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> un administrateur
+                authentifié sur Redmine
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il saisit un identifiant de
+                projet contenant des caractères invalides
+              </li>
+              <li>
+                <span class="then">Alors</span> le système affiche un message
+                d’erreur indiquant que l'identifiant n’est pas valide
+              </li>
+              <li><span class="and">Et</span> le projet n’est pas créé</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr
+        style="
+          border: 0;
+          height: 1px;
+          background-image: linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0),
+            #ccc,
+            rgba(0, 0, 0, 0)
+          );
+          margin: 40px 0;
+        "
+      />
+
+      <div class="user-story-card">
+        <h2 class="story-title">Ajouter une nouvelle adresse email</h2>
+        <div class="story-content">
+          <span class="en-tant-que">En tant que</span> utilisateur de
+          l’application Redmine<br />
+          <span class="je-veux">Je veux</span> ajouter une nouvelle adresse
+          email à mon compte<br />
+          <span class="afin-de">Afin de</span> recevoir des notifications sur
+          plusieurs adresses.
+        </div>
+
+        <div class="acceptance-criteria">
+          <div class="criteria-title">Critères d'Acceptation</div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 1 : Ajouter une nouvelle adresse email valide
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> qu’un utilisateur est
+                connecté à Redmine
+              </li>
+              <li>
+                <span class="and">Et qu’</span>il se trouve sur la page "Mon
+                compte"
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il saisit une nouvelle adresse
+                email valide
+              </li>
+              <li><span class="and">Et qu’</span>il confirme l’ajout</li>
+              <li>
+                <span class="then">Alors</span> l’adresse email est enregistrée
+                dans son profil
+              </li>
+              <li>
+                <span class="and">Et</span> un message de confirmation s’affiche
+              </li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 2 : Ajouter une adresse email déjà existante
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> qu’un utilisateur
+                connecté possède déjà une adresse email dans son compte
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il tente d’ajouter la même
+                adresse email
+              </li>
+              <li>
+                <span class="then">Alors</span> le système affiche un message
+                d’erreur indiquant que l’adresse est déjà enregistrée
+              </li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 3 : Ajouter une adresse email invalide
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> qu’un utilisateur est
+                connecté à Redmine
+              </li>
+              <li>
+                <span class="when">Lorsque</span> il saisit une adresse email
+                invalide (ex : "test@")
+              </li>
+              <li><span class="and">Et qu’</span>il tente de l’ajouter</li>
+              <li>
+                <span class="then">Alors</span> le système affiche un message
+                d’erreur indiquant que l’adresse n’est pas valide
+              </li>
+            </ul>
+          </div>
+
+          <div class="scenario">
+            <div class="scenario-title">
+              Scénario 4 : Gestion des notifications multi-adresses
+            </div>
+            <ul class="step-list">
+              <li>
+                <span class="given">Étant donné</span> qu’un utilisateur a
+                plusieurs adresses email enregistrées
+              </li>
+              <li>
+                <span class="when">Lorsque</span> une notification est envoyée
+                par Redmine
+              </li>
+              <li>
+                <span class="then">Alors</span> la notification est envoyée à
+                toutes les adresses email actives du compte
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
