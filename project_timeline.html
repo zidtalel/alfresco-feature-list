@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de Projet de Test - CMS Alfresco (Timeline V2)</title>
+    <style>
+        /* Styles généraux */
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1e3a8a; /* Bleu foncé */
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3a8a;
+        }
+
+        /* Styles de la Chronologie (Timeline) */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        /* Ligne verticale de la chronologie */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #9ca3af; /* Gris de la ligne */
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        /* Carte de Sprint */
+        .sprint-card {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 40%;
+            margin-bottom: 40px;
+        }
+
+        /* Positionnement des cartes (Gauche/Droite) */
+        .sprint-card:nth-child(even) {
+            left: 50%;
+        }
+        .sprint-card:nth-child(odd) {
+            left: 0;
+        }
+
+        /* Contenu de la carte */
+        .sprint-content {
+            padding: 20px 30px;
+            background-color: #ffffff;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #10b981; /* Bande de couleur vive */
+            transition: transform 0.3s ease;
+        }
+
+        .sprint-card:hover .sprint-content {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Flèches pour relier la carte à la ligne */
+        .sprint-card:nth-child(odd) .sprint-content::after {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: -15px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .sprint-card:nth-child(even) .sprint-content::after {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: -15px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        /* Cercle sur la ligne (Point de repère) */
+        .sprint-card::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: #10b981; /* Vert de marque */
+            border: 4px solid #d1fae5;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .sprint-card:nth-child(even)::after {
+            left: -17px;
+        }
+
+        /* En-tête de la carte (Sprint et Date) */
+        .sprint-header {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sprint-title {
+            font-size: 1.4em;
+            color: #1e3a8a;
+            font-weight: 700;
+        }
+
+        .sprint-date {
+            color: #ef4444; /* Rouge pour la date */
+            font-size: 1em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* NOUVEAU STYLE pour les sous-titres des phases */
+        .phase-title {
+            color: #1e3a8a;
+            font-size: 1.1em;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding-bottom: 3px;
+            border-bottom: 2px solid #e0f2f1; /* Sous-lignement léger */
+            font-weight: 700;
+        }
+        /* FIN NOUVEAU STYLE */
+
+        /* Liste des tâches */
+        .task-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .task-list li {
+            position: relative;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            line-height: 1.4;
+        }
+
+        .task-list li::before {
+            content: '✓'; /* Symbole de puce */
+            color: #10b981;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Mise en évidence des livrables (mots clés) */
+        .key-deliverable {
+            font-weight: bold;
+            color: #9ca3af;
+            background-color: #f3f4f6;
+            padding: 1px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Plan de projet de test du CMS Alfresco</h1>
+
+        <div class="timeline">
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 1</div>
+                        <div class="sprint-date">Semaine du 3 novembre</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Interpréter et comprendre</h4>
+                    <ul class="task-list">
+                        <li>Interpréter le contexte du projet</li>
+                        <li>Comprendre le cadre du projet : objectifs, participants.</li>
+                        <li>Constituer les équipes.</li>
+                        <li>Découvrir les requis du projet et prendre connaissance de l'estimation du nombre de cas de test par exigence.</li>
+                        <li>Étude des documents reliés à l'application à tester.</li>
+                    </ul>
+
+                    <h4 class="phase-title">Planifier les activités qualité</h4>
+                    <ul class="task-list">
+                        <li>Développer l'échéancier des tests, incluant l'étape de présentation du rapport.</li>
+                        <li>Développer un Plan de tests.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 2</div>
+                        <div class="sprint-date">Semaine du 10 novembre</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Élaborer les cas de tests</h4>
+                    <ul class="task-list">
+                        <li>Création du serveur Jira + Xray + Zephyr + Confluence.</li>
+                        <li>Découpage des tests en scénarios de tests puis en cas de test.</li>
+                        <li>Utilisation d'un outil pour rédiger tous les cas de tests à exécuter.</li>
+                        <li>Préparation des fichiers de données (datapool) nécessaires à l'exécution des tests.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 3</div>
+                        <div class="sprint-date">Semaine du 17 novembre</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Réaliser les cas de tests</h4>
+                    <ul class="task-list">
+                        <li>Exécuter les cas de tests manuellement et documenter le résultat obtenu.</li>
+                        <li>Rapporter les anomalies et les déviations dans un outil de gestion de bugs.</li>
+                    </ul>
+
+                    <h4 class="phase-title">Évaluer les résultats des tests</h4>
+                    <ul class="task-list">
+                        <li>Rapport de test à livrer à la fin de la session.</li>
+                        <li>Évaluer les résultats obtenus.</li>
+                        <li>Conclure des recommandations, suite à l'évaluation.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 4</div>
+                        <div class="sprint-date">Semaine du 24 novembre</div>
+                    </div>
+                    <ul class="task-list">
+                        <li>Rédiger le rapport de tests manuels.</li>
+                    </ul>
+                    
+                    <h4 class="phase-title">Préparer l'automatisation des tests</h4>
+                    <ul class="task-list">
+                        <li>Plan de test à livrer le 7 février.</li>
+                        <li>Rédiger un plan d'automatisation des tests.</li>
+                        <li>Choix des cas de test à automatiser.</li>
+                        <li>Répartition des cas de test sur les membres du groupe.</li>
+                    </ul>
+                    
+                    <h4 class="phase-title">Préparer la plateforme de test</h4>
+                    <ul class="task-list">
+                        <li>Préparation de l'accès au serveur Github, utilisation de Gitbash.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 5</div>
+                        <div class="sprint-date">Semaine du 1er décembre</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Analyser et préparer l'automatisation</h4>
+                    <ul class="task-list">
+                        <li>Analyse des cas de test à automatiser.</li>
+                        <li>Identification des traitements communs et des préconditions.</li>
+                        <li>Définition de la liste des mots clés (keywords).</li>
+                        <li>Préparation des fichiers de localisateurs.</li>
+                        <li>Rédaction des mots clés.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 6</div>
+                        <div class="sprint-date">Semaine du 8 décembre</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Automatiser les tests</h4>
+                    <ul class="task-list">
+                        <li>Inclure les mots clés développés par l'équipe dans le projet.</li>
+                        <li>Automatiser les cas de tests.</li>
+                        <li>Exécuter les tests automatisés sur la dernière version de l'application.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sprint-card">
+                <div class="sprint-content">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Sprint 7</div>
+                        <div class="sprint-date">Semaine du 26 janvier</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Rédiger le rapport de tests automatisés</h4>
+                    <ul class="task-list">
+                        <li>Rédiger le rapport de tests automatisés.</li>
+                        <li>Fournir le rapport de résultats de l'exécution de tests automatisés.</li>
+                        <li>Préparation d'une présentation sur le rapport de tests manuels et automatisés.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="sprint-card">
+                <div class="sprint-content" style="border-top: 5px solid #1e3a8a;">
+                    <div class="sprint-header">
+                        <div class="sprint-title">Présenter les résultats</div>
+                        <div class="sprint-date">Semaine du 2 février</div>
+                    </div>
+                    
+                    <h4 class="phase-title">Présenter le rapport de tests</h4>
+                    <ul class="task-list">
+                        <li>Présenter le rapport de tests.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
