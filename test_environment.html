@@ -91,7 +91,7 @@
         .tool-list .category {
             font-weight: 700;
             color: #1e3a8a;
-            margin-right: 10px;
+            margin-right: 15px;
             min-width: 120px;
         }
         .tool-list .tools {
@@ -117,6 +117,22 @@
         .note strong {
             color: #f59e0b;
         }
+
+        /* Style spécifique pour le lien d'API */
+        .api-link-info {
+            background-color: #e0f2f1; /* Fond bleu très pâle */
+            border: 1px solid #10b981;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+        .api-link-info a {
+            color: #1e3a8a;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
 
         /* ======================================================= */
         /* MEDIA QUERIES pour l'affichage mobile (max-width: 600px)*/
@@ -163,7 +179,7 @@
 <body>
 
     <div class="container">
-        <h1>Architecture et Environnement de Test Alfresco</h1>
+        <h1>Espace Qualité : Architecture et Environnement de Test Alfresco 🚀</h1>
         
         <div class="section-card">
             <h2>Serveur de Test Principal</h2>
@@ -218,34 +234,39 @@
             <h2>Outillage Qualité</h2>
             <ul class="tool-list">
                 <li>
-                    <span class="category">Gestion des Exigences : </span>
+                    <span class="category">Gestion des Exigences</span>
                     <span class="tools"><strong>Jira</strong> (Épics, User Stories), <strong>Confluence</strong> (Documentation)</span>
                 </li>
                 <li>
-                    <span class="category">Gestion des Tests et Anomalies : </span>
+                    <span class="category">Gestion des Tests et Anomalies</span>
                     <span class="tools"><strong>Xray</strong> (Cas de Tests, Exécution, Rapports d'exécution), <strong>Jira</strong> (Fiches d'anomalies)</span>
                 </li>
                 <li>
-                    <span class="category">Tests Fonctionnels : </span>
+                    <span class="category">Tests Fonctionnels</span>
                     <span class="tools"><strong>Robot Framework</strong> et <strong>Webdriver (Java)</strong></span>
                 </li>
                 <li>
-                    <span class="category">Tests d'Acceptation : </span>
+                    <span class="category">Tests d'Acceptation</span>
                     <span class="tools"><strong>Cucumber (Java)</strong></span>
                 </li>
                 <li>
-                    <span class="category">Tests d'API : </span>
+                    <span class="category">Tests d'API</span>
                     <span class="tools"><strong>Postman</strong></span>
                 </li>
                 <li>
-                    <span class="category">Tests de Charge : </span>
+                    <span class="category">Tests de Charge</span>
                     <span class="tools"><strong>Jmeter</strong></span>
                 </li>
                 <li>
-                    <span class="category">Cadre d'Exécution Java : </span>
+                    <span class="category">Cadre d'Exécution Java</span>
                     <span class="tools"><strong>Maven</strong>, <strong>Junit</strong> et <strong>TestNG</strong></span>
                 </li>
             </ul>
+
+            <div class="api-link-info">
+                <strong>Documentation des End-Points API :</strong><br>
+                Pour effectuer les tests d'API, veuillez consulter la documentation technique officielle des end-points Alfresco : <a href="https://api-explorer.alfresco.com/api-explorer/" target="_blank">Alfresco API Explorer</a>
+            </div>
         </div>
         
         <div class="section-card">
