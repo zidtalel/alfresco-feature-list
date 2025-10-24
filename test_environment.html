@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Qualité : Architecture et Environnement de Test Alfresco</title>
+    <style>
+        /* Styles généraux (similaires à la charte graphique précédente) */
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #1e3a8a; /* Bleu foncé */
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1e3a8a;
+        }
+
+        h2 {
+            color: #10b981; /* Vert de marque */
+            border-left: 5px solid #1e3a8a;
+            padding-left: 10px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+
+        h3 {
+            color: #1e3a8a;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 5px;
+            font-size: 1.2em;
+        }
+
+        /* Style pour les sections (cartes) */
+        .section-card {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        /* Style pour les paires clé-valeur (Configuration Serveur) */
+        .config-list, .tool-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .config-list li, .tool-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+
+        .config-list li:last-child, .tool-list li:last-child {
+            border-bottom: none;
+        }
+
+        .config-list .key {
+            font-weight: 700;
+            color: #1e3a8a;
+            width: 40%;
+            min-width: 150px;
+        }
+        
+        .config-list .value {
+            width: 60%;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            background-color: #f7f7f9;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        
+        /* Styles de la liste d'outils */
+        .tool-list .category {
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-right: 10px;
+            min-width: 120px;
+        }
+        .tool-list .tools {
+            font-style: italic;
+            color: #333;
+        }
+        
+        /* Style pour les noms d'outils et termes clés */
+        .tools strong {
+            font-style: normal; /* Annuler l'italique pour le nom de l'outil */
+            color: #1e3a8a;     /* Mettre en évidence la couleur */
+            padding: 0 2px;
+        }
+
+        .note {
+            background-color: #fef3c7; /* Jaune pâle */
+            border-left: 5px solid #f59e0b; /* Orange */
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+            color: #583b06;
+        }
+        .note strong {
+            color: #f59e0b;
+        }
+
+        /* ======================================================= */
+        /* MEDIA QUERIES pour l'affichage mobile (max-width: 600px)*/
+        /* ======================================================= */
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+
+            .section-card {
+                padding: 15px;
+            }
+
+            .config-list li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .config-list .key {
+                width: 100%;
+                margin-bottom: 5px;
+                min-width: auto;
+            }
+
+            .config-list .value {
+                width: 100%;
+                padding-left: 0;
+            }
+            
+            .tool-list li {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Architecture et Environnement de Test Alfresco</h1>
+        
+        <div class="section-card">
+            <h2>Serveur de Test Principal</h2>
+            <p style="font-size: 1.1em; font-weight: 600;">Application à tester : CMS Alfresco <span style="font-weight: bold; color: #ef4444;">(Version 7.4-7.4.1-1)</span></p>
+
+            <h3>Accès et État du Serveur</h3>
+            <ul class="config-list">
+                <li style="background-color: #d1fae5; border-color: #10b981;">
+                    <span class="key">Statut actuel</span>
+                    <span class="value" style="background-color: #10b981; color: white; font-weight: bold;">running</span>
+                </li>
+                <li>
+                    <span class="key">Tunnel d'accès (HTTP)</span>
+                    <span class="value">205.236.44.133:80</span>
+                </li>
+                <li>
+                    <span class="key">Session SSH</span>
+                    <span class="value">mercure.minilab.bdeb.qc.ca</span>
+                </li>
+            </ul>
+
+            <h3>Configuration Technique (VM Proxmox)</h3>
+            <ul class="config-list">
+                <li>
+                    <span class="key">Processeurs</span>
+                    <span class="value">2 (1 sockets, 2 cores) [host]</span>
+                </li>
+                <li>
+                    <span class="key">Mémoire Allouée</span>
+                    <span class="value">4.00 GiB</span>
+                </li>
+                <li>
+                    <span class="key">Utilisation Mémoire Actuelle</span>
+                    <span class="value" style="color: #ef4444; font-weight: bold;">92.97% (3.72 GiB)</span>
+                </li>
+                <li>
+                    <span class="key">Disque Dur</span>
+                    <span class="value">10G (local-lvm:vm-304-disk-0)</span>
+                </li>
+                <li>
+                    <span class="key">Contrôleur Réseau/SCSI</span>
+                    <span class="value">VirtIO / VirtIO SCSI single</span>
+                </li>
+                <li>
+                    <span class="key">Machine/BIOS</span>
+                    <span class="value">Default (i440fx) / Default (SeaBIOS)</span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section-card">
+            <h2>Outillage Qualité</h2>
+            <ul class="tool-list">
+                <li>
+                    <span class="category">Gestion des Exigences : </span>
+                    <span class="tools"><strong>Jira</strong> (Épics, User Stories), <strong>Confluence</strong> (Documentation)</span>
+                </li>
+                <li>
+                    <span class="category">Gestion des Tests et Anomalies : </span>
+                    <span class="tools"><strong>Xray</strong> (Cas de Tests, Exécution, Rapports d'exécution), <strong>Jira</strong> (Fiches d'anomalies)</span>
+                </li>
+                <li>
+                    <span class="category">Tests Fonctionnels : </span>
+                    <span class="tools"><strong>Robot Framework</strong> et <strong>Webdriver (Java)</strong></span>
+                </li>
+                <li>
+                    <span class="category">Tests d'Acceptation : </span>
+                    <span class="tools"><strong>Cucumber (Java)</strong></span>
+                </li>
+                <li>
+                    <span class="category">Tests d'API : </span>
+                    <span class="tools"><strong>Postman</strong></span>
+                </li>
+                <li>
+                    <span class="category">Tests de Charge : </span>
+                    <span class="tools"><strong>Jmeter</strong></span>
+                </li>
+                <li>
+                    <span class="category">Cadre d'Exécution Java : </span>
+                    <span class="tools"><strong>Maven</strong>, <strong>Junit</strong> et <strong>TestNG</strong></span>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section-card">
+            <h2>Contingence et Communication</h2>
+            
+            <h3>Plan de Contingence (Sauvegarde)</h3>
+            <div class="note">
+                Chaque testeur dispose d'une <strong>machine virtuelle locale</strong> (VM) contenant une instance d'Alfresco (v. 7.4-7.4.1-1). Cette VM doit être utilisée comme <strong>environnement de secours</strong> en cas de panne ou d'indisponibilité prolongée du serveur de test principal.
+            </div>
+
+            <h3>Communication et Suivi</h3>
+            <ul class="config-list">
+                <li>
+                    <span class="key">Échanges Rapides</span>
+                    <span class="value">Teams</span>
+                </li>
+                <li>
+                    <span class="key">Rencontres</span>
+                    <span class="value">Teams (Daily Scrum Meetings, Revues)</span>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
