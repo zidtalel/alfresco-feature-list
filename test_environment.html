@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Espace Qualité : Architecture et Environnement de Test Alfresco</title>
+    <title>Architecture et Environnement de Test Alfresco</title>
     <style>
         /* Styles généraux (similaires à la charte graphique précédente) */
         body {
@@ -25,6 +25,7 @@
             margin-bottom: 40px;
             padding-bottom: 10px;
             border-bottom: 2px solid #1e3a8a;
+            font-size: 2.2em; /* Ajustement de la taille du titre */
         }
 
         h2 {
@@ -55,19 +56,19 @@
         }
 
         /* Style pour les paires clé-valeur (Configuration Serveur) */
-        .config-list, .tool-list {
+        .config-list {
             list-style: none;
             padding: 0;
         }
 
-        .config-list li, .tool-list li {
+        .config-list li {
             padding: 8px 0;
             border-bottom: 1px dashed #e5e7eb;
             display: flex;
             align-items: center;
         }
 
-        .config-list li:last-child, .tool-list li:last-child {
+        .config-list li:last-child {
             border-bottom: none;
         }
 
@@ -87,28 +88,48 @@
             border-radius: 4px;
         }
         
-        /* Styles de la liste d'outils */
+        /* Styles de la liste d'outils (Alignement amélioré) */
+        .tool-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tool-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed #e5e7eb;
+            /* Utilisation de Flexbox pour un alignement propre */
+            display: flex;
+            align-items: flex-start;
+        }
+        .tool-list li:last-child {
+            border-bottom: none;
+        }
+        
         .tool-list .category {
             font-weight: 700;
             color: #1e3a8a;
-            margin-right: 15px;
-            min-width: 120px;
+            /* Largeur fixe pour l'alignement des descriptions */
+            min-width: 200px; 
+            margin-right: 20px;
+            flex-shrink: 0; /* Empêche de rétrécir */
+            padding-top: 2px; /* Ajustement visuel */
         }
         .tool-list .tools {
             font-style: italic;
             color: #333;
+            flex-grow: 1; /* Prend l'espace restant */
         }
         
         /* Style pour les noms d'outils et termes clés */
         .tools strong {
-            font-style: normal; /* Annuler l'italique pour le nom de l'outil */
-            color: #1e3a8a;     /* Mettre en évidence la couleur */
+            font-style: normal;
+            color: #1e3a8a;
             padding: 0 2px;
         }
 
         .note {
-            background-color: #fef3c7; /* Jaune pâle */
-            border-left: 5px solid #f59e0b; /* Orange */
+            background-color: #fef3c7;
+            border-left: 5px solid #f59e0b;
             padding: 15px;
             border-radius: 4px;
             margin-top: 20px;
@@ -120,7 +141,7 @@
 
         /* Style spécifique pour le lien d'API */
         .api-link-info {
-            background-color: #e0f2f1; /* Fond bleu très pâle */
+            background-color: #e0f2f1;
             border: 1px solid #10b981;
             padding: 10px;
             border-radius: 6px;
@@ -170,8 +191,15 @@
                 padding-left: 0;
             }
             
+            /* Ajustement pour la liste d'outils sur mobile */
             .tool-list li {
-                flex-wrap: wrap;
+                flex-direction: column; /* Empiler la catégorie et les outils */
+                align-items: flex-start;
+            }
+
+            .tool-list .category {
+                min-width: auto;
+                margin-bottom: 5px;
             }
         }
     </style>
@@ -179,7 +207,7 @@
 <body>
 
     <div class="container">
-        <h1>Espace Qualité : Architecture et Environnement de Test Alfresco 🚀</h1>
+        <h1>Architecture et Environnement de Test Alfresco</h1>
         
         <div class="section-card">
             <h2>Serveur de Test Principal</h2>
