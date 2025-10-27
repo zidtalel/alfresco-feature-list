@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XPath Cheat Sheet - PRO & Équilibré</title>
+    <title>XPath Guide de Référence & Aide-mémoire</title>
     <style>
         /* ================================== */
         /* === STYLES GÉNÉRAUX & ÉCRAN === */
@@ -184,6 +184,22 @@
             font-size: 0.8em; 
             color: #000000; 
         }
+		.download-link {
+			text-align: center; /* Aligner à droite sous le titre principal */
+			margin-top: -5px; /* Monter légèrement sous le titre */
+			margin-bottom: 20px;
+		}
+
+		.download-link a {
+			display: inline-block;
+			padding: 5px 10px;
+			background-color: #3e8e41; /* Vert */
+			color: white;
+			text-decoration: none;
+			border-radius: 5px;
+			font-weight: bold;
+			font-size: 0.9em;
+		}
 
  /* ================================== */
 /* === NOUVEAUX STYLES D'IMPRESSION (A4) === */
@@ -194,7 +210,9 @@
         size: A4 portrait;
         margin: 10mm; /* Augmenté légèrement pour la lisibilité */
     }
-
+	.download-link {
+        display: none; /* Cachez le lien en mode impression */
+    }
     body {
         line-height: 1.2;
         font-size: 10pt; /* Augmenté à 10pt pour meilleure lisibilité */
@@ -265,14 +283,17 @@
         border-top: 1px solid #ccc;
         padding-top: 3px;
     }
-}    </style>
+}    
+	</style>
 </head>
 <body>
-
-<div class="container">
-
     <h1>XPath : Guide de Référence & Aide-mémoire</h1>
-    
+    <p class="download-link">
+		<a href="Aide-mémoire-Xpath.pdf" download="Aide-mémoire-Xpath.pdf" title="Télécharger le document en format PDF (pour impression)">
+			⬇️ Télécharger l'Aide-mémoire XPath (PDF, 2 pages)
+		</a>
+	</p>
+<div class="container">
     <div class="cheat-sheet-section paths">
         <h2>1. Chemins Absolus & Relatifs</h2>
         <p>Un chemin absolu part de la racine. Très précis, mais fragile en cas de modification du DOM.</p>
