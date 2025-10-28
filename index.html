@@ -8,37 +8,42 @@
     <style>
         /* Couleurs d'accentuation */
         :root {
-            --primary-color: #007bff; /* Bleu d'origine */
+            --primary-color: #007bff;
             --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
-            --light-bg: #e6f7ff; /* Fond légèrement bleu pâle */
-            --dark-text: #2c3e50; /* Texte foncé pour la lisibilité */
+            --light-bg: #e6f7ff;
+            --dark-text: #2c3e50;
             --shadow-color: rgba(0, 188, 212, 0.4);
         }
 
-        /* Styles de base - Effet de fond dégradé */
+        /* Styles de base - Assurer la hauteur de l'écran (100vh) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0f8ff, #e6f7ff); /* Dégradé de bleu très clair */
+            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
             color: var(--dark-text);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            /* Changement clé pour la hauteur : utilise la hauteur exacte de la fenêtre */
+            height: 100vh; 
+            overflow: hidden; /* Empêche le défilement vertical indésirable */
             transition: background 0.5s ease;
         }
 
-        /* Conteneur principal */
+        /* Conteneur principal - Réduction du padding */
         .accueil-container {
             width: 90%;
-            max-width: 700px; /* Légèrement plus large pour l'impact */
+            max-width: 650px; /* Légèrement réduit */
             background-color: #ffffff;
-            padding: 50px;
-            border-radius: 15px; /* Coins plus arrondis */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Ombre plus marquée */
+            /* Padding réduit (était 50px) */
+            padding: 30px; 
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             text-align: center;
-            border-top: 5px solid var(--accent-color); /* Bande de couleur d'accentuation */
+            border-top: 5px solid var(--accent-color);
             animation: fadeIn 1s ease-out;
+            /* Pour permettre au contenu de s'ajuster si nécessaire */
+            box-sizing: border-box; 
         }
 
         @keyframes fadeIn {
@@ -46,78 +51,77 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Titres */
+        /* Titres - Taille et marges réduites */
         h1 {
-            color: var(--accent-color); /* Utilisation de la couleur d'accentuation */
-            font-size: 2.5em; /* Plus grand */
-            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-size: 2.2em; /* Réduit (était 2.5em) */
+            margin-bottom: 3px; /* Réduit */
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
         }
         
         h2 {
-            color: #7f8c8d; /* Gris doux */
-            font-size: 1.4em;
-            margin-bottom: 40px;
+            color: #7f8c8d;
+            font-size: 1.2em; /* Réduit (était 1.4em) */
+            margin-bottom: 25px; /* Réduit (était 40px) */
             font-weight: 300;
         }
 
         /* Icone de projet */
         .project-icon {
-            font-size: 3em;
+            font-size: 2.5em; /* Réduit */
             color: var(--accent-color);
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Réduit */
             display: inline-block;
         }
 
-        /* Styles de navigation (Liste des liens) */
+        /* Styles de navigation (Liste des liens) - Marges et padding réduits */
         .navigation-list {
             list-style: none;
             padding: 0;
-            margin-top: 30px;
-            border-top: 2px solid #ecf0f1; /* Séparateur plus visible */
-            padding-top: 30px;
+            margin-top: 15px; /* Réduit (était 30px) */
+            border-top: 2px solid #ecf0f1;
+            padding-top: 15px; /* Réduit (était 30px) */
         }
 
         .navigation-list li {
-            margin-bottom: 20px;
+            margin-bottom: 12px; /* Réduit (était 20px) */
         }
 
-        /* Liens de navigation - Le point central de l'effet wow */
+        /* Liens de navigation - Padding réduit */
         .navigation-list a {
             display: flex;
             align-items: center;
-            padding: 18px 25px;
+            padding: 12px 20px; /* Réduit (était 18px 25px) */
             text-decoration: none;
             color: var(--dark-text);
-            background-color: #ecf0f1; /* Fond gris clair pour détacher */
+            background-color: #ecf0f1;
             border: none;
             border-radius: 8px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition plus dynamique */
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             font-weight: 600;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .navigation-list a:hover {
-            background-color: var(--accent-color); /* Couleur d'accentuation au survol */
+            background-color: var(--accent-color);
             color: #ffffff;
-            /* Effet 3D (légèrement soulevé) */
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 20px var(--shadow-color);
+            transform: translateY(-3px) scale(1.01); /* Légèrement moins d'effet de soulèvement */
+            box-shadow: 0 8px 15px var(--shadow-color); /* Ombre ajustée */
         }
 
         /* Style pour les icônes (Font Awesome) */
         .navigation-list a i {
-            font-size: 1.3em;
-            margin-right: 15px;
-            width: 30px; /* Assurer l'alignement */
+            font-size: 1.2em; /* Légèrement réduit */
+            margin-right: 12px; /* Réduit */
+            width: 25px;
             text-align: center;
-            color: var(--accent-color); /* Couleur d'accentuation pour les icônes par défaut */
+            color: var(--accent-color);
             transition: color 0.4s;
         }
         
         .navigation-list a:hover i {
-            color: #ffffff; /* Icône blanche au survol */
+            color: #ffffff;
         }
 
     </style>
@@ -135,28 +139,33 @@
         <ul class="navigation-list">
             <li>
                 <a href="project_timeline.html" title="Consulter l'échéancier et les phases du projet">
-                    <i class="fas fa-calendar-alt"></i> Planification et Chronologie du Projet
+                    <i class="fas fa-calendar-alt"></i> 
+                    Planification et Chronologie du Projet
                 </a>
             </li>
 
             <li>
                 <a href="features.html" title="Voir les User Stories et Critères d'Acceptation">
-                    <i class="fas fa-list-check"></i> Fonctions du Projet (Epics & User Stories)
+                    <i class="fas fa-list-check"></i> 
+                    Fonctions du Projet (Epics & User Stories)
                 </a>
             </li>
             <li>
                 <a href="test_environment.html" title="Environnement de test">
-                    <i class="fas fa-server"></i> Environnement de test pour l'application Alfresco
+                    <i class="fas fa-server"></i> 
+                    Environnement de test pour l'application Alfresco
                 </a>
             </li>
             <li>
                 <a href="exemple_us.html" title="Voir un exemple de User Story et de Critères d'Acceptation">
-                    <i class="fas fa-file-alt"></i> Exemples de User Stories (US et Critères d'acceptation)
+                    <i class="fas fa-file-alt"></i> 
+                    Exemples de User Stories (US et Critères d'acceptation)
                 </a>
             </li>
             <li>
                 <a href="cheat_sheet_xpath.html" title="Cette fiche Xpath est construite comme antisèche rapide d'accès.">
-                    <i class="fas fa-book"></i> Aide-mémoire Xpath
+                    <i class="fas fa-book"></i> 
+                    Aide-mémoire Xpath
                 </a>
             </li>
             </ul>
