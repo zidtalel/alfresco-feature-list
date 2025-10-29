@@ -285,9 +285,57 @@
         padding-top: 3px;
     }
 }    
+	/* ================================== */
+	/* === STYLES DU LIEN ACCUEIL === */
+	/* ================================== */
+
+	.home-link {
+		/* Positionnement */
+		position: fixed; /* Reste visible même en défilement */
+		top: 20px;
+		left: 20px;
+		z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+
+		/* Style du texte */
+		font-size: 0.95em;
+		font-weight: 600;
+		text-decoration: none;
+		color: #495057; /* Couleur de texte neutre */
+		
+		/* Style du bouton/lien */
+		padding: 8px 15px;
+		border-radius: 20px; /* Bords arrondis pour l'effet soigné */
+		background-color: #f8f9fa; /* Fond très clair */
+		border: 1px solid #dee2e6;
+		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		
+		/* Transitions pour le côté soigné */
+		transition: all 0.2s ease-in-out;
+	}
+
+	.home-link:hover {
+		background-color: #e9ecef; /* Changement subtil au survol */
+		color: #007bff; /* Met l'accent sur la couleur primaire au survol */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Ombre plus marquée */
+		transform: translateY(-1px); /* Effet léger de "levée" */
+	}
+
+	/* Option pour les petits écrans (discrétion) */
+	@media screen and (max-width: 768px) {
+		.home-link {
+			font-size: 0.85em;
+			padding: 5px 10px;
+			top: 10px;
+			left: 10px;
+		}
+	}
+		
 	</style>
 </head>
 <body>
+	<a href="/" class="home-link" title="Retour à la page d'accueil">
+		🏠 Accueil
+	</a>
     <h1>XPath : Guide de Référence & Aide-mémoire</h1>
     <p class="download-link">
 		<a href="downloads/Aide-mémoire-Xpath.pdf" download="Aide-mémoire-Xpath.pdf" title="Télécharger le document en format PDF (pour impression)">
