@@ -5,6 +5,63 @@
     <title>Matrice des User Stories du Projet (Module > Epic > US)</title>
     <link rel="icon" type="image/png" href="images/alfresco_icon.png">
     <style>
+	
+
+		/* ================================== */
+		/* === STYLES DU PANNEAU ENSEIGNANT === */
+		/* ================================== */
+
+		.admin-panel {
+			margin-top: 40px;
+			padding: 20px;
+			background-color: #f8f9fa;
+			border: 1px solid #dee2e6;
+			border-radius: 8px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+		}
+
+		.admin-panel h3 {
+			margin-top: 0;
+			border-bottom: 1px solid #ccc;
+			padding-bottom: 10px;
+			color: #495057;
+		}
+
+		.admin-panel-controls {
+			display: flex;
+			align-items: center;
+			gap: 15px; /* Espace entre les éléments */
+		}
+
+		.admin-panel-controls label {
+			font-weight: bold;
+			color: #343a40;
+		}
+
+		.admin-panel-controls select {
+			padding: 8px 12px;
+			font-size: 1em;
+			border-radius: 4px;
+			border: 1px solid #ced4da;
+		}
+
+		.admin-panel-controls button {
+			padding: 10px 20px;
+			font-size: 1em;
+			font-weight: bold;
+			color: white;
+			background-color: #28a745; /* Vert pour "Générer" */
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.admin-panel-controls button:hover {
+			background-color: #218838;
+		}
+
+
         /* Styles généraux */
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; background-color: #f4f4f9; }
         h1 { border-bottom: 2px solid #ccc; padding-bottom: 10px; }
@@ -208,6 +265,7 @@
 			left: 10px;
 		}
 	}
+	
 
     </style>
 </head>
@@ -2781,62 +2839,447 @@
         </div>
         
     </div>
+	
+	<div class="admin-panel">
+        <h3>Panneau Enseignant (Générateur)</h3>
+        <p>Cet outil génère un fichier HTML statique avec la répartition des US calculée. Ce panneau ne sera pas visible par les étudiants dans le fichier généré.</p>
+        <div class="admin-panel-controls">
+            <label for="team-count-select">Nombre d'équipes :</label>
+            <select id="team-count-select">
+                <option value="0">Choisir...</option>
+                <option value="2">2 Équipes</option>
+                <option value="3">3 Équipes</option>
+                <option value="4">4 Équipes</option>
+                <option value="5">5 Équipes</option>
+            </select>
+            <button id="generate-button">Générer et Télécharger le Fichier</button>
+        </div>
+    </div>
+	
 	<footer>
 	    <center><p>
 	        &copy; Talel Zid | Version 4.0 — Octobre 2025 | Basé sur <a href="https://support.hyland.com/p/alfresco">https://support.hyland.com/p/alfresco</a> |  
 	        <br />Pour usage personnel ou éducatif seulement.
 	    </p></center>
 	</footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Clic sur un titre de Module (Niveau 1)
-            document.querySelectorAll('.toggle-module-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    header.closest('.module-container').classList.toggle('collapsed');
-                });
-            });
 
-            // Clic sur un titre d'Epic (Niveau 2)
-            document.querySelectorAll('.toggle-epic-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    header.closest('.epic-container').classList.toggle('collapsed');
+<script>
+    // ==========================================================
+    // === FONCTIONS DE NAVIGATION (Originales - DOIVENT RESTER) ===
+    // ==========================================================
+
+    /** Réduit tous les Epics, laissant les Modules ouverts. */
+    function collapseAllEpics() {
+        document.querySelectorAll('.epic-container').forEach(epic => {
+            epic.classList.add('collapsed');
+        });
+        document.querySelectorAll('.module-container').forEach(module => {
+            module.classList.remove('collapsed');
+        });
+    }
+
+    /** Réduit tous les Modules, masquant tout le contenu. */
+    function collapseAllModules() {
+        document.querySelectorAll('.module-container, .epic-container').forEach(item => {
+            item.classList.add('collapsed');
+        });
+    }
+
+    /** Déploie tous les Modules et tous les Epics, montrant toutes les user stories. */
+    function expandAll() {
+        document.querySelectorAll('.module-container, .epic-container').forEach(item => {
+            item.classList.remove('collapsed');
+        });
+    }
+
+    // ==========================================================
+    // === FONCTIONS UTILITAIRES ET D'INJECTION (GÉNÉRATEUR) ===
+    // ==========================================================
+
+    /** Mélange un tableau sur place (algorithme Fisher-Yates) */
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    /** Distribue les US en ajoutant le tag et le data-attribute */
+    function distributeStories(stories, numTeams) {
+        stories.forEach((story, index) => {
+            const teamNumber = (index % numTeams) + 1;
+            
+            story.dataset.team = teamNumber;
+
+            const teamTag = document.createElement('span');
+            teamTag.className = 'team-tag';
+            teamTag.textContent = `Équipe ${teamNumber}`;
+            story.appendChild(teamTag);
+        });
+    }
+
+    /** Injecte le CSS nécessaire dans le <head> du document cloné */
+    function injectCSS(doc) {
+        const style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = `
+            /* CSS pour les tags d'équipe générés */
+            .team-tag {
+                font-weight: bold;
+                padding: 4px 10px;
+                border-radius: 3px;
+                margin-left: 10px;
+                background-color: #007bff; /* Bleu */
+                color: white;
+                font-size: 0.8em;
+                flex-shrink: 0;
+            }
+            
+            /* CSS pour les filtres d'équipe générés */
+            .team-filters {
+                margin-bottom: 20px;
+                padding: 10px;
+                background-color: #f8f9fa;
+                border: 1px solid #e9ecef;
+                border-radius: 5px;
+            }
+            .team-filters button {
+                padding: 8px 15px;
+                margin-right: 10px;
+                cursor: pointer;
+                background-color: #6c757d; /* Gris */
+                color: white;
+                border: none;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            .team-filters button:hover {
+                background-color: #5a6268;
+            }
+            .team-filters button.active {
+                background-color: #007bff; /* Bleu */
+            }
+            /* Style pour le bouton CSV */
+            #export-csv-btn {
+                background-color: #ffc107; /* Jaune */
+                color: black;
+                font-weight: bold;
+                margin-left: 20px;
+            }
+
+            /* Classe pour masquer les US filtrées */
+            .user-story.hidden-by-filter {
+                display: none;
+            }
+        `;
+        doc.head.appendChild(style);
+    }
+
+    /** Injecte les boutons de filtre et le bouton d'export CSV dans le document cloné. */
+    function injectFiltersHTML(doc, numTeams) {
+        const controlsDiv = doc.querySelector('.controls');
+        if (!controlsDiv) return;
+
+        const filterContainer = document.createElement('div');
+        filterContainer.className = 'team-filters';
+        
+        let buttonsHtml = '<strong>Filtrer par équipe :</strong> ';
+        buttonsHtml += '<button id="filter-btn-all" class="active">Afficher Tout</button>';
+        
+        for (let i = 1; i <= numTeams; i++) {
+            buttonsHtml += `<button id="filter-btn-${i}">Équipe ${i}</button>`;
+        }
+        
+        buttonsHtml += `<button id="export-csv-btn">Exporter en CSV</button>`;
+        
+        filterContainer.innerHTML = buttonsHtml;
+        controlsDiv.insertAdjacentElement('afterend', filterContainer);
+    }
+    
+    /** Injecte les fonctions de filtrage et d'export CSV ainsi que leurs listeners. */
+    function injectFiltersJS(doc) {
+        const newScript = document.createElement('script');
+        
+        const filterAndExportCode = `
+            
+            // --- DÉBUT DU CODE INJECTÉ PAR LE GÉNÉRATEUR ---
+            
+            /** Gère les séparateurs '|' ou ':' pour Module/Epic (quand pas de balises spécifiques) */
+            const extractCodeAndName = (headerText) => {
+                const cleanText = headerText.replace(/[\u25BC\u25B6]/g, '').trim();
+
+                let parts = cleanText.split('|');
+                if (parts.length >= 2) {
+                    const code = parts[0].trim();
+                    const name = parts.slice(1).join('|').trim();
+                    return [code, name];
+                }
+                
+                parts = cleanText.split(':');
+                if (parts.length >= 2 && parts[0].trim().length > 0) {
+                    const code = parts[0].trim();
+                    const name = parts.slice(1).join(':').trim();
+                    return [code, name];
+                }
+
+                return ['', cleanText]; 
+            };
+
+            /** * NOUVELLE FONCTION: Tente d'extraire Code et Nom pour Module/Epic en utilisant les balises.
+             * Utilise la balise .epic-code-tag ou .module-code-tag si présente.
+             */
+            const extractEpicAndModuleData = (container, headerSelector, codeTagClass) => {
+                const headerElement = container.querySelector(headerSelector);
+                if (!headerElement) return ['', ''];
+
+                const codeTag = headerElement.querySelector('.' + codeTagClass);
+                
+                if (codeTag) {
+                    // CAS 1: Balise de code spécifique trouvée (le cas le plus fiable)
+                    const code = codeTag.textContent.trim();
+
+                    // Obtenir le texte brut de l'en-tête (incluant code, icône et nom)
+                    const fullText = headerElement.textContent;
+
+                    // La description est le texte complet, après avoir retiré le code et les icônes
+                    // On retire le code + les espaces adjacents, et on nettoie les icônes.
+                    let name = fullText.replace(code, '').replace(/[\u25BC\u25B6]/g, '').trim();
+
+                    // Gérer les restes d'espaces ou de séparateurs
+                    if (name.startsWith(':')) name = name.substring(1).trim();
+                    if (name.startsWith('|')) name = name.substring(1).trim();
+
+                    return [code, name];
+
+                } else {
+                    // CAS 2: Pas de balise spécifique, revenir à l'extraction basée sur séparateur
+                    return extractCodeAndName(headerElement.textContent);
+                }
+            };
+
+            /** Attache les écouteurs d'événements aux boutons de filtre et d'export. */
+            function attachTeamListeners() {
+                const filterAllBtn = document.getElementById('filter-btn-all');
+                if(filterAllBtn) {
+                    filterAllBtn.addEventListener('click', () => filterByTeam('all'));
+                }
+
+                document.querySelectorAll('.team-filters button[id^="filter-btn-"]:not(#filter-btn-all)').forEach(btn => {
+                    const teamNumber = btn.id.replace('filter-btn-', '');
+                    btn.addEventListener('click', () => filterByTeam(teamNumber));
                 });
+
+                const csvBtn = document.getElementById('export-csv-btn');
+                if(csvBtn) {
+                    csvBtn.addEventListener('click', exportToCSV);
+                }
+            }
+            
+            /** Fonction pour filtrer les User Stories par équipe. */
+            function filterByTeam(team) {
+                const stories = document.querySelectorAll('.user-story');
+                const buttons = document.querySelectorAll('.team-filters button:not(#export-csv-btn)');
+
+                buttons.forEach(btn => btn.classList.remove('active'));
+                if (team === 'all') {
+                    document.getElementById('filter-btn-all').classList.add('active');
+                } else if (document.getElementById('filter-btn-' + team)) {
+                    document.getElementById('filter-btn-' + team).classList.add('active');
+                }
+
+                stories.forEach(story => {
+                    if (team === 'all') {
+                        story.classList.remove('hidden-by-filter');
+                    } else {
+                        if (story.dataset.team === String(team)) {
+                            story.classList.remove('hidden-by-filter');
+                        } else {
+                            story.classList.add('hidden-by-filter');
+                        }
+                    }
+                });
+                window.scrollTo(0, 0);
+            }
+
+            /** Fonction pour exporter les User Stories visibles au format CSV. */
+            function exportToCSV() {
+                let csv = "Code module;Module;Code Epic;Epic;Code US;US;Équipe\\r\\n";
+                
+                const visibleStories = document.querySelectorAll('.user-story:not(.hidden-by-filter)');
+
+                if (visibleStories.length === 0) {
+                    alert("Aucune User Story visible à exporter. Veuillez vérifier le filtre appliqué.");
+                    return;
+                }
+
+                visibleStories.forEach(story => {
+                    const cleanText = (text) => text ? text.trim().replace(/"/g, '""') : '';
+                    
+                    // --- Extraction du Module (Niveau 1) ---
+                    const moduleContainer = story.closest('.module-container');
+                    // On ne connait pas la classe du code module, on revient au séparateur pour l'instant
+                    const moduleHeader = moduleContainer ? moduleContainer.querySelector('.toggle-module-header').textContent : '';
+                    const [moduleCode, moduleName] = extractCodeAndName(moduleHeader); 
+                    
+                    // --- Extraction de l'Epic (Niveau 2) ---
+                    const epicContainer = story.closest('.epic-container');
+                    
+                    // UTILISATION DE LA NOUVELLE FONCTION pour cibler la balise .epic-code-tag
+                    const [epicCode, epicName] = extractEpicAndModuleData(
+                        epicContainer, 
+                        '.toggle-epic-header', 
+                        'epic-code-tag'
+                    );
+                    
+                    // --- Extraction de l'US (Niveau 3) ---
+                    let usCode = '';
+                    let usDescription = '';
+
+                    const usCodeTag = story.querySelector('.us-code-tag');
+                    const usTitleTag = story.querySelector('.us-title');
+
+                    if (usCodeTag && usTitleTag) {
+                        // CAS 1 : Balises spécifiques trouvées (le cas le plus fiable)
+                        usCode = usCodeTag.textContent.trim();
+                        usDescription = usTitleTag.textContent.trim();
+                    } else {
+                        // CAS 2 : Revenir à l'extraction par texte brut
+                        const usContent = Array.from(story.childNodes)
+                            .filter(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0)
+                            .map(node => node.textContent.trim())
+                            .join(' ');
+                        
+                        const usContentTrimmed = usContent.trim();
+                        const usCodeMatch = usContentTrimmed.match(/^(\\S+)/); 
+                        usCode = usCodeMatch ? usCodeMatch[1] : '';
+                        usDescription = usContentTrimmed.substring(usCode.length).trim();
+                    }
+                    
+                    // --- Extraction de l'Équipe ---
+                    const teamNumber = story.dataset.team || 'N/A';
+                    
+                    // --- Construction de la ligne CSV ---
+                    const line = [
+                        cleanText(moduleCode),
+                        cleanText(moduleName),
+                        cleanText(epicCode),
+                        cleanText(epicName),
+                        cleanText(usCode),
+                        cleanText(usDescription),
+                        cleanText('Équipe ' + teamNumber)
+                    ].join(';');
+                    
+                    csv += line + "\\r\\n";
+                });
+
+                // Téléchargement du fichier
+                const filename = 'export_us_repartition.csv';
+                const blob = new Blob(["\\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+
+                const link = document.createElement("a");
+                if (link.download !== undefined) { 
+                    const url = URL.createObjectURL(blob);
+                    link.setAttribute("href", url);
+                    link.setAttribute("download", filename);
+                    link.style.visibility = 'hidden';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    alert("Votre navigateur ne supporte pas le téléchargement automatique de fichiers.");
+                }
+            }
+            
+            // Exécute la fonction d'attachement immédiatement après sa définition
+            attachTeamListeners(); 
+            
+            // --- FIN DU CODE INJECTÉ ---
+        `;
+        
+        newScript.textContent = filterAndExportCode;
+        doc.body.appendChild(newScript);
+    }
+
+
+    /** Fonction principale pour générer le fichier de répartition. */
+    async function generateAndDownload() {
+        const numTeams = parseInt(document.getElementById('team-count-select').value, 10);
+        if (numTeams === 0) {
+            alert("Veuillez sélectionner un nombre d'équipes.");
+            return;
+        }
+
+        const newDoc = document.cloneNode(true);
+        const allStories = Array.from(newDoc.querySelectorAll('.user-story'));
+
+        const storiesByComplexity = { 1: [], 2: [] };
+        allStories.forEach(story => {
+            const complexityTag = story.querySelector('.complexity-tag');
+            if (complexityTag) {
+                const complexityText = complexityTag.textContent;
+                const complexity = parseInt(complexityText.split(': ')[1], 10);
+                if (complexity === 1 || complexity === 2) {
+                    storiesByComplexity[complexity].push(story);
+                }
+            }
+        });
+
+        distributeStories(shuffleArray(storiesByComplexity[1]), numTeams);
+        distributeStories(shuffleArray(storiesByComplexity[2]), numTeams);
+
+        injectCSS(newDoc);
+        injectFiltersHTML(newDoc, numTeams);
+        injectFiltersJS(newDoc); 
+
+        // Retrait du panneau admin
+        const adminPanel = newDoc.querySelector('.admin-panel');
+        if (adminPanel) {
+            adminPanel.remove();
+        }
+        
+        // Assure que seules les fonctions de navigation restent dans le script original
+        const originalScript = newDoc.querySelector('body > script');
+        if (originalScript) {
+             originalScript.textContent = `
+                function collapseAllEpics() { ${collapseAllEpics.toString().match(/{([\s\S]*)}/)[1]} }
+                function collapseAllModules() { ${collapseAllModules.toString().match(/{([\s\S]*)}/)[1]} }
+                function expandAll() { ${expandAll.toString().match(/{([\s\S]*)}/)[1]} }
+             `;
+        }
+
+        // Sérialisation et téléchargement
+        const finalHtml = newDoc.documentElement.outerHTML;
+        const blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `features_${numTeams}_equipes.html`;
+        link.click();
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Clic sur un titre de Module (Niveau 1)
+        document.querySelectorAll('.toggle-module-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.closest('.module-container').classList.toggle('collapsed');
             });
         });
 
-        // Fonctions de contrôle global (appelées par les boutons)
+        // Clic sur un titre d'Epic (Niveau 2)
+        document.querySelectorAll('.toggle-epic-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.closest('.epic-container').classList.toggle('collapsed');
+            });
+        });
 
-        /**
-         * Réduit tous les Epics, laissant les Modules ouverts.
-         * Affiche uniquement le niveau Module et le niveau Epic.
-         */
-        function collapseAllEpics() {
-            document.querySelectorAll('.epic-container').forEach(epic => {
-                epic.classList.add('collapsed');
-            });
-            document.querySelectorAll('.module-container').forEach(module => {
-                module.classList.remove('collapsed'); // Assure que le Module est ouvert
-            });
+        // Branchement du Panneau Admin
+        const generateButton = document.getElementById('generate-button');
+        if (generateButton) { 
+            generateButton.addEventListener('click', generateAndDownload);
         }
+    });
+</script>
 
-        /**
-         * Réduit tous les Modules, masquant tout le contenu.
-         * Affiche uniquement les titres de Module.
-         */
-        function collapseAllModules() {
-            document.querySelectorAll('.module-container, .epic-container').forEach(item => {
-                item.classList.add('collapsed');
-            });
-        }
-
-        /**
-         * Déploie tous les Modules et tous les Epics, montrant toutes les user stories.
-         */
-        function expandAll() {
-            document.querySelectorAll('.module-container, .epic-container').forEach(item => {
-                item.classList.remove('collapsed');
-            });
-        }
-    </script>
 </body>
 </html>
