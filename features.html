@@ -180,7 +180,13 @@
 		/* Transitions pour le côté soigné */
 		transition: all 0.2s ease-in-out;
 	}
-
+        /* Ajuste le footer pour s'étendre sur toute la largeur */
+        footer {
+            grid-column: 1 / -1;
+            margin-top: 5mm;
+            border-top: 1px solid #ccc;
+            padding-top: 3px;
+        }
 	.home-link:hover {
 		background-color: #e9ecef; /* Changement subtil au survol */
 		color: #007bff; /* Met l'accent sur la couleur primaire au survol */
@@ -2770,7 +2776,12 @@
         </div>
         
     </div>
-
+	<footer>
+	    <p>
+	        &copy; Talel Zid | Version 4.0 — Octobre 2025 | Basé sur <a href="https://support.hyland.com/p/alfresco">https://support.hyland.com/p/alfresco</a> |  
+	        <br />Pour usage personnel ou éducatif seulement.
+	    </p>
+	</footer>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Clic sur un titre de Module (Niveau 1)
