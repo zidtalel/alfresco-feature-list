@@ -6,9 +6,6 @@
     <title>Accueil - Portail du Projet de Test</title>
     <link rel="icon" type="image/png" href="images/alfresco_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <!-- NOTE: Le script de sécurité et la fonction logout ont été retirés pour restaurer la version initiale. -->
-    
     <style>
         /* Couleurs d'accentuation */
         :root {
@@ -18,18 +15,18 @@
             --dark-text: #2c3e50;
             --shadow-color: rgba(0, 188, 212, 0.4);
         }
-        
-        /* Styles de base pour les grands écrans (Centrage standard) */
+
+        /* Styles de base pour les grands écrans */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
             color: var(--dark-text);
-            margin: 0; /* Assure l'absence de marge par défaut */
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
-            height: 100vh; 
+            height: 100vh; 
             overflow: hidden; /* Cache le défilement sur grand écran */
             transition: background 0.5s ease;
         }
@@ -39,13 +36,13 @@
             width: 90%;
             max-width: 650px;
             background-color: #ffffff;
-            padding: 30px; 
+            padding: 30px; 
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             text-align: center;
             border-top: 5px solid var(--accent-color);
             animation: fadeIn 1s ease-out;
-            box-sizing: border-box; 
+            box-sizing: border-box; 
         }
 
         @keyframes fadeIn {
@@ -93,7 +90,7 @@
         .navigation-list a {
             display: flex;
             align-items: center;
-            padding: 12px 20px; 
+            padding: 12px 20px; 
             text-decoration: none;
             color: var(--dark-text);
             background-color: #ecf0f1;
@@ -103,7 +100,6 @@
             font-weight: 600;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
         }
 
         .navigation-list a:hover {
@@ -126,8 +122,6 @@
         .navigation-list a:hover i {
             color: #ffffff;
         }
-        
-        /* NOTE: Bouton de Déconnexion retiré */
 
         /* ======================================= */
         /* MEDIA QUERIES pour les appareils mobiles */
@@ -136,20 +130,17 @@
             
             /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
             body {
-                /* On réinitialise les propriétés flex pour permettre un affichage vertical normal */
-                display: block; 
-                width: 100%; /* S'assure de la bonne largeur */
                 height: auto; /* Supprime la hauteur fixe */
                 min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
                 overflow: auto; /* Permet le défilement */
                 padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
-                
+                display: block; /* Retire le flex pour un layout plus traditionnel */
             }
 
             .accueil-container {
                 width: 95%; /* Utilise plus de largeur */
                 padding: 20px; /* Réduction du padding */
-                margin: 20px auto; /* CENTRE LE CONTENEUR DANS LE NOUVEAU BODY DE TYPE BLOCK */
+                margin: 20px auto; /* Centre le conteneur et donne de l'air */
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
             }
 
@@ -193,56 +184,55 @@
 </head>
 <body>
 
-    <!-- Le corps de la page reste intact -->
-    <div class="accueil-container">
-        <div class="project-icon">
-             <i class="fas fa-project-diagram"></i> 
-        </div>
+    <div class="accueil-container">
+        <div class="project-icon">
+             <i class="fas fa-project-diagram"></i> 
+        </div>
 
-        <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
-        <h2>CMS Alfresco</h2>
+        <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
+        <h2>CMS Alfresco</h2>
 
-        <ul class="navigation-list">
-            <li>
-                <a href="project_timeline.html" title="Consulter l'échéancier et les phases du projet">
-                    <i class="fas fa-calendar-alt"></i> 
-                    Planification et Chronologie du Projet
-                </a>
-            </li>
+        <ul class="navigation-list">
+            <li>
+                <a href="project_timeline.html" title="Consulter l'échéancier et les phases du projet">
+                    <i class="fas fa-calendar-alt"></i> 
+                    Planification et Chronologie du Projet
+                </a>
+            </li>
 
-            <li>
-                <a href="features_3_equipes.html" title="Voir les User Stories et Critères d'Acceptation">
-                    <i class="fas fa-list-check"></i> 
-                    Fonctions du Projet (Epics & User Stories)
-                </a>
-            </li>
-            <li>
-                <a href="test_environment.html" title="Environnement de test">
-                    <i class="fas fa-server"></i> 
-                    Environnement de test pour l'application Alfresco
-                </a>
-            </li>
-            <li>
-                <a href="exemple_us.html" title="Voir un exemple de User Story et de Critères d'Acceptation">
-                    <i class="fas fa-file-alt"></i> 
-                    Exemples de User Stories (US et Critères d'acceptation)
-                </a>
-            </li>
-            <li>
-                <a href="cheat_sheet_xpath.html" title="Cette fiche Xpath est construite comme antisèche rapide d'accès.">
-                    <i class="fas fa-book"></i> 
-                    Aide-mémoire Xpath
-                </a>
-            </li>
-            <li>
-                <a href="cheat_sheet_robot.html" title="Cette fiche Robot framework est construite comme antisèche rapide d'accès.">
-                    <i class="fas fa-book"></i> 
-                    Aide-mémoire Robot Framework
-                </a>
-            </li>
-            </ul>
+            <li>
+                <a href="features_3_equipes.html" title="Voir les User Stories et Critères d'Acceptation">
+                    <i class="fas fa-list-check"></i> 
+                    Fonctions du Projet (Epics & User Stories)
+                </a>
+            </li>
+            <li>
+                <a href="test_environment.html" title="Environnement de test">
+                    <i class="fas fa-server"></i> 
+                    Environnement de test pour l'application Alfresco
+                </a>
+            </li>
+            <li>
+                <a href="exemple_us.html" title="Voir un exemple de User Story et de Critères d'Acceptation">
+                    <i class="fas fa-file-alt"></i> 
+                    Exemples de User Stories (US et Critères d'acceptation)
+                </a>
+            </li>
+            <li>
+                <a href="cheat_sheet_xpath.html" title="Cette fiche Xpath est construite comme antisèche rapide d'accès.">
+                    <i class="fas fa-book"></i> 
+                    Aide-mémoire Xpath
+                </a>
+            </li>
+            <li>
+                <a href="cheat_sheet_robot.html" title="Cette fiche Robot framework est construite comme antisèche rapide d'accès.">
+                    <i class="fas fa-book"></i> 
+                    Aide-mémoire Robot Framework
+                </a>
+            </li>
+            </ul>
         
-    </div>
+    </div>
 
 </body>
 </html>
