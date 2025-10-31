@@ -141,7 +141,7 @@
             
             // --- FICHIER ET PAGE DE REDIRECTION ---
             const CREDENTIALS_FILE = "credentials.json"; 
-            const REDIRECT_URL = "menu.html"; 
+            const REDIRECT_URL = "features.html"; 
             
 
             /**
@@ -251,6 +251,9 @@
                     
                     // --- CONNEXION RÉUSSIE ---
                     console.log("Connexion réussie. Redirection en cours...");
+                    
+                    // 1. Définir l'indicateur de session
+                    sessionStorage.setItem('isAuthenticated', 'true'); // <-- AJOUT DE LA SÉCURITÉ
                     
                     // Redirection vers la page principale
                     setTimeout(() => { // Petite temporisation pour simuler un traitement
