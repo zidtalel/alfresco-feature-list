@@ -4,20 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Stories et Critères d'Acceptation Redmine</title>
-	<link rel="icon" type="image/png" href="images/us_icon.png">
-    
+    <link rel="icon" type="image/png" href="images/us_icon.png" />
+
     <!-- Script de protection d'accès - Vérification de l'authentification -->
     <script>
-        // Vérifier immédiatement si l'utilisateur est authentifié
-        (function() {
-            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-            if (isAuthenticated !== 'true') {
-                // Redirection immédiate vers la page de connexion
-                window.location.href = 'index.html';
-            }
-        })();
+      // Vérifier immédiatement si l'utilisateur est authentifié
+      (function () {
+        const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+        if (isAuthenticated !== "true") {
+          // Redirection immédiate vers la page de connexion
+          window.location.href = "index.html";
+        }
+      })();
     </script>
-    
+
     <style>
       /* Styles de base */
       body {
@@ -163,86 +163,90 @@
         color: #2c3e50;
         background-color: #eaecee;
       }
-		footer p {
-		margin: 10px 0 0 0; 
-		font-size: 0.8em; 
-		color: #000000; 
-		text-align:center;
-		}
-		.download-link {
-			text-align: center; /* Aligner à droite sous le titre principal */
-			margin-top: -5px; /* Monter légèrement sous le titre */
-			margin-bottom: 20px;
-		}
+      footer p {
+        margin: 10px 0 0 0;
+        font-size: 0.8em;
+        color: #000000;
+        text-align: center;
+      }
+      .download-link {
+        text-align: center; /* Aligner à droite sous le titre principal */
+        margin-top: -5px; /* Monter légèrement sous le titre */
+        margin-bottom: 20px;
+      }
 
-		.download-link a {
-			display: inline-block;
-			padding: 5px 10px;
-			background-color: #FF8C00; /* Vert */
-			color: white;
-			text-decoration: none;
-			border-radius: 5px;
-			font-weight: bold;
-			font-size: 0.9em;
-		}
+      .download-link a {
+        display: inline-block;
+        padding: 5px 10px;
+        background-color: #ff8c00; /* Vert */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.9em;
+      }
 
-			/* ================================== */
-	/* === STYLES DU LIEN ACCUEIL === */
-	/* ================================== */
+      /* ================================== */
+      /* === STYLES DU LIEN ACCUEIL === */
+      /* ================================== */
 
-	.home-link {
-		/* Positionnement */
-		position: fixed; /* Reste visible même en défilement */
-		top: 20px;
-		left: 20px;
-		z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+      .home-link {
+        /* Positionnement */
+        position: fixed; /* Reste visible même en défilement */
+        top: 20px;
+        left: 20px;
+        z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
 
-		/* Style du texte */
-		font-size: 0.95em;
-		font-weight: 600;
-		text-decoration: none;
-		color: #495057; /* Couleur de texte neutre */
-		
-		/* Style du bouton/lien */
-		padding: 8px 15px;
-		border-radius: 20px; /* Bords arrondis pour l'effet soigné */
-		background-color: #f8f9fa; /* Fond très clair */
-		border: 1px solid #dee2e6;
-		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-		
-		/* Transitions pour le côté soigné */
-		transition: all 0.2s ease-in-out;
-	}
+        /* Style du texte */
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057; /* Couleur de texte neutre */
 
-	.home-link:hover {
-		background-color: #e9ecef; /* Changement subtil au survol */
-		color: #007bff; /* Met l'accent sur la couleur primaire au survol */
-		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Ombre plus marquée */
-		transform: translateY(-1px); /* Effet léger de "levée" */
-	}
+        /* Style du bouton/lien */
+        padding: 8px 15px;
+        border-radius: 20px; /* Bords arrondis pour l'effet soigné */
+        background-color: #f8f9fa; /* Fond très clair */
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
-	/* Option pour les petits écrans (discrétion) */
-	@media screen and (max-width: 768px) {
-		.home-link {
-			font-size: 0.85em;
-			padding: 5px 10px;
-			top: 10px;
-			left: 10px;
-		}
-	}
+        /* Transitions pour le côté soigné */
+        transition: all 0.2s ease-in-out;
+      }
+
+      .home-link:hover {
+        background-color: #e9ecef; /* Changement subtil au survol */
+        color: #007bff; /* Met l'accent sur la couleur primaire au survol */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Ombre plus marquée */
+        transform: translateY(-1px); /* Effet léger de "levée" */
+      }
+
+      /* Option pour les petits écrans (discrétion) */
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
     </style>
   </head>
   <body>
-	<a href="menu.html" class="home-link" title="Retour à la page d'accueil">
-		🏠 Accueil
-	</a>
+    <a href="menu.html" class="home-link" title="Retour à la page d'accueil">
+      🏠 Accueil
+    </a>
     <div class="container">
       <h1>User Stories et Critères d'Acceptation (Redmine)</h1>
-		<p class="download-link">
-			<a href="downloads/Exemples_US.pdf" download="Exemples_US.pdf" title="Télécharger le document en format PDF (pour impression)">
-				⬇️ Télécharger les exemples de US (PDF, 4 pages)
-			</a>
-		</p>
+      <p class="download-link">
+        <a
+          href="downloads/Exemples_US.pdf"
+          download="Exemples_US.pdf"
+          title="Télécharger le document en format PDF (pour impression)"
+        >
+          ⬇️ Télécharger les exemples de US (PDF, 4 pages)
+        </a>
+      </p>
       <div class="user-story-card">
         <h2 class="story-title">Créer un nouveau projet</h2>
         <div class="story-content">
@@ -474,11 +478,12 @@
         </div>
       </div>
     </div>
-	<footer>
-    <p>
-        &copy; Talel Zid | Version 1.0 — Octobre 2025 | Basé sur Connextra et Gherkin.
-		<br />Pour usage personnel ou éducatif seulement.
-    </p>
-	</footer>
+    <footer>
+      <p>
+        &copy; Talel Zid | Version 1.0 — Octobre 2025 | Basé sur Connextra et
+        Gherkin.
+        <br />Pour usage personnel ou éducatif seulement.
+      </p>
+    </footer>
   </body>
 </html>
