@@ -7,39 +7,8 @@
     <link rel="icon" type="image/png" href="images/alfresco_icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <!-- ================================================================= -->
-    <!-- === BLOC DE SÉCURITÉ DÉPLACÉ DANS LE HEAD POUR EXÉCUTION RAPIDE === -->
-    <!-- ================================================================= -->
-    <script>
-        /**
-         * Fonction de vérification d'authentification. 
-         * S'exécute immédiatement. Si non authentifié, redirige vers la page de connexion.
-         */
-        (function checkAuth() {
-            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-            const loginPage = 'index.html'; // Redirection vers la page de connexion
-            
-            // Si la clé n'est pas "true" ou est absente, on redirige immédiatement
-            if (isAuthenticated !== 'true') {
-                console.warn('Accès non autorisé. Redirection vers la page de connexion.');
-                // Utiliser replace pour qu'on ne puisse pas revenir en arrière facilement
-                window.location.replace(loginPage); 
-                // Arrêter l'exécution du reste du script de la page
-                return;
-            } else {
-                console.log('Utilisateur authentifié. Chargement du menu.');
-            }
-        })();
-
-        /**
-         * Fonction de déconnexion globale (accessible via l'attribut onclick).
-         */
-        function logout() {
-            sessionStorage.removeItem('isAuthenticated');
-            window.location.replace('index.html');
-        }
-    </script>
-
+    <!-- NOTE: Le script de sécurité et la fonction logout ont été retirés pour restaurer la version initiale. -->
+    
     <style>
         /* Couleurs d'accentuation */
         :root {
@@ -50,25 +19,17 @@
             --shadow-color: rgba(0, 188, 212, 0.4);
         }
         
-        /* Réinitialisation de base */
-        html, body {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box; /* S'assure que padding et border ne s'ajoutent pas à la largeur */
-        }
-
-        /* Styles de base pour les grands écrans */
+        /* Styles de base pour les grands écrans (Centrage standard) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
             color: var(--dark-text);
-            /* Centrage FLEX pour les grands écrans */
-            display: flex; 
+            margin: 0; /* Assure l'absence de marge par défaut */
+            display: flex;
             justify-content: center;
             align-items: center;
-            /* Largeur et Hauteur garanties pour le centrage */
-            width: 100vw; /* Utilise 100% de la largeur du viewport */
-            height: 100vh;
+            /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
+            height: 100vh; 
             overflow: hidden; /* Cache le défilement sur grand écran */
             transition: background 0.5s ease;
         }
@@ -142,7 +103,7 @@
             font-weight: 600;
             text-align: left;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            position: relative; /* Pour positionner l'icône de déconnexion */
+            position: relative;
         }
 
         .navigation-list a:hover {
@@ -166,27 +127,7 @@
             color: #ffffff;
         }
         
-        /* Bouton de Déconnexion */
-        .logout-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 25px;
-            padding: 8px 15px;
-            background-color: #e74c3c; /* Rouge pour la déconnexion */
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .logout-link:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-        }
+        /* NOTE: Bouton de Déconnexion retiré */
 
         /* ======================================= */
         /* MEDIA QUERIES pour les appareils mobiles */
@@ -301,11 +242,6 @@
             </li>
             </ul>
         
-        <!-- Bouton de Déconnexion ajouté -->
-        <a class="logout-link" onclick="logout()" title="Se déconnecter et retourner à la page de connexion">
-            <i class="fas fa-sign-out-alt"></i>
-            Déconnexion
-        </a>
     </div>
 
 </body>
