@@ -3077,6 +3077,7 @@
                 content: '▼'; 
             }
             
+            /* Grille principale (Modules, Epics, US) */
             .stats-grid {
                 display: flex;
                 justify-content: space-around;
@@ -3097,6 +3098,54 @@
             .module-color { background-color: #495057; }
             .epic-color { background-color: #17a2b8; }
             .us-color { background-color: #28a745; }
+            
+            /* --- NOUVEAUX STYLES POUR L'OPTIMISATION DES STATS --- */
+            .stats-grid-teams {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-bottom: 20px;
+                justify-content: flex-start;
+            }
+            
+            .team-card, .complexity-card {
+                padding: 12px 15px;
+                border-radius: 5px;
+                min-width: 150px;
+                flex-grow: 1;
+                text-align: center;
+                color: white;
+                font-weight: bold;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .team-card-label {
+                font-size: 0.9em;
+                opacity: 0.8;
+            }
+            .team-card-value {
+                font-size: 1.5em;
+                margin-top: 5px;
+                line-height: 1;
+            }
+            
+            /* Styles Complexité - Cartes sur une seule ligne */
+            .complexity-summary-cards {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+            .complexity-card.c1 { background-color: #20c997; } /* Vert clair */
+            .complexity-card.c2 { background-color: #fd7e14; } /* Orange */
+            
+            .complexity-card-value {
+                font-size: 1.4em;
+                line-height: 1;
+            }
+            .complexity-card-label {
+                font-size: 0.8em;
+                margin-top: 4px;
+                opacity: 0.9;
+            }
             
             /* ... (autres styles inchangés) ... */
             
@@ -3633,12 +3682,6 @@
         };
         
         const getStatsHTML = (stats) => {
-            let maxComplexity = 0;
-            Object.values(stats.teamWorkload).forEach(wl => {
-                if (wl.complexity > maxComplexity) maxComplexity = wl.complexity;
-            });
-            maxComplexity = Math.max(maxComplexity, 1);
-            
             let html = `
             <div class="stats-header">
                 <span class="icon"></span> Statistiques du Projet et Répartition (${stats.numTeams} Équipes)
@@ -3659,35 +3702,34 @@
                     </div>
                 </div>
                 
-                <h3>Charge de Travail par Équipe (Complexité Totale)</h3>
-                <div class="workload-chart">`;
+                <h3>Complexité Totale (Répartition)</h3>
+                <div class="complexity-summary-cards">
+                    <div class="complexity-card c1">
+                        <div class="complexity-card-value">${stats.complexity1Count} US</div>
+                        <div class="complexity-card-label">Complexité 1 (${((stats.complexity1Count / stats.totalStories) * 100).toFixed(1)}%)</div>
+                    </div>
+                    <div class="complexity-card c2">
+                        <div class="complexity-card-value">${stats.complexity2Count} US</div>
+                        <div class="complexity-card-label">Complexité 2 (${((stats.complexity2Count / stats.totalStories) * 100).toFixed(1)}%)</div>
+                    </div>
+                </div>
+
+                <h3>Charge de Travail par Équipe (Pts Complexité / US)</h3>
+                <div class="stats-grid-teams">`;
                 
                 for (let i = 1; i <= stats.numTeams; i++) {
                     const wl = stats.teamWorkload[i];
-                    const percentage = (wl.complexity / maxComplexity) * 100;
+                    // Calculer une couleur dynamique pour chaque équipe
+                    const dynamicColor = `hsl(${i * 360 / stats.numTeams}, 70%, 50%)`;
                     
                     html += `
-                    <div class="team-workload">
-                        <div class="team-label">Équipe ${i} (${wl.count} US)</div>
-                        <div class="bar-container">
-                            <div class="workload-bar" style="width: ${percentage.toFixed(1)}%; background-color: hsl(${i * 360 / stats.numTeams}, 70%, 50%);">
-                                ${wl.complexity} pts
-                            </div>
-                        </div>
+                    <div class="team-card" style="background-color: ${dynamicColor};">
+                        <div class="team-card-label">Équipe ${i}</div>
+                        <div class="team-card-value">${wl.complexity} pts / ${wl.count} US</div>
                     </div>`;
                 }
                 
                 html += `</div>
-                
-                <h3>Répartition par Complexité</h3>
-                <div class="complexity-summary">
-                    <p>
-                        <span class="complexity-1-color">Complexité 1 (Faible)</span> : ${stats.complexity1Count} US (${((stats.complexity1Count / stats.totalStories) * 100).toFixed(1)}%)
-                    </p>
-                    <p>
-                        <span class="complexity-2-color">Complexité 2 (Moyenne)</span> : ${stats.complexity2Count} US (${((stats.complexity2Count / stats.totalStories) * 100).toFixed(1)}%)
-                    </p>
-                </div>
             </div>
             `;
             
