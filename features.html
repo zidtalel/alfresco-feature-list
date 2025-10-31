@@ -2895,31 +2895,8 @@
     // ==========================================================
     // === FONCTIONS UTILITAIRES ET D'INJECTION (GÉNÉRATEUR) ===
     // ==========================================================
-
-    /** Mélange un tableau sur place (algorithme Fisher-Yates) */
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    /** Distribue les US en ajoutant le tag et le data-attribute */
-    function distributeStories(stories, numTeams) {
-        stories.forEach((story, index) => {
-            const teamNumber = (index % numTeams) + 1;
-            
-            story.dataset.team = teamNumber;
-
-            const teamTag = document.createElement('span');
-            teamTag.className = 'team-tag';
-            teamTag.textContent = `Équipe ${teamNumber}`;
-            story.appendChild(teamTag);
-        });
-    }
-
-    /** Injecte le CSS nécessaire dans le <head> du document cloné */
+    
+    /** Injecte le CSS nécessaire dans le <head> du document cloné. */
     function injectCSS(doc) {
         const style = document.createElement('style');
         style.type = 'text/css';
@@ -2930,209 +2907,585 @@
                 padding: 4px 10px;
                 border-radius: 3px;
                 margin-left: 10px;
-                background-color: #007bff; /* Bleu */
+                background-color: #007bff; 
                 color: white;
                 font-size: 0.8em;
                 flex-shrink: 0;
             }
             
-            /* CSS pour les filtres d'équipe générés */
-            .team-filters {
+            /* --- Styles de la Barre de Filtres Unifiée --- */
+            .filters-bar {
                 margin-bottom: 20px;
                 padding: 10px;
                 background-color: #f8f9fa;
                 border: 1px solid #e9ecef;
                 border-radius: 5px;
+                display: flex; 
+                align-items: center;
+                flex-wrap: wrap; 
             }
-            .team-filters button {
+            .filters-bar strong {
+                margin-right: 10px;
+                flex-shrink: 0;
+            }
+            .filters-bar button, .filters-bar select {
                 padding: 8px 15px;
                 margin-right: 10px;
                 cursor: pointer;
-                background-color: #6c757d; /* Gris */
+                background-color: #6c757d; 
                 color: white;
                 border: none;
                 border-radius: 4px;
                 transition: background-color 0.3s;
             }
-            .team-filters button:hover {
+            .filters-bar button:hover {
                 background-color: #5a6268;
             }
-            .team-filters button.active {
-                background-color: #007bff; /* Bleu */
+            .filters-bar button.active {
+                background-color: #007bff; 
             }
-            /* Style pour le bouton CSV */
             #export-csv-btn {
-                background-color: #ffc107; /* Jaune */
+                background-color: #ffc107; 
                 color: black;
+                font-weight: bold;
+                margin-left: auto; 
+            }
+            .filters-bar select {
+                background-color: white;
+                color: #333;
+                border: 1px solid #ccc;
+                height: 35px; 
+                min-width: 130px;
+            }
+
+            /* Classes pour masquer les US filtrées et les éléments de recherche */
+            .user-story.hidden-by-filter,
+            .user-story.hidden-by-search {
+                display: none;
+            }
+            
+            /* --- Styles Glossaire --- */
+            #open-glossary-btn {
+                background-color: #20c997; 
+                color: white;
+                font-weight: bold;
+                margin-right: 10px; 
+            }
+            
+            .glossary-modal {
+                display: none; 
+                position: fixed; 
+                z-index: 100; 
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto; 
+                background-color: rgba(0,0,0,0.4); 
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 5% auto; 
+                padding: 30px;
+                border: 1px solid #888;
+                width: 80%; 
+                max-width: 800px;
+                border-radius: 8px;
+                position: relative;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .close-btn {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
                 font-weight: bold;
                 margin-left: 20px;
             }
 
-            /* Classe pour masquer les US filtrées */
-            .user-story.hidden-by-filter {
+            .close-btn:hover, .close-btn:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            
+            .modal-content h2 {
+                border-bottom: 2px solid #ccc;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+            
+            .glossary-list dt {
+                font-weight: bold;
+                font-size: 1.1em;
+                margin-top: 15px;
+                color: #007bff;
+            }
+            .glossary-list dd {
+                margin-left: 0;
+                padding-left: 10px;
+                border-left: 3px solid #eee;
+            }
+            
+
+            /* --- STYLES STATS --- */
+            .stats-container {
+                margin-bottom: 30px;
+                background-color: #ffffff;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+            }
+            
+            .stats-header {
+                background-color: #e9ecef;
+                color: #343a40;
+                padding: 15px;
+                cursor: pointer;
+                border-top-left-radius: 8px;
+                border-top-right-radius: 8px;
+                font-size: 1.2em;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+            }
+            
+            .stats-header .icon {
+                margin-right: 10px;
+            }
+
+            .stats-content {
+                padding: 20px;
+                transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+                overflow: hidden;
+            }
+            
+            .stats-container.collapsed .stats-content {
+                max-height: 0;
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            .stats-container.collapsed .stats-header {
+                border-radius: 8px; 
+            }
+            .stats-container.collapsed .stats-header .icon::before {
+                content: '►'; 
+            }
+            
+            .stats-header .icon::before {
+                content: '▼'; 
+            }
+            
+            .stats-grid {
+                display: flex;
+                justify-content: space-around;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .stat-card {
+                padding: 15px;
+                border-radius: 5px;
+                width: 30%;
+                color: white;
+            }
+            .stat-value {
+                font-size: 2em;
+                font-weight: bold;
+            }
+            
+            .module-color { background-color: #495057; }
+            .epic-color { background-color: #17a2b8; }
+            .us-color { background-color: #28a745; }
+            
+            /* ... (autres styles inchangés) ... */
+            
+            .controls input[type="text"] {
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 300px;
+                margin-right: 15px;
+            }
+            
+            /* Classes pour masquer les conteneurs non correspondants */
+            .module-container.hidden-by-search,
+            .epic-container.hidden-by-search {
                 display: none;
             }
         `;
         doc.head.appendChild(style);
     }
-
-    /** Injecte les boutons de filtre et le bouton d'export CSV dans le document cloné. */
-    function injectFiltersHTML(doc, numTeams) {
+    
+    /** Injecte les statistiques dans le document cloné. */
+    function injectStatsHTML(doc, stats, getStatsHTML) {
         const controlsDiv = doc.querySelector('.controls');
         if (!controlsDiv) return;
 
-        const filterContainer = document.createElement('div');
-        filterContainer.className = 'team-filters';
+        const statsContainer = document.createElement('div');
+        statsContainer.className = 'stats-container';
+        statsContainer.classList.add('collapsed');
+
+        statsContainer.innerHTML = getStatsHTML(stats);
+
+        controlsDiv.insertAdjacentElement('afterend', statsContainer);
+    }
+
+    /** Injecte les filtres (équipe, complexité en select) et la barre de recherche. */
+    function injectFiltersHTML(doc, numTeams) {
+        const statsContainer = doc.querySelector('.stats-container');
+        if (!statsContainer) return;
+
+        const searchInput = document.createElement('input');
+        searchInput.type = 'text';
+        searchInput.id = 'global-search-input';
+        searchInput.placeholder = 'Recherche (Module, Epic, US)';
+        const controlsDiv = doc.querySelector('.controls');
+        controlsDiv.prepend(searchInput);
         
-        let buttonsHtml = '<strong>Filtrer par équipe :</strong> ';
-        buttonsHtml += '<button id="filter-btn-all" class="active">Afficher Tout</button>';
+        const glossaryBtn = document.createElement('button');
+        glossaryBtn.id = 'open-glossary-btn';
+        glossaryBtn.textContent = 'Glossaire 📖';
+        controlsDiv.appendChild(glossaryBtn);
+
+
+        const filtersBar = document.createElement('div');
+        filtersBar.className = 'filters-bar';
+        
+        let html = '<strong>Équipe :</strong> ';
+        html += '<button id="filter-btn-team-all" class="active">Tout</button>';
         
         for (let i = 1; i <= numTeams; i++) {
-            buttonsHtml += `<button id="filter-btn-${i}">Équipe ${i}</button>`;
+            html += `<button id="filter-btn-team-${i}">Équipe ${i}</button>`;
         }
         
-        buttonsHtml += `<button id="export-csv-btn">Exporter en CSV</button>`;
+        html += '<strong style="margin-left: 20px;">Complexité :</strong> ';
+        html += `
+            <select id="complexity-select-filter">
+                <option value="all">Tout</option>
+                <option value="1">Complexité 1</option>
+                <option value="2">Complexité 2</option>
+            </select>
+        `;
         
-        filterContainer.innerHTML = buttonsHtml;
-        controlsDiv.insertAdjacentElement('afterend', filterContainer);
+        html += `<button id="export-csv-btn">Exporter en CSV</button>`;
+        
+        filtersBar.innerHTML = html;
+        statsContainer.insertAdjacentElement('afterend', filtersBar);
+        
+        const modalHtml = `
+            <div id="glossary-modal" class="glossary-modal">
+              <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Glossaire des Termes du Projet</h2>
+                <dl class="glossary-list"></dl>
+              </div>
+            </div>
+        `;
+        doc.body.insertAdjacentHTML('beforeend', modalHtml);
     }
     
-    /** Injecte les fonctions de filtrage et d'export CSV ainsi que leurs listeners. */
+    /** Injecte les fonctions de filtrage, de recherche et le glossaire. */
     function injectFiltersJS(doc) {
         const newScript = document.createElement('script');
         
         const filterAndExportCode = `
             
-            // --- DÉBUT DU CODE INJECTÉ PAR LE GÉNÉRATEUR ---
+            // --- DÉBUT DU CODE INJECTÉ PAR LE GÉNÉRATEUR (FILTRES, RECHERCHE, GLOSSAIRE) ---
+
+            const GLOSSARY_TERMS = {
+                "User Story (US)": "Description courte et orientée utilisateur d'une fonctionnalité. L'unité de travail la plus petite de cette matrice.",
+                "Epic": "Un ensemble de User Stories liées qui partagent un objectif commun de haut niveau. Un Epic est toujours inclus dans un Module.",
+                "Module": "Un regroupement de fonctionnalités ou d'Epics liés à une grande partie du produit (ex: Gestion des Utilisateurs, Paiement). Le plus haut niveau d'organisation de cette matrice.",
+                "Complexité 1": "User Story simple et rapide à réaliser (quelques heures, max une journée). Faible risque et portée limitée.",
+                "Complexité 2": "User Story de taille moyenne, nécessitant potentiellement plus d'une journée de travail ou impliquant une intégration/logique complexe.",
+                "Répartition": "L'attribution aléatoire des User Stories aux différentes équipes pour équilibrer la charge de travail (basée sur la complexité)."
+            };
             
-            /** Gère les séparateurs '|' ou ':' pour Module/Epic (quand pas de balises spécifiques) */
+            /** Crée et affiche la modale du glossaire */
+            function createAndShowGlossaryModal() {
+                const modal = document.getElementById('glossary-modal');
+                const listContainer = modal.querySelector('.glossary-list');
+                listContainer.innerHTML = ''; 
+
+                for (const term in GLOSSARY_TERMS) {
+                    const dt = document.createElement('dt');
+                    dt.textContent = term;
+                    const dd = document.createElement('dd');
+                    dd.textContent = GLOSSARY_TERMS[term];
+                    listContainer.appendChild(dt);
+                    listContainer.appendChild(dd);
+                }
+                
+                modal.style.display = "block";
+            }
+            
+            /** Cache la modale du glossaire */
+            function hideGlossaryModal() {
+                document.getElementById('glossary-modal').style.display = "none";
+            }
+
+            /** Gère les séparateurs '|' ou ':' pour Module/Epic */
             const extractCodeAndName = (headerText) => {
                 const cleanText = headerText.replace(/[\u25BC\u25B6]/g, '').trim();
-
                 let parts = cleanText.split('|');
                 if (parts.length >= 2) {
                     const code = parts[0].trim();
                     const name = parts.slice(1).join('|').trim();
                     return [code, name];
                 }
-                
                 parts = cleanText.split(':');
                 if (parts.length >= 2 && parts[0].trim().length > 0) {
                     const code = parts[0].trim();
                     const name = parts.slice(1).join(':').trim();
                     return [code, name];
                 }
-
                 return ['', cleanText]; 
             };
 
-            /** * NOUVELLE FONCTION: Tente d'extraire Code et Nom pour Module/Epic en utilisant les balises.
-             * Utilise la balise .epic-code-tag ou .module-code-tag si présente.
-             */
+            /** Tente d'extraire Code et Nom pour Epic/Module. */
             const extractEpicAndModuleData = (container, headerSelector, codeTagClass) => {
                 const headerElement = container.querySelector(headerSelector);
                 if (!headerElement) return ['', ''];
-
                 const codeTag = headerElement.querySelector('.' + codeTagClass);
                 
                 if (codeTag) {
-                    // CAS 1: Balise de code spécifique trouvée (le cas le plus fiable)
                     const code = codeTag.textContent.trim();
-
-                    // Obtenir le texte brut de l'en-tête (incluant code, icône et nom)
                     const fullText = headerElement.textContent;
-
-                    // La description est le texte complet, après avoir retiré le code et les icônes
-                    // On retire le code + les espaces adjacents, et on nettoie les icônes.
                     let name = fullText.replace(code, '').replace(/[\u25BC\u25B6]/g, '').trim();
-
-                    // Gérer les restes d'espaces ou de séparateurs
                     if (name.startsWith(':')) name = name.substring(1).trim();
                     if (name.startsWith('|')) name = name.substring(1).trim();
-
                     return [code, name];
-
                 } else {
-                    // CAS 2: Pas de balise spécifique, revenir à l'extraction basée sur séparateur
                     return extractCodeAndName(headerElement.textContent);
                 }
             };
 
-            /** Attache les écouteurs d'événements aux boutons de filtre et d'export. */
-            function attachTeamListeners() {
-                const filterAllBtn = document.getElementById('filter-btn-all');
-                if(filterAllBtn) {
-                    filterAllBtn.addEventListener('click', () => filterByTeam('all'));
+            
+            /** * Applique les filtres d'équipe et de complexité simultanément.
+             * @param {boolean} silent - Si true, ne scroll pas.
+             */
+            function applyCombinedFilters(silent = false) {
+                const stories = document.querySelectorAll('.user-story');
+                
+                const activeTeamBtn = document.querySelector('.filters-bar button[id^="filter-btn-team-"].active');
+                const teamFilter = activeTeamBtn ? (activeTeamBtn.id.includes('all') ? 'all' : activeTeamBtn.id.replace('filter-btn-team-', '')) : 'all';
+                
+                const complexitySelect = document.getElementById('complexity-select-filter');
+                const complexityFilter = complexitySelect ? complexitySelect.value : 'all';
+
+                stories.forEach(story => {
+                    const storyTeam = story.dataset.team || 'N/A';
+                    const storyComplexity = story.dataset.complexity || 'N/A'; 
+
+                    const teamMatch = (teamFilter === 'all' || storyTeam === String(teamFilter));
+                    const complexityMatch = (complexityFilter === 'all' || storyComplexity === String(complexityFilter));
+
+                    if (teamMatch && complexityMatch) {
+                        story.classList.remove('hidden-by-filter');
+                    } else {
+                        story.classList.add('hidden-by-filter');
+                    }
+                });
+                
+                if (!silent) {
+                    window.scrollTo(0, 0);
+                }
+            }
+
+
+            /** Fonction de recherche globale (CORRIGÉE ET SIMPLIFIÉE) */
+            function globalSearch() {
+                const query = document.getElementById('global-search-input').value.toLowerCase().trim();
+                const stories = document.querySelectorAll('.user-story');
+                const epics = document.querySelectorAll('.epic-container');
+                const modules = document.querySelectorAll('.module-container');
+
+                // Sets pour remonter la visibilité
+                const matchingEpics = new Set();
+                const matchingModules = new Set();
+                
+                const activeTeamBtnId = document.querySelector('.filters-bar button[id^="filter-btn-team-"].active')?.id || 'filter-btn-team-all';
+                const complexitySelect = document.getElementById('complexity-select-filter');
+                const activeComplexityValue = complexitySelect ? complexitySelect.value : 'all';
+
+                // Si la recherche est vide, on arrête et on réapplique les filtres
+                if (query === '') {
+                    stories.forEach(story => story.classList.remove('hidden-by-search'));
+                    epics.forEach(epic => epic.classList.remove('hidden-by-search'));
+                    modules.forEach(module => module.classList.remove('hidden-by-search'));
+                    
+                    document.querySelectorAll('.filters-bar button[id^="filter-btn-team-"]').forEach(b => b.classList.remove('active'));
+                    document.getElementById(activeTeamBtnId)?.classList.add('active');
+                    
+                    if (complexitySelect) complexitySelect.value = activeComplexityValue;
+                    applyCombinedFilters(true);
+                    return;
                 }
 
-                document.querySelectorAll('.team-filters button[id^="filter-btn-"]:not(#filter-btn-all)').forEach(btn => {
-                    const teamNumber = btn.id.replace('filter-btn-', '');
-                    btn.addEventListener('click', () => filterByTeam(teamNumber));
+                // 1. Traitement des US : masquage de base et remontée des parents
+                stories.forEach(story => {
+                    const storyText = story.textContent.toLowerCase();
+                    const matches = storyText.includes(query);
+                    
+                    if (matches) {
+                        story.classList.remove('hidden-by-search');
+                        
+                        const epicContainer = story.closest('.epic-container');
+                        const moduleContainer = story.closest('.module-container');
+                        if (epicContainer) matchingEpics.add(epicContainer);
+                        if (moduleContainer) matchingModules.add(moduleContainer);
+                        
+                    } else {
+                        story.classList.add('hidden-by-search');
+                        // On supprime également le masquage des filtres pour éviter un conflit visuel
+                        story.classList.remove('hidden-by-filter');
+                    }
                 });
 
+                // 2. Traitement des Epics
+                epics.forEach(epic => {
+                    const epicHeader = epic.querySelector('.toggle-epic-header').textContent.toLowerCase();
+                    const matchesHeader = epicHeader.includes(query);
+                    
+                    if (matchesHeader || matchingEpics.has(epic)) {
+                        epic.classList.remove('hidden-by-search');
+                        epic.classList.remove('collapsed'); // Déplier le conteneur
+                        
+                        // Si le titre de l'Epic correspond, on s'assure que TOUTES ses US sont visibles
+                        // pour montrer le contexte complet de la recherche.
+                        if (matchesHeader) {
+                            epic.querySelectorAll('.user-story').forEach(story => {
+                                story.classList.remove('hidden-by-search');
+                            });
+                        }
+                        
+                        // Remonter la visibilité au Module parent
+                        const moduleContainer = epic.closest('.module-container');
+                        if (moduleContainer) matchingModules.add(moduleContainer);
+                        
+                    } else {
+                        epic.classList.add('hidden-by-search');
+                    }
+                });
+
+                // 3. Traitement des Modules
+                modules.forEach(module => {
+                    const moduleHeader = module.querySelector('.toggle-module-header').textContent.toLowerCase();
+                    const matchesHeader = moduleHeader.includes(query);
+
+                    if (matchesHeader || matchingModules.has(module)) {
+                        module.classList.remove('hidden-by-search');
+                        module.classList.remove('collapsed'); // Déplier le conteneur
+
+                        // Si le titre du Module correspond, on s'assure que TOUS ses descendants sont visibles
+                        if (matchesHeader) {
+                            module.querySelectorAll('.epic-container, .user-story').forEach(item => {
+                                item.classList.remove('hidden-by-search');
+                                item.classList.remove('collapsed');
+                            });
+                        }
+                        
+                    } else {
+                        module.classList.add('hidden-by-search');
+                    }
+                });
+
+                // 4. Désactiver les filtres lorsque la recherche est active
+                stories.forEach(story => story.classList.remove('hidden-by-filter'));
+            }
+
+
+            /** Attache les écouteurs d'événements aux Toggles, Filtres et au Glossaire DANS LE FICHIER GÉNÉRÉ. */
+            function attachFilterListeners() {
+                // 1. Boutons de contrôle global
+                const map = {
+                    'expand-all-btn': expandAll,
+                    'collapse-epics-btn': collapseAllEpics,
+                    'collapse-modules-btn': collapseAllModules
+                };
+
+                Object.keys(map).forEach(id => {
+                    const btn = document.getElementById(id);
+                    if (btn) {
+                        btn.addEventListener('click', map[id]);
+                    }
+                });
+
+                // 2. Toggles individuels des Modules/Epics/Stats
+                document.querySelectorAll('.toggle-module-header, .toggle-epic-header').forEach(header => {
+                    header.addEventListener('click', () => {
+                        header.closest(header.classList.contains('toggle-module-header') ? '.module-container' : '.epic-container').classList.toggle('collapsed');
+                    });
+                });
+                
+                document.querySelector('.stats-container .stats-header')?.addEventListener('click', (event) => {
+                    event.currentTarget.closest('.stats-container').classList.toggle('collapsed');
+                });
+                
+                // 3. Écouteur de la barre de recherche
+                document.getElementById('global-search-input')?.addEventListener('keyup', globalSearch);
+                document.getElementById('global-search-input')?.addEventListener('change', globalSearch);
+
+                
+                // 4. Écouteurs des filtres d'équipe
+                const teamButtons = document.querySelectorAll('.filters-bar button[id^="filter-btn-team-"]:not(#export-csv-btn)');
+                teamButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.filters-bar button[id^="filter-btn-team-"]').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        applyCombinedFilters();
+                    });
+                });
+                
+                // 5. Écouteurs du filtre de complexité (SELECT)
+                document.getElementById('complexity-select-filter')?.addEventListener('change', applyCombinedFilters);
+
+                
+                // 6. Écouteurs du GLOSSAIRE
+                document.getElementById('open-glossary-btn')?.addEventListener('click', createAndShowGlossaryModal);
+                document.querySelector('.glossary-modal .close-btn')?.addEventListener('click', hideGlossaryModal);
+                
+                window.addEventListener('click', (event) => {
+                    if (event.target === document.getElementById('glossary-modal')) {
+                        hideGlossaryModal();
+                    }
+                });
+
+
+                // 7. Écouteur du bouton CSV
                 const csvBtn = document.getElementById('export-csv-btn');
                 if(csvBtn) {
                     csvBtn.addEventListener('click', exportToCSV);
                 }
             }
-            
-            /** Fonction pour filtrer les User Stories par équipe. */
-            function filterByTeam(team) {
-                const stories = document.querySelectorAll('.user-story');
-                const buttons = document.querySelectorAll('.team-filters button:not(#export-csv-btn)');
 
-                buttons.forEach(btn => btn.classList.remove('active'));
-                if (team === 'all') {
-                    document.getElementById('filter-btn-all').classList.add('active');
-                } else if (document.getElementById('filter-btn-' + team)) {
-                    document.getElementById('filter-btn-' + team).classList.add('active');
-                }
-
-                stories.forEach(story => {
-                    if (team === 'all') {
-                        story.classList.remove('hidden-by-filter');
-                    } else {
-                        if (story.dataset.team === String(team)) {
-                            story.classList.remove('hidden-by-filter');
-                        } else {
-                            story.classList.add('hidden-by-filter');
-                        }
-                    }
-                });
-                window.scrollTo(0, 0);
-            }
 
             /** Fonction pour exporter les User Stories visibles au format CSV. */
             function exportToCSV() {
                 let csv = "Code module;Module;Code Epic;Epic;Code US;US;Équipe\\r\\n";
                 
-                const visibleStories = document.querySelectorAll('.user-story:not(.hidden-by-filter)');
+                const visibleStories = document.querySelectorAll('.user-story:not(.hidden-by-filter):not(.hidden-by-search)');
 
                 if (visibleStories.length === 0) {
-                    alert("Aucune User Story visible à exporter. Veuillez vérifier le filtre appliqué.");
+                    alert("Aucune User Story visible à exporter. Veuillez vérifier les filtres appliqués.");
                     return;
                 }
-
+                
                 visibleStories.forEach(story => {
                     const cleanText = (text) => text ? text.trim().replace(/"/g, '""') : '';
                     
-                    // --- Extraction du Module (Niveau 1) ---
                     const moduleContainer = story.closest('.module-container');
-                    // On ne connait pas la classe du code module, on revient au séparateur pour l'instant
                     const moduleHeader = moduleContainer ? moduleContainer.querySelector('.toggle-module-header').textContent : '';
                     const [moduleCode, moduleName] = extractCodeAndName(moduleHeader); 
                     
-                    // --- Extraction de l'Epic (Niveau 2) ---
                     const epicContainer = story.closest('.epic-container');
-                    
-                    // UTILISATION DE LA NOUVELLE FONCTION pour cibler la balise .epic-code-tag
                     const [epicCode, epicName] = extractEpicAndModuleData(
                         epicContainer, 
                         '.toggle-epic-header', 
                         'epic-code-tag'
                     );
                     
-                    // --- Extraction de l'US (Niveau 3) ---
                     let usCode = '';
                     let usDescription = '';
 
@@ -3140,11 +3493,9 @@
                     const usTitleTag = story.querySelector('.us-title');
 
                     if (usCodeTag && usTitleTag) {
-                        // CAS 1 : Balises spécifiques trouvées (le cas le plus fiable)
                         usCode = usCodeTag.textContent.trim();
                         usDescription = usTitleTag.textContent.trim();
                     } else {
-                        // CAS 2 : Revenir à l'extraction par texte brut
                         const usContent = Array.from(story.childNodes)
                             .filter(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0)
                             .map(node => node.textContent.trim())
@@ -3156,10 +3507,8 @@
                         usDescription = usContentTrimmed.substring(usCode.length).trim();
                     }
                     
-                    // --- Extraction de l'Équipe ---
                     const teamNumber = story.dataset.team || 'N/A';
                     
-                    // --- Construction de la ligne CSV ---
                     const line = [
                         cleanText(moduleCode),
                         cleanText(moduleName),
@@ -3173,9 +3522,8 @@
                     csv += line + "\\r\\n";
                 });
 
-                // Téléchargement du fichier
                 const filename = 'export_us_repartition.csv';
-                const blob = new Blob(["\\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+                const blob = new Blob(["\\uFEFF" + csv], { type: 'text/csv;charset=utf-8' });
 
                 const link = document.createElement("a");
                 if (link.download !== undefined) { 
@@ -3191,8 +3539,7 @@
                 }
             }
             
-            // Exécute la fonction d'attachement immédiatement après sa définition
-            attachTeamListeners(); 
+            attachFilterListeners(); 
             
             // --- FIN DU CODE INJECTÉ ---
         `;
@@ -3211,25 +3558,147 @@
         }
 
         const newDoc = document.cloneNode(true);
+        
+        // 1. CALCUL DES STATS GLOBALES ET CHARGE DE TRAVAIL
         const allStories = Array.from(newDoc.querySelectorAll('.user-story'));
+        const totalStories = allStories.length;
+        const totalModules = newDoc.querySelectorAll('.module-container').length; 
+        const totalEpics = newDoc.querySelectorAll('.epic-container').length;
 
         const storiesByComplexity = { 1: [], 2: [] };
+        let complexity1Count = 0;
+        let complexity2Count = 0;
+        
         allStories.forEach(story => {
             const complexityTag = story.querySelector('.complexity-tag');
             if (complexityTag) {
                 const complexityText = complexityTag.textContent;
                 const complexity = parseInt(complexityText.split(': ')[1], 10);
-                if (complexity === 1 || complexity === 2) {
-                    storiesByComplexity[complexity].push(story);
+                if (complexity === 1) {
+                    storiesByComplexity[1].push(story);
+                    complexity1Count++;
+                    story.dataset.complexity = 1; 
+                } else if (complexity === 2) {
+                    storiesByComplexity[2].push(story);
+                    complexity2Count++;
+                    story.dataset.complexity = 2;
                 }
             }
         });
 
-        distributeStories(shuffleArray(storiesByComplexity[1]), numTeams);
-        distributeStories(shuffleArray(storiesByComplexity[2]), numTeams);
+        const teamWorkload = {};
+        for (let i = 1; i <= numTeams; i++) {
+            teamWorkload[i] = { count: 0, complexity: 0 };
+        }
+        
+        const shuffleArray = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        };
 
+        // 2. DISTRIBUTION AVEC MISE À JOUR DE LA CHARGE DE TRAVAIL
+        const distributeAndCalculate = (stories, complexityValue) => {
+            shuffleArray(stories);
+
+            stories.forEach((story, index) => {
+                const teamNumber = (index % numTeams) + 1;
+                
+                story.dataset.team = teamNumber;
+
+                const teamTag = document.createElement('span');
+                teamTag.className = 'team-tag';
+                teamTag.textContent = `Équipe ${teamNumber}`;
+                story.appendChild(teamTag);
+
+                teamWorkload[teamNumber].count++;
+                teamWorkload[teamNumber].complexity += complexityValue;
+            });
+        };
+
+        distributeAndCalculate(storiesByComplexity[1], 1);
+        distributeAndCalculate(storiesByComplexity[2], 2);
+
+        // 3. ENCAPSULATION ET GÉNÉRATION DES STATS HTML
+        const stats = {
+            totalStories,
+            totalModules,
+            totalEpics,
+            complexity1Count,
+            complexity2Count,
+            teamWorkload,
+            numTeams,
+        };
+        
+        const getStatsHTML = (stats) => {
+            let maxComplexity = 0;
+            Object.values(stats.teamWorkload).forEach(wl => {
+                if (wl.complexity > maxComplexity) maxComplexity = wl.complexity;
+            });
+            maxComplexity = Math.max(maxComplexity, 1);
+            
+            let html = `
+            <div class="stats-header">
+                <span class="icon"></span> Statistiques du Projet et Répartition (${stats.numTeams} Équipes)
+            </div>
+            <div class="stats-content">
+                <div class="stats-grid">
+                    <div class="stat-card module-color">
+                        <div class="stat-value">${stats.totalModules}</div>
+                        <div class="stat-label">Modules</div>
+                    </div>
+                    <div class="stat-card epic-color">
+                        <div class="stat-value">${stats.totalEpics}</div>
+                        <div class="stat-label">Epics</div>
+                    </div>
+                    <div class="stat-card us-color">
+                        <div class="stat-value">${stats.totalStories}</div>
+                        <div class="stat-label">User Stories</div>
+                    </div>
+                </div>
+                
+                <h3>Charge de Travail par Équipe (Complexité Totale)</h3>
+                <div class="workload-chart">`;
+                
+                for (let i = 1; i <= stats.numTeams; i++) {
+                    const wl = stats.teamWorkload[i];
+                    const percentage = (wl.complexity / maxComplexity) * 100;
+                    
+                    html += `
+                    <div class="team-workload">
+                        <div class="team-label">Équipe ${i} (${wl.count} US)</div>
+                        <div class="bar-container">
+                            <div class="workload-bar" style="width: ${percentage.toFixed(1)}%; background-color: hsl(${i * 360 / stats.numTeams}, 70%, 50%);">
+                                ${wl.complexity} pts
+                            </div>
+                        </div>
+                    </div>`;
+                }
+                
+                html += `</div>
+                
+                <h3>Répartition par Complexité</h3>
+                <div class="complexity-summary">
+                    <p>
+                        <span class="complexity-1-color">Complexité 1 (Faible)</span> : ${stats.complexity1Count} US (${((stats.complexity1Count / stats.totalStories) * 100).toFixed(1)}%)
+                    </p>
+                    <p>
+                        <span class="complexity-2-color">Complexité 2 (Moyenne)</span> : ${stats.complexity2Count} US (${((stats.complexity2Count / stats.totalStories) * 100).toFixed(1)}%)
+                    </p>
+                </div>
+            </div>
+            `;
+            
+            return html;
+        };
+
+
+        // 4. INJECTION DANS LE DOCUMENT CLONÉ
         injectCSS(newDoc);
-        injectFiltersHTML(newDoc, numTeams);
+        injectStatsHTML(newDoc, stats, getStatsHTML); 
+        injectFiltersHTML(newDoc, numTeams); 
         injectFiltersJS(newDoc); 
 
         // Retrait du panneau admin
@@ -3238,7 +3707,7 @@
             adminPanel.remove();
         }
         
-        // Assure que seules les fonctions de navigation restent dans le script original
+        // On assure la réinjection des fonctions de navigation *en tant que code global*
         const originalScript = newDoc.querySelector('body > script');
         if (originalScript) {
              originalScript.textContent = `
@@ -3259,25 +3728,30 @@
 
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Clic sur un titre de Module (Niveau 1)
-        document.querySelectorAll('.toggle-module-header').forEach(header => {
-            header.addEventListener('click', () => {
-                header.closest('.module-container').classList.toggle('collapsed');
-            });
-        });
-
-        // Clic sur un titre d'Epic (Niveau 2)
-        document.querySelectorAll('.toggle-epic-header').forEach(header => {
-            header.addEventListener('click', () => {
-                header.closest('.epic-container').classList.toggle('collapsed');
-            });
-        });
-
-        // Branchement du Panneau Admin
+        // Branchement du Panneau Admin (dans le fichier maître uniquement)
         const generateButton = document.getElementById('generate-button');
         if (generateButton) { 
             generateButton.addEventListener('click', generateAndDownload);
         }
+        
+        // Branchement des boutons et des toggles pour le fichier MAÎTRE
+        const attachMasterListeners = () => {
+            document.getElementById('expand-all-btn')?.addEventListener('click', expandAll);
+            document.getElementById('collapse-epics-btn')?.addEventListener('click', collapseAllEpics);
+            document.getElementById('collapse-modules-btn')?.addEventListener('click', collapseAllModules);
+            
+             document.querySelectorAll('.toggle-module-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.closest('.module-container').classList.toggle('collapsed');
+                });
+            });
+            document.querySelectorAll('.toggle-epic-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.closest('.epic-container').classList.toggle('collapsed');
+                });
+            });
+        };
+        attachMasterListeners();
     });
 </script>
 

@@ -273,13 +273,13 @@
                 padding: 4px 10px;
                 border-radius: 3px;
                 margin-left: 10px;
-                background-color: #007bff; /* Bleu */
+                background-color: #007bff; 
                 color: white;
                 font-size: 0.8em;
                 flex-shrink: 0;
             }
             
-            /* --- Styles de la Barre de Filtres Unifiée (inchangés) --- */
+            /* --- Styles de la Barre de Filtres Unifiée --- */
             .filters-bar {
                 margin-bottom: 20px;
                 padding: 10px;
@@ -310,14 +310,12 @@
             .filters-bar button.active {
                 background-color: #007bff; 
             }
-            /* Style pour le bouton CSV */
             #export-csv-btn {
                 background-color: #ffc107; 
                 color: black;
                 font-weight: bold;
                 margin-left: auto; 
             }
-            /* Style pour le select */
             .filters-bar select {
                 background-color: white;
                 color: #333;
@@ -326,32 +324,35 @@
                 min-width: 130px;
             }
 
-            /* --- NOUVEAUX STYLES : GLOSSAIRE MODAL --- */
-            /* Bouton Glossaire */
+            /* Classes pour masquer les US filtrées et les éléments de recherche */
+            .user-story.hidden-by-filter,
+            .user-story.hidden-by-search {
+                display: none;
+            }
+            
+            /* --- Styles Glossaire --- */
             #open-glossary-btn {
-                background-color: #20c997; /* Vert clair/Cyan */
+                background-color: #20c997; 
                 color: white;
                 font-weight: bold;
                 margin-right: 10px; 
             }
             
-            /* Le conteneur du modal (fond) */
             .glossary-modal {
-                display: none; /* Masqué par défaut */
+                display: none; 
                 position: fixed; 
-                z-index: 100; /* Devant tout le reste */
+                z-index: 100; 
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%;
                 overflow: auto; 
-                background-color: rgba(0,0,0,0.4); /* Fond noir semi-transparent */
+                background-color: rgba(0,0,0,0.4); 
             }
 
-            /* Le contenu du modal (la boîte elle-même) */
             .modal-content {
                 background-color: #fefefe;
-                margin: 5% auto; /* 5% du haut et centré horizontalement */
+                margin: 5% auto; 
                 padding: 30px;
                 border: 1px solid #888;
                 width: 80%; 
@@ -362,7 +363,6 @@
                 overflow-y: auto;
             }
             
-            /* Bouton de fermeture */
             .close-btn {
                 color: #aaa;
                 float: right;
@@ -371,8 +371,7 @@
                 margin-left: 20px;
             }
 
-            .close-btn:hover,
-            .close-btn:focus {
+            .close-btn:hover, .close-btn:focus {
                 color: black;
                 text-decoration: none;
                 cursor: pointer;
@@ -384,7 +383,6 @@
                 margin-top: 0;
             }
             
-            /* Style de la liste du glossaire */
             .glossary-list dt {
                 font-weight: bold;
                 font-size: 1.1em;
@@ -398,13 +396,7 @@
             }
             
 
-            /* Classes pour masquer les US filtrées (inchangées) */
-            .user-story.hidden-by-filter,
-            .user-story.hidden-by-search {
-                display: none;
-            }
-
-            /* --- STYLES STATS (inchangés) --- */
+            /* --- STYLES STATS --- */
             .stats-container {
                 margin-bottom: 30px;
                 background-color: #ffffff;
@@ -440,14 +432,53 @@
                 padding-top: 0;
                 padding-bottom: 0;
             }
-            
-            .stats-header .icon::before {
-                content: '▼';
+            .stats-container.collapsed .stats-header {
+                border-radius: 8px; 
             }
             .stats-container.collapsed .stats-header .icon::before {
-                content: '►';
+                content: '►'; 
             }
-            /* ... (autres styles stats inchangés) ... */
+            
+            .stats-header .icon::before {
+                content: '▼'; 
+            }
+            
+            .stats-grid {
+                display: flex;
+                justify-content: space-around;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .stat-card {
+                padding: 15px;
+                border-radius: 5px;
+                width: 30%;
+                color: white;
+            }
+            .stat-value {
+                font-size: 2em;
+                font-weight: bold;
+            }
+            
+            .module-color { background-color: #495057; }
+            .epic-color { background-color: #17a2b8; }
+            .us-color { background-color: #28a745; }
+            
+            /* ... (autres styles inchangés) ... */
+            
+            .controls input[type="text"] {
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                width: 300px;
+                margin-right: 15px;
+            }
+            
+            /* Classes pour masquer les conteneurs non correspondants */
+            .module-container.hidden-by-search,
+            .epic-container.hidden-by-search {
+                display: none;
+            }
         </style></head>
 <body>
 	<a href="index.html" class="home-link" title="Retour à la page d'accueil">
@@ -549,13 +580,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ1.BF1</span> Disposition
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF1.1</span>
                                 <span class="us-title">Sélectionner une disposition en colonne(s)</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -571,13 +602,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF2.2</span>
                                 <span class="us-title">Déplacer des Dashlets</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF2.3</span>
@@ -593,13 +624,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ1.BF3</span> Panneau de démarrage
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF3.1</span>
                                 <span class="us-title">Afficher le panneau de démarrage sur le tableau de bord</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF3.2</span>
@@ -622,13 +653,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ1.BF4.2</span>
                                 <span class="us-title">Recherche avancée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -646,41 +677,41 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF1</span> Sélection
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF1.1</span>
                                 <span class="us-title">Sélectionner documents</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF1.2</span>
                                 <span class="us-title">Sélectionner dossiers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF1.3</span>
                                 <span class="us-title">Sélectionner tout</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF1.4</span>
                                 <span class="us-title">Inverser la sélection</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF1.5</span>
                                 <span class="us-title">Sélectionner aucun</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -689,13 +720,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF2</span> Eléments sélectionnés
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF2.1</span>
                                 <span class="us-title">Télécharger sous forme de zip</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF2.2</span>
@@ -703,27 +734,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF2.3</span>
                                 <span class="us-title">Déplacer vers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF2.4</span>
                                 <span class="us-title">Supprimer</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF2.5</span>
                                 <span class="us-title">Désélectionner</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -739,13 +770,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.2</span>
                                 <span class="us-title">Créer un dossier à partir d'un modèle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.3</span>
@@ -753,69 +784,69 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.4</span>
                                 <span class="us-title">Télécharger sous forme de zip</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.5</span>
                                 <span class="us-title">Afficher les détails</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.6</span>
                                 <span class="us-title">Editer les propriétés</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.7</span>
                                 <span class="us-title">Copier vers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.8</span>
                                 <span class="us-title">Déplacer vers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.9</span>
                                 <span class="us-title">Supprimer dossier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.10</span>
                                 <span class="us-title">Devenir propriétaire d'un dossier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.11</span>
                                 <span class="us-title">Changer le type d'un dossier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF3.12</span>
                                 <span class="us-title">Partager le dossier avec un lien web</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -824,20 +855,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF4</span> Gérer les droits d'accès d'un dossier/fichier
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.1</span>
                                 <span class="us-title">Hériter les droits d'accès</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.2</span>
                                 <span class="us-title">Ne pas hériter les droits d'accès</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.3</span>
@@ -845,20 +876,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.4</span>
                                 <span class="us-title">Ajouter un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.5</span>
                                 <span class="us-title">Changer le rôle d'un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF4.6</span>
@@ -888,20 +919,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF5</span> Gérer les règles d'un dossier
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.1</span>
                                 <span class="us-title">Créer une règle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.2</span>
                                 <span class="us-title">Modifier une règle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.3</span>
@@ -909,34 +940,34 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.4</span>
                                 <span class="us-title">Hériter les règles</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.5</span>
                                 <span class="us-title">Ne pas hériter les règles</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.6</span>
                                 <span class="us-title">Exécuter une règle pour le dossier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.7</span>
                                 <span class="us-title">Exécuter une règle pour le dossier et ses sous-dossiers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF5.8</span>
@@ -966,20 +997,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF6</span> Gérer les aspects d'un dossier/fichier
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF6.1</span>
                                 <span class="us-title">Ajouter un aspect</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF6.2</span>
                                 <span class="us-title">Supprimer un aspect</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -988,13 +1019,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF7</span> Gestion fichier
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.1</span>
                                 <span class="us-title">Créer un fichier texte</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.2</span>
@@ -1002,13 +1033,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.3</span>
                                 <span class="us-title">Créer un fichier Xml</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.4</span>
@@ -1016,48 +1047,48 @@
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.5</span>
                                 <span class="us-title">Importer un fichier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.6</span>
                                 <span class="us-title">Ajouter un fichier par glisser/déplacer</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.7</span>
                                 <span class="us-title">Télécharger un fichier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.8</span>
                                 <span class="us-title">Voir dans le navigateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.9</span>
                                 <span class="us-title">Editer les propriétés d'un fichier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.10</span>
                                 <span class="us-title">Modifier dans Alfresco</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.11</span>
@@ -1093,20 +1124,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.16</span>
                                 <span class="us-title">Démarrer un workflow/tâche</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.17</span>
                                 <span class="us-title">Devenir propriétaire d'un fichier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.18</span>
@@ -1114,13 +1145,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF7.19</span>
                                 <span class="us-title">Partager un fichier avec un lien web</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -1129,13 +1160,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF8</span> Gestion de l'historique des versions
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF8.1</span>
                                 <span class="us-title">Afficher les propriétés d'une version</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF8.2</span>
@@ -1143,13 +1174,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF8.3</span>
                                 <span class="us-title">Rétablir une version</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -1165,13 +1196,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.2</span>
                                 <span class="us-title">Aimer</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.3</span>
@@ -1186,34 +1217,34 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.5</span>
                                 <span class="us-title">Partager sur Facebook</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.6</span>
                                 <span class="us-title">Partager sur Twitter</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.7</span>
                                 <span class="us-title">Partager sur Google+</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.8</span>
                                 <span class="us-title">Ajouter un tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF9.9</span>
@@ -1229,20 +1260,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF10</span> Tri des fichiers et dossiers
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF10.1</span>
                                 <span class="us-title">Trier par caractéristique</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF10.2</span>
                                 <span class="us-title">Choisir le type de tri</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -1251,27 +1282,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF11</span> Filtrer l'affichage des dossiers/fichiers
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF11.1</span>
                                 <span class="us-title">Filtrer par documents</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF11.2</span>
                                 <span class="us-title">Filtrer par arborescence (Mes fichiers, Fichiers partagés, entrepôt)</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF11.3</span>
                                 <span class="us-title">Filtrer par catégories</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF11.4</span>
@@ -1287,41 +1318,41 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ2.BF12</span> Modifier les options d'affichage
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF12.1</span>
                                 <span class="us-title">Cacher/afficher les dossiers</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF12.2</span>
                                 <span class="us-title">Cacher/afficher le fil d'ariane</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF12.3</span>
                                 <span class="us-title">Afficher en pleine fenêtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF12.4</span>
                                 <span class="us-title">Afficher en plein écran</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ2.BF12.5</span>
                                 <span class="us-title">Afficher selon différents types de vues</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -1339,13 +1370,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF1</span> Recherche de sites
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.1</span>
                                 <span class="us-title">Rechercher un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.2</span>
@@ -1353,13 +1384,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.3</span>
                                 <span class="us-title">Aperçu des sites récents</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.4</span>
@@ -1367,20 +1398,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.5</span>
                                 <span class="us-title">Annuler la demande</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.6</span>
                                 <span class="us-title">Rejoindre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF1.7</span>
@@ -1403,20 +1434,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF2</span> Gestion des sites
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF2.1</span>
                                 <span class="us-title">Créer un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF2.2</span>
                                 <span class="us-title">Modifier le détail du site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF2.3</span>
@@ -1424,13 +1455,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF2.4</span>
                                 <span class="us-title">Se désabonner d'un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -1439,27 +1470,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF3</span> Personnaliser le tableau de bord d'un site
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF3.1</span>
                                 <span class="us-title">Sélectionner disposition en colonne(s)</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF3.2</span>
                                 <span class="us-title">Ajouter des Dashlets</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF3.3</span>
                                 <span class="us-title">Déplacer des Dashlets</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF3.4</span>
@@ -1475,62 +1506,62 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF4</span> Membres du site
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.1</span>
                                 <span class="us-title">Ajouter un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.2</span>
                                 <span class="us-title">Modifier le rôle d'un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.3</span>
                                 <span class="us-title">Supprimer un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.4</span>
                                 <span class="us-title">Ajouter un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.5</span>
                                 <span class="us-title">Modifier le rôle d'un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.6</span>
                                 <span class="us-title">Supprimer un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.7</span>
                                 <span class="us-title">Gérer un invitation</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF4.8</span>
                                 <span class="us-title">Gérer un requête</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -1539,20 +1570,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF5</span> Personnaliser le site
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF5.1</span>
                                 <span class="us-title">Modifier le thème du site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF5.2</span>
                                 <span class="us-title">Ajouter une page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF5.3</span>
@@ -1575,27 +1606,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.2</span>
                                 <span class="us-title">Déplacer un événement</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.3</span>
                                 <span class="us-title">Modifier un événement</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.4</span>
                                 <span class="us-title">Supprimer un événement</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.5</span>
@@ -1603,20 +1634,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.6</span>
                                 <span class="us-title">Naviguer dans le calendrier</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF6.7</span>
                                 <span class="us-title">Filtrer l'affichage des événements par tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -1625,76 +1656,76 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF7</span> Module Wiki
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.1</span>
                                 <span class="us-title">Créer une nouvelle page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.2</span>
                                 <span class="us-title">Renommer une page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.3</span>
                                 <span class="us-title">Supprimer une page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.4</span>
                                 <span class="us-title">Modifier une page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.5</span>
                                 <span class="us-title">Afficher la liste des pages du wiki</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.6</span>
                                 <span class="us-title">Afficher la page principale</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.7</span>
                                 <span class="us-title">Afficher les détails d'une page</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.8</span>
                                 <span class="us-title">Voir une version</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.9</span>
                                 <span class="us-title">Filtrer les pages par critère</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF7.10</span>
                                 <span class="us-title">Filtrer les pages par tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -1703,20 +1734,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF8</span> Module discussion
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.1</span>
                                 <span class="us-title">Créer un nouveau sujet</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.2</span>
                                 <span class="us-title">Modifier un sujet</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.3</span>
@@ -1724,41 +1755,41 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.4</span>
                                 <span class="us-title">Répondre à un sujet</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.5</span>
                                 <span class="us-title">Afficher un sujet</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.6</span>
                                 <span class="us-title">Filtrer les sujets par critère</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.7</span>
                                 <span class="us-title">Filtrer les sujets par tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF8.8</span>
                                 <span class="us-title">Basculer entre vue simplifiée et vue détaillée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -1767,27 +1798,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF9</span> Module Blog
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.1</span>
                                 <span class="us-title">Créer un nouvel article</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.2</span>
                                 <span class="us-title">Modifier un article</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.3</span>
                                 <span class="us-title">Supprimer un article</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.4</span>
@@ -1795,48 +1826,48 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.5</span>
                                 <span class="us-title">Modifier un commentaire</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.6</span>
                                 <span class="us-title">Supprimer un commentaire</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.7</span>
                                 <span class="us-title">Filtrer les articles par critère</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.8</span>
                                 <span class="us-title">Filtrer les articles par période</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.9</span>
                                 <span class="us-title">Filtrer les articles par tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF9.10</span>
                                 <span class="us-title">Basculer entre vue simplifiée et vue détaillée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -1852,13 +1883,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.2</span>
                                 <span class="us-title">Modifier un lien</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.3</span>
@@ -1866,13 +1897,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.4</span>
                                 <span class="us-title">Ajouter un commentaire</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.5</span>
@@ -1880,34 +1911,34 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.6</span>
                                 <span class="us-title">Supprimer un commentaire</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.7</span>
                                 <span class="us-title">Filtrer les liens par critère</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.8</span>
                                 <span class="us-title">Filtrer les liens par tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF10.9</span>
                                 <span class="us-title">Basculer entre vue simplifiée et vue détaillée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -1916,27 +1947,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ3.BF11</span> Module listes de données
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.1</span>
                                 <span class="us-title">Créer une nouvelle liste de données</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.2</span>
                                 <span class="us-title">Editer les détails d'une liste de données</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.3</span>
                                 <span class="us-title">Supprimer une liste de données</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.4</span>
@@ -1951,13 +1982,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.6</span>
                                 <span class="us-title">Créer un nouvel élement de liste d'événements</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.7</span>
@@ -1965,20 +1996,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.8</span>
                                 <span class="us-title">Créer un nouvel élement de liste de publication</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.9</span>
                                 <span class="us-title">Créer un nouvel élement de liste de tâches</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.10</span>
@@ -1986,27 +2017,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.11</span>
                                 <span class="us-title">Créer un nouvel élement de liste de tâches simples</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.12</span>
                                 <span class="us-title">Créer un nouvel élement de liste ordre du jour</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.13</span>
                                 <span class="us-title">Modifier un élément de liste agenda</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.14</span>
@@ -2014,13 +2045,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.15</span>
                                 <span class="us-title">Modifier un élément de liste d'événements</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.16</span>
@@ -2028,27 +2059,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.17</span>
                                 <span class="us-title">Modifier un élément de liste de publication</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.18</span>
                                 <span class="us-title">Modifier un élément de liste de tâches</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.19</span>
                                 <span class="us-title">Modifier un élément de liste de tâches avancée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.20</span>
@@ -2070,13 +2101,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.23</span>
                                 <span class="us-title">Supprimer un élément</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ3.BF11.24</span>
@@ -2108,27 +2139,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ4.BF1</span> Gérer les workflows et les tâches
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.1</span>
                                 <span class="us-title">Démarrer un workflow/tâche</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.2</span>
                                 <span class="us-title">Afficher une tâche</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.3</span>
                                 <span class="us-title">Afficher le workflow</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.4</span>
@@ -2136,34 +2167,34 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.5</span>
                                 <span class="us-title">Modifier un workflow/tâche</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.6</span>
                                 <span class="us-title">Afficher le schéma du processus</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.7</span>
                                 <span class="us-title">Afficher l’historique</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF1.8</span>
                                 <span class="us-title">Afficher les workflows initiés</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -2172,27 +2203,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ4.BF2</span> Filtrer l'affichage des tâches et workflows
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.1</span>
                                 <span class="us-title">Afficher les workflows par statut</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.2</span>
                                 <span class="us-title">Afficher les workflows par échéance</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.3</span>
                                 <span class="us-title">Afficher les workflows par date de démarrage</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.4</span>
@@ -2200,20 +2231,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.5</span>
                                 <span class="us-title">Afficher les workflows par type</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ4.BF2.6</span>
                                 <span class="us-title">Afficher les workflows par personne assignée</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -2238,13 +2269,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ5.BF1.2</span>
                                 <span class="us-title">Suivre/ne pas suivre une personne et voir ses dernières activités</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -2262,13 +2293,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF1</span> Options de l’application 
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF1.1</span>
                                 <span class="us-title">Modifier le thème</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF1.2</span>
@@ -2284,34 +2315,34 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF2</span> Gestionnaire de catégories
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF2.1</span>
                                 <span class="us-title">Ajouter une catégorie</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF2.2</span>
                                 <span class="us-title">Ajouter une sous catégorie</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF2.3</span>
                                 <span class="us-title">Editer une catégorie</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF2.4</span>
                                 <span class="us-title">Editer une sous catégorie</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF2.5</span>
@@ -2341,55 +2372,55 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.2</span>
                                 <span class="us-title">Editer un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.3</span>
                                 <span class="us-title">Supprimer un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.4</span>
                                 <span class="us-title">Déplacer un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.5</span>
                                 <span class="us-title">Editer le nom d'un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.6</span>
                                 <span class="us-title">Editer les propriétés d'un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.7</span>
                                 <span class="us-title">Editer le type d'un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF3.8</span>
                                 <span class="us-title">Editer le type d'affichage des résultats de recherche d'un filtre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -2398,13 +2429,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF4</span> Gestionnaire de tags
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF4.1</span>
                                 <span class="us-title">Modifier un tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF4.2</span>
@@ -2412,20 +2443,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF4.3</span>
                                 <span class="us-title">Rechercher un tag</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF4.4</span>
                                 <span class="us-title">Naviguer dans les pages de la liste des tags</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -2434,13 +2465,13 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF5</span> Gestionnaire de modèles
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.1</span>
                                 <span class="us-title">Créer un modèle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.2</span>
@@ -2448,27 +2479,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.3</span>
                                 <span class="us-title">Désactiver un modèle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.4</span>
                                 <span class="us-title">Modifier un modèle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.5</span>
                                 <span class="us-title">Supprimer un modèle</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF5.6</span>
@@ -2491,20 +2522,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF6</span> Gestionnaire de types personnalisés
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.1</span>
                                 <span class="us-title">Créer un type personnalisé</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.2</span>
                                 <span class="us-title">Modifier un type personnalisé</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.3</span>
@@ -2512,20 +2543,20 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.4</span>
                                 <span class="us-title">Concepteur de disposition : Ajouter un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.5</span>
                                 <span class="us-title">Concepteur de disposition : Supprimer un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.6</span>
@@ -2533,48 +2564,48 @@
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.7</span>
                                 <span class="us-title">Concepteur de disposition : Editer les propriétés d'un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.8</span>
                                 <span class="us-title">Concepteur de disposition : Ajouter une propriété à un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.9</span>
                                 <span class="us-title">Concepteur de disposition : Supprimer une propriété d'un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.10</span>
                                 <span class="us-title">Concepteur de disposition : Déplacer une propriété dans le même panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.11</span>
                                 <span class="us-title">Concepteur de disposition : Déplacer une propriété d'un panneau à un autre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF6.12</span>
                                 <span class="us-title">Concepteur de disposition : Editer les propriétés d'une propriété d'un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -2583,34 +2614,34 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF7</span> Gestionnaire d'aspects
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.1</span>
                                 <span class="us-title">Créer un aspect</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.2</span>
                                 <span class="us-title">Modifier un aspect</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.3</span>
                                 <span class="us-title">Supprimer un aspect</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.4</span>
                                 <span class="us-title">Concepteur de disposition : Créer un propriété</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.5</span>
@@ -2618,13 +2649,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.6</span>
                                 <span class="us-title">Concepteur de disposition : Supprimer un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="2" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.7</span>
@@ -2639,41 +2670,41 @@
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.9</span>
                                 <span class="us-title">Concepteur de disposition : Ajouter une propriété à un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.10</span>
                                 <span class="us-title">Concepteur de disposition : Supprimer une propriété d'un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.11</span>
                                 <span class="us-title">Concepteur de disposition : Déplacer une propriété dans le même panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.12</span>
                                 <span class="us-title">Concepteur de disposition : Déplacer une propriété d'un panneau à un autre</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="2" data-team="1">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="2" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF7.13</span>
                                 <span class="us-title">Concepteur de disposition : Editer les propriétés d'une propriété d'un panneau</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -2682,27 +2713,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF8</span> Gestionnaire de propriétés
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF8.1</span>
                                 <span class="us-title">Créer une propriété</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF8.2</span>
                                 <span class="us-title">Modifier une propriété</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF8.3</span>
                                 <span class="us-title">Supprimer une propriété</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                     </ul>
                 </div>
                 
@@ -2711,27 +2742,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF9</span> Gestionnaire de sites
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF9.1</span>
                                 <span class="us-title">Supprimer un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF9.2</span>
                                 <span class="us-title">Devenir gestionnaire d'un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF9.3</span>
                                 <span class="us-title">Changer la visibilité d'un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF9.4</span>
@@ -2739,13 +2770,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF9.5</span>
                                 <span class="us-title">Accéder à la page Membres d'un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -2754,34 +2785,34 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF10</span> Tâches de réplication
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="2" data-team="3">
+                        <li class="user-story" data-complexity="2" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF10.1</span>
                                 <span class="us-title">Créer une tâche de réplication</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF10.2</span>
                                 <span class="us-title">Trier les tâches de réplication par critère</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF10.3</span>
                                 <span class="us-title">Modifier une tâche de réplication</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF10.4</span>
                                 <span class="us-title">Supprimer une tâche de réplication</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                     </ul>
                 </div>
                 
@@ -2790,48 +2821,48 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF11</span> Gestionnaire de Groupes
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.1</span>
                                 <span class="us-title">Rechercher un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.2</span>
                                 <span class="us-title">Parcourir la liste des groupes</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.3</span>
                                 <span class="us-title">Créer un nouveau groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.4</span>
                                 <span class="us-title">Editer un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.5</span>
                                 <span class="us-title">Supprimer un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 2</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.6</span>
                                 <span class="us-title">Ajouter un utilisateur à un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF11.7</span>
@@ -2861,76 +2892,76 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ6.BF12</span> Gestionnaire d'utilisateurs
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.1</span>
                                 <span class="us-title">Créer un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="2" data-team="4">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="2" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.2</span>
                                 <span class="us-title">Importer des utilisateurs</span>
                             </span>
                             <span class="complexity-tag">Complexité: 2</span>
-                        <span class="team-tag">Équipe 4</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.3</span>
                                 <span class="us-title">Rechercher un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.4</span>
                                 <span class="us-title">Editer un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.5</span>
                                 <span class="us-title">Supprimer un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.6</span>
                                 <span class="us-title">Désactiver un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.7</span>
                                 <span class="us-title">Activer un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.8</span>
                                 <span class="us-title">Changer le mot de passe d'un utilisateur</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="1">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.9</span>
                                 <span class="us-title">Ajouter un utilisateur à un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 1</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ6.BF12.10</span>
                                 <span class="us-title">Supprimer un utilisateur d'un groupe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                     </ul>
                 </div>
                 
@@ -2948,27 +2979,27 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ7.BF1</span> Divers
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.1</span>
                                 <span class="us-title">Définir la page d'accueil</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.2</span>
                                 <span class="us-title">Modifier le profil dans l'onglet Informations</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 3</span></li>
+                        <li class="user-story" data-complexity="1" data-team="2">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.3</span>
                                 <span class="us-title">Changer le mot de passe</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 2</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.4</span>
@@ -2976,27 +3007,27 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.5</span>
                                 <span class="us-title">Accéder à un élément de l'onglet contenu</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.6</span>
                                 <span class="us-title">Activer/désactiver la notification par email</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <span class="team-tag">Équipe 1</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.7</span>
                                 <span class="us-title">Voir la liste Suivis par moi</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF1.8</span>
@@ -3012,20 +3043,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ7.BF2</span> Sites
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF2.1</span>
                                 <span class="us-title">Accéder à un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF2.2</span>
                                 <span class="us-title">Activer les flux d'activités d'un site</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 1</span></li>
                         <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF2.3</span>
@@ -3041,20 +3072,20 @@
                         <span class="icon">▼</span> <span class="epic-code-tag">RQ7.BF3</span> Corbeille
                     </h3>
                     <ul class="epic-content-list">
-                        <li class="user-story" data-complexity="1" data-team="3">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF3.1</span>
                                 <span class="us-title">Rechercher dans la corbeille</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 3</span></li>
-                        <li class="user-story" data-complexity="1" data-team="4">
+                        <span class="team-tag">Équipe 4</span></li>
+                        <li class="user-story" data-complexity="1" data-team="3">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF3.2</span>
                                 <span class="us-title">Vider la corbeille</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 4</span></li>
+                        <span class="team-tag">Équipe 3</span></li>
                         <li class="user-story" data-complexity="1" data-team="1">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF3.3</span>
@@ -3076,13 +3107,13 @@
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
                         <span class="team-tag">Équipe 2</span></li>
-                        <li class="user-story" data-complexity="1" data-team="2">
+                        <li class="user-story" data-complexity="1" data-team="4">
                             <span class="us-details-group">
                                 <span class="us-code-tag">RQ7.BF3.6</span>
                                 <span class="us-title">Récupérer une sélection d'éléments de la corbeille</span>
                             </span>
                             <span class="complexity-tag">Complexité: 1</span>
-                        <span class="team-tag">Équipe 2</span></li>
+                        <span class="team-tag">Équipe 4</span></li>
                     </ul>
                 </div>
                 
@@ -3149,7 +3180,6 @@
                 const listContainer = modal.querySelector('.glossary-list');
                 listContainer.innerHTML = ''; 
 
-                // Remplir le DL (Definition List) avec les termes
                 for (const term in GLOSSARY_TERMS) {
                     const dt = document.createElement('dt');
                     dt.textContent = term;
@@ -3167,51 +3197,46 @@
                 document.getElementById('glossary-modal').style.display = "none";
             }
 
-            // ... (Fonctions utilitaires extractCodeAndName et extractEpicAndModuleData inchangées) ...
+            /** Gère les séparateurs '|' ou ':' pour Module/Epic */
             const extractCodeAndName = (headerText) => {
                 const cleanText = headerText.replace(/[▼▶]/g, '').trim();
-
                 let parts = cleanText.split('|');
                 if (parts.length >= 2) {
                     const code = parts[0].trim();
                     const name = parts.slice(1).join('|').trim();
                     return [code, name];
                 }
-                
                 parts = cleanText.split(':');
                 if (parts.length >= 2 && parts[0].trim().length > 0) {
                     const code = parts[0].trim();
                     const name = parts.slice(1).join(':').trim();
                     return [code, name];
                 }
-
                 return ['', cleanText]; 
             };
 
+            /** Tente d'extraire Code et Nom pour Epic/Module. */
             const extractEpicAndModuleData = (container, headerSelector, codeTagClass) => {
                 const headerElement = container.querySelector(headerSelector);
                 if (!headerElement) return ['', ''];
-
                 const codeTag = headerElement.querySelector('.' + codeTagClass);
                 
                 if (codeTag) {
                     const code = codeTag.textContent.trim();
                     const fullText = headerElement.textContent;
-
                     let name = fullText.replace(code, '').replace(/[▼▶]/g, '').trim();
-
                     if (name.startsWith(':')) name = name.substring(1).trim();
                     if (name.startsWith('|')) name = name.substring(1).trim();
-
                     return [code, name];
-
                 } else {
                     return extractCodeAndName(headerElement.textContent);
                 }
             };
 
             
-            /** * Applique les filtres d'équipe et de complexité simultanément. */
+            /** * Applique les filtres d'équipe et de complexité simultanément.
+             * @param {boolean} silent - Si true, ne scroll pas.
+             */
             function applyCombinedFilters(silent = false) {
                 const stories = document.querySelectorAll('.user-story');
                 
@@ -3241,92 +3266,111 @@
             }
 
 
-            /** Fonction de recherche globale */
+            /** Fonction de recherche globale (CORRIGÉE ET SIMPLIFIÉE) */
             function globalSearch() {
                 const query = document.getElementById('global-search-input').value.toLowerCase().trim();
                 const stories = document.querySelectorAll('.user-story');
                 const epics = document.querySelectorAll('.epic-container');
                 const modules = document.querySelectorAll('.module-container');
 
-                const matchingModules = new Set();
+                // Sets pour remonter la visibilité
                 const matchingEpics = new Set();
+                const matchingModules = new Set();
                 
-                // Récupérer l'état actuel des filtres (équipe + complexité)
                 const activeTeamBtnId = document.querySelector('.filters-bar button[id^="filter-btn-team-"].active')?.id || 'filter-btn-team-all';
                 const complexitySelect = document.getElementById('complexity-select-filter');
                 const activeComplexityValue = complexitySelect ? complexitySelect.value : 'all';
 
-                // 2. Traiter toutes les US
+                // Si la recherche est vide, on arrête et on réapplique les filtres
+                if (query === '') {
+                    stories.forEach(story => story.classList.remove('hidden-by-search'));
+                    epics.forEach(epic => epic.classList.remove('hidden-by-search'));
+                    modules.forEach(module => module.classList.remove('hidden-by-search'));
+                    
+                    document.querySelectorAll('.filters-bar button[id^="filter-btn-team-"]').forEach(b => b.classList.remove('active'));
+                    document.getElementById(activeTeamBtnId)?.classList.add('active');
+                    
+                    if (complexitySelect) complexitySelect.value = activeComplexityValue;
+                    applyCombinedFilters(true);
+                    return;
+                }
+
+                // 1. Traitement des US : masquage de base et remontée des parents
                 stories.forEach(story => {
                     const storyText = story.textContent.toLowerCase();
                     const matches = storyText.includes(query);
                     
-                    if (matches || query === '') {
+                    if (matches) {
                         story.classList.remove('hidden-by-search');
-
-                        if (query !== '') {
-                            const epicContainer = story.closest('.epic-container');
-                            const moduleContainer = story.closest('.module-container');
-                            if (epicContainer) matchingEpics.add(epicContainer);
-                            if (moduleContainer) matchingModules.add(moduleContainer);
-                        }
+                        
+                        const epicContainer = story.closest('.epic-container');
+                        const moduleContainer = story.closest('.module-container');
+                        if (epicContainer) matchingEpics.add(epicContainer);
+                        if (moduleContainer) matchingModules.add(moduleContainer);
+                        
                     } else {
                         story.classList.add('hidden-by-search');
+                        // On supprime également le masquage des filtres pour éviter un conflit visuel
+                        story.classList.remove('hidden-by-filter');
                     }
                 });
 
-                // 3. Traiter tous les Epics/Modules
+                // 2. Traitement des Epics
                 epics.forEach(epic => {
                     const epicHeader = epic.querySelector('.toggle-epic-header').textContent.toLowerCase();
                     const matchesHeader = epicHeader.includes(query);
-                    const hasMatchingChildren = matchingEpics.has(epic);
-
-                    if (matchesHeader || hasMatchingChildren || query === '') {
+                    
+                    if (matchesHeader || matchingEpics.has(epic)) {
                         epic.classList.remove('hidden-by-search');
+                        epic.classList.remove('collapsed'); // Déplier le conteneur
                         
-                        if (query !== '') {
-                            const moduleContainer = epic.closest('.module-container');
-                            if (moduleContainer) matchingModules.add(moduleContainer);
+                        // Si le titre de l'Epic correspond, on s'assure que TOUTES ses US sont visibles
+                        // pour montrer le contexte complet de la recherche.
+                        if (matchesHeader) {
+                            epic.querySelectorAll('.user-story').forEach(story => {
+                                story.classList.remove('hidden-by-search');
+                            });
                         }
                         
-                        epic.classList.remove('collapsed');
+                        // Remonter la visibilité au Module parent
+                        const moduleContainer = epic.closest('.module-container');
+                        if (moduleContainer) matchingModules.add(moduleContainer);
+                        
                     } else {
                         epic.classList.add('hidden-by-search');
                     }
                 });
 
+                // 3. Traitement des Modules
                 modules.forEach(module => {
                     const moduleHeader = module.querySelector('.toggle-module-header').textContent.toLowerCase();
                     const matchesHeader = moduleHeader.includes(query);
-                    const hasMatchingChildren = matchingModules.has(module);
 
-                    if (matchesHeader || hasMatchingChildren || query === '') {
+                    if (matchesHeader || matchingModules.has(module)) {
                         module.classList.remove('hidden-by-search');
-                        module.classList.remove('collapsed');
+                        module.classList.remove('collapsed'); // Déplier le conteneur
+
+                        // Si le titre du Module correspond, on s'assure que TOUS ses descendants sont visibles
+                        if (matchesHeader) {
+                            module.querySelectorAll('.epic-container, .user-story').forEach(item => {
+                                item.classList.remove('hidden-by-search');
+                                item.classList.remove('collapsed');
+                            });
+                        }
+                        
                     } else {
                         module.classList.add('hidden-by-search');
                     }
                 });
 
-                // 4. Gestion des filtres d'équipe/complexité
-                if (query !== '') {
-                    // Si la recherche est active, on désactive les filtres pour ne pas masquer les résultats.
-                    stories.forEach(story => story.classList.remove('hidden-by-filter'));
-                } else {
-                    // Si la recherche est effacée, on réapplique les filtres actifs.
-                    document.querySelectorAll('.filters-bar button[id^="filter-btn-team-"]').forEach(b => b.classList.remove('active'));
-                    document.getElementById(activeTeamBtnId)?.classList.add('active');
-                    
-                    if (complexitySelect) complexitySelect.value = activeComplexityValue;
-
-                    applyCombinedFilters(true);
-                }
+                // 4. Désactiver les filtres lorsque la recherche est active
+                stories.forEach(story => story.classList.remove('hidden-by-filter'));
             }
 
 
             /** Attache les écouteurs d'événements aux Toggles, Filtres et au Glossaire DANS LE FICHIER GÉNÉRÉ. */
             function attachFilterListeners() {
-                // 1. Boutons de contrôle global (inchangé)
+                // 1. Boutons de contrôle global
                 const map = {
                     'expand-all-btn': expandAll,
                     'collapse-epics-btn': collapseAllEpics,
@@ -3340,7 +3384,7 @@
                     }
                 });
 
-                // 2. Toggles individuels des Modules/Epics/Stats (inchangé)
+                // 2. Toggles individuels des Modules/Epics/Stats
                 document.querySelectorAll('.toggle-module-header, .toggle-epic-header').forEach(header => {
                     header.addEventListener('click', () => {
                         header.closest(header.classList.contains('toggle-module-header') ? '.module-container' : '.epic-container').classList.toggle('collapsed');
@@ -3351,7 +3395,7 @@
                     event.currentTarget.closest('.stats-container').classList.toggle('collapsed');
                 });
                 
-                // 3. Écouteur de la barre de recherche (inchangé)
+                // 3. Écouteur de la barre de recherche
                 document.getElementById('global-search-input')?.addEventListener('keyup', globalSearch);
                 document.getElementById('global-search-input')?.addEventListener('change', globalSearch);
 
@@ -3370,11 +3414,10 @@
                 document.getElementById('complexity-select-filter')?.addEventListener('change', applyCombinedFilters);
 
                 
-                // 6. Écouteurs du GLOSSAIRE (NOUVEAU)
+                // 6. Écouteurs du GLOSSAIRE
                 document.getElementById('open-glossary-btn')?.addEventListener('click', createAndShowGlossaryModal);
                 document.querySelector('.glossary-modal .close-btn')?.addEventListener('click', hideGlossaryModal);
                 
-                // Fermer la modale si l'utilisateur clique en dehors de la boîte
                 window.addEventListener('click', (event) => {
                     if (event.target === document.getElementById('glossary-modal')) {
                         hideGlossaryModal();
@@ -3382,7 +3425,7 @@
                 });
 
 
-                // 7. Écouteur du bouton CSV (inchangé)
+                // 7. Écouteur du bouton CSV
                 const csvBtn = document.getElementById('export-csv-btn');
                 if(csvBtn) {
                     csvBtn.addEventListener('click', exportToCSV);
@@ -3390,7 +3433,7 @@
             }
 
 
-            /** Fonction pour exporter les User Stories visibles au format CSV. (inchangée) */
+            /** Fonction pour exporter les User Stories visibles au format CSV. */
             function exportToCSV() {
                 let csv = "Code module;Module;Code Epic;Epic;Code US;US;Équipe\r\n";
                 
@@ -3452,7 +3495,7 @@
                 });
 
                 const filename = 'export_us_repartition.csv';
-                const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+                const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8' });
 
                 const link = document.createElement("a");
                 if (link.download !== undefined) { 
