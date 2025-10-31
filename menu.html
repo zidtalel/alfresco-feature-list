@@ -49,18 +49,26 @@
             --dark-text: #2c3e50;
             --shadow-color: rgba(0, 188, 212, 0.4);
         }
+        
+        /* Réinitialisation de base */
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* S'assure que padding et border ne s'ajoutent pas à la largeur */
+        }
 
         /* Styles de base pour les grands écrans */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
             color: var(--dark-text);
-            margin: 0;
-            display: flex;
+            /* Centrage FLEX pour les grands écrans */
+            display: flex; 
             justify-content: center;
             align-items: center;
-            /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
-            height: 100vh; 
+            /* Largeur et Hauteur garanties pour le centrage */
+            width: 100vw; /* Utilise 100% de la largeur du viewport */
+            height: 100vh;
             overflow: hidden; /* Cache le défilement sur grand écran */
             transition: background 0.5s ease;
         }
@@ -187,17 +195,20 @@
             
             /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
             body {
+                /* On réinitialise les propriétés flex pour permettre un affichage vertical normal */
+                display: block; 
+                width: 100%; /* S'assure de la bonne largeur */
                 height: auto; /* Supprime la hauteur fixe */
                 min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
                 overflow: auto; /* Permet le défilement */
                 padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
-                display: block; /* Retire le flex pour un layout plus traditionnel */
+                
             }
 
             .accueil-container {
                 width: 95%; /* Utilise plus de largeur */
                 padding: 20px; /* Réduction du padding */
-                margin: 20px auto; /* Centre le conteneur et donne de l'air */
+                margin: 20px auto; /* CENTRE LE CONTENEUR DANS LE NOUVEAU BODY DE TYPE BLOCK */
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
             }
 
