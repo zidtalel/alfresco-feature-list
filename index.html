@@ -51,7 +51,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z" />
             </svg>
             <h2 class="mt-4 text-3xl font-extrabold text-gray-900">
-                Accès Étudiantsqwerty
+                Accès Étudiants
             </h2>
             <p class="mt-2 text-sm text-gray-600">
                 Identifiants de groupe pour l'accès au projet.
@@ -113,13 +113,10 @@
             // Variable pour stocker les identifiants chargés et déchiffrés
             let VALID_CREDENTIALS = null; 
             
-            // --- PAGE DE REDIRECTION EN CAS DE SUCCÈS ---
+            // --- FICHIER ET PAGE DE REDIRECTION ---
+            const CREDENTIALS_FILE = "credentials.json"; 
             const REDIRECT_URL = "features.html"; 
             
-            // --- IDENTIFIANTS ENCODÉS EN BASE64 POUR L'OBFUSCATION ---
-            // Le décodage Base64 est utilisé pour obscurcir les identifiants pour un humain lambda.
-            const ENCODED_USERNAME = "ZXR1ZGlhbnQ=";     // Décodé : "etudiant"
-            const ENCODED_PASSWORD = "YmF0dGxlLWZpZWxk"; // Décodé : "battle-field"
 
             /**
              * Décode une chaîne Base64 en utilisant l'API native du navigateur.
@@ -137,32 +134,51 @@
 
 
             /**
-             * Charge et déchiffre les identifiants (maintenant intégrés)
+             * Charge les identifiants depuis le fichier JSON, les décode, et active le formulaire.
+             * Gère également les erreurs de chargement (404, CORS, JSON invalide).
              */
-            function loadCredentials() {
-                console.log("Chargement des identifiants directement depuis le JS.");
-                
-                // Définir les identifiants en décodant les constantes intégrées
-                VALID_CREDENTIALS = {
-                    username: decodeBase64(ENCODED_USERNAME),
-                    password: decodeBase64(ENCODED_PASSWORD)
-                };
+            async function loadCredentials() {
+                try {
+                    console.log(`Tentative de chargement des identifiants depuis ${CREDENTIALS_FILE}...`);
+                    
+                    // Utilisation de fetch pour lire le fichier JSON
+                    const response = await fetch(CREDENTIALS_FILE);
 
-                // Vérification de sécurité/diagnostic
-                if (VALID_CREDENTIALS.username === "" || VALID_CREDENTIALS.password === "") {
-                    console.error("Échec du décodage Base64. Les identifiants sont vides. Vérifiez l'encodage.");
-                    buttonText.textContent = 'Erreur de configuration';
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status} (Vérifiez l'existence du fichier et les droits d'accès/CORS)`);
+                    }
+
+                    const data = await response.json();
+                    
+                    // 1. Décodage et stockage des identifiants
+                    VALID_CREDENTIALS = {
+                        username: decodeBase64(data.username),
+                        password: decodeBase64(data.password)
+                    };
+
+                    if (VALID_CREDENTIALS.username === "" || VALID_CREDENTIALS.password === "") {
+                        throw new Error("Échec du décodage Base64. Les valeurs dans le JSON sont invalides.");
+                    }
+                    
+                    // 2. Activation du bouton de connexion
+                    loginButton.disabled = false;
+                    loginButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    loginButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer'); 
+                    buttonText.textContent = 'Se Connecter';
+                    
+                    console.log("Identifiants chargés et bouton activé.");
+
+                } catch (error) {
+                    console.error("Échec du chargement critique des identifiants:", error.message);
+                    
+                    // Afficher un message d'erreur persistant sur le bouton
+                    buttonText.textContent = 'Erreur: ' + (error.message.includes('HTTP') ? 'Fichier non trouvé (404)' : 'JSON/Décodage invalide');
                     loginButton.classList.remove('bg-gray-400');
                     loginButton.classList.add('bg-red-600'); 
-                    return; // S'arrêter en cas d'erreur de décodage critique
+                    
+                    // IMPORTANT: Le bouton reste désactivé (disabled=true) en cas d'échec
+                    loginButton.disabled = true;
                 }
-
-                // Le code s'exécute immédiatement, le bouton peut être activé
-                loginButton.disabled = false;
-                loginButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                loginButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer'); 
-                buttonText.textContent = 'Se Connecter';
-                console.log("Identifiants chargés et bouton activé.");
             }
 
 
@@ -173,23 +189,23 @@
             form.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                // 1. Vérifier si les identifiants ont été chargés (au cas où)
-                if (!VALID_CREDENTIALS) {
-                    console.warn("Tentative de connexion prématurée.");
+                // Vérification de la disponibilité des identifiants (devrait être chargé si le bouton est actif)
+                if (!VALID_CREDENTIALS || loginButton.disabled) {
+                    console.warn("Connexion impossible : identifiants non chargés ou erreur de configuration.");
                     return; 
                 }
 
-                // Masquer le message d'erreur et retirer l'animation de vibration
+                // Masquer le message d'erreur et retirer l'animation
                 errorDiv.classList.add('hidden');
                 loginCard.classList.remove('shake');
                 
-                // Afficher le message de chargement TANT QUE la vérification est en cours
+                // Afficher le message de tentative de connexion
                 loadingMessage.style.display = 'block';
 
                 const usernameInput = document.getElementById('username').value.trim();
                 const passwordInput = document.getElementById('password').value.trim();
                 
-                // Vérification des identifiants (synchrone ici)
+                // Vérification des identifiants
                 if (usernameInput === VALID_CREDENTIALS.username && passwordInput === VALID_CREDENTIALS.password) {
                     
                     // --- CONNEXION RÉUSSIE ---
@@ -203,7 +219,7 @@
 
                 } else {
                     
-                    // --- CONNEXION ÉCHOUÉE (SUGGESTION) ---
+                    // --- CONNEXION ÉCHOUÉE ---
                     console.log("Échec de la connexion.");
                     
                     // 1. Masquer le message de chargement
@@ -215,7 +231,7 @@
                     // 3. Ajouter l'animation de vibration
                     loginCard.classList.add('shake');
                     
-                    // 4. Effacer le mot de passe pour forcer la resaisie
+                    // 4. Effacer le mot de passe
                     document.getElementById('password').value = '';
 
                     // 5. Se concentrer à nouveau sur le champ de login
@@ -228,7 +244,7 @@
                 loginCard.classList.remove('shake');
             });
 
-            // Lancement du chargement des identifiants (maintenant synchrone) au début
+            // Lancement du chargement des identifiants au début
             loadCredentials();
         });
     </script>
