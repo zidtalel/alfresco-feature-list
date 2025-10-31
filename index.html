@@ -51,7 +51,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z" />
             </svg>
             <h2 class="mt-4 text-3xl font-extrabold text-gray-900">
-                Accès Étudiants
+                Accès Étudiantsqwerty
             </h2>
             <p class="mt-2 text-sm text-gray-600">
                 Identifiants de groupe pour l'accès au projet.
@@ -114,13 +114,12 @@
             let VALID_CREDENTIALS = null; 
             
             // --- PAGE DE REDIRECTION EN CAS DE SUCCÈS ---
-            const REDIRECT_URL = "menu.html"; 
+            const REDIRECT_URL = "features.html"; 
             
             // --- IDENTIFIANTS ENCODÉS EN BASE64 POUR L'OBFUSCATION ---
-            // Login: "etudiant" -> "ZXR1ZGlhbnQ="
-            // Password: "battle-field" -> "YmF0dGxlLWZpZWxk"
-            const ENCODED_USERNAME = "ZXR1ZGlhbnQ=";
-            const ENCODED_PASSWORD = "YmF0dGxlLWZpZWxk";
+            // Le décodage Base64 est utilisé pour obscurcir les identifiants pour un humain lambda.
+            const ENCODED_USERNAME = "ZXR1ZGlhbnQ=";     // Décodé : "etudiant"
+            const ENCODED_PASSWORD = "YmF0dGxlLWZpZWxk"; // Décodé : "battle-field"
 
             /**
              * Décode une chaîne Base64 en utilisant l'API native du navigateur.
@@ -139,7 +138,6 @@
 
             /**
              * Charge et déchiffre les identifiants (maintenant intégrés)
-             * La fonction est maintenant SYNCHRONE, éliminant les problèmes potentiels d'attente.
              */
             function loadCredentials() {
                 console.log("Chargement des identifiants directement depuis le JS.");
@@ -152,7 +150,7 @@
 
                 // Vérification de sécurité/diagnostic
                 if (VALID_CREDENTIALS.username === "" || VALID_CREDENTIALS.password === "") {
-                    console.error("Échec du décodage Base64. Les identifiants sont vides.");
+                    console.error("Échec du décodage Base64. Les identifiants sont vides. Vérifiez l'encodage.");
                     buttonText.textContent = 'Erreur de configuration';
                     loginButton.classList.remove('bg-gray-400');
                     loginButton.classList.add('bg-red-600'); 
@@ -162,7 +160,7 @@
                 // Le code s'exécute immédiatement, le bouton peut être activé
                 loginButton.disabled = false;
                 loginButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
-                loginButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer'); // Ajout de cursor-pointer
+                loginButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700', 'cursor-pointer'); 
                 buttonText.textContent = 'Se Connecter';
                 console.log("Identifiants chargés et bouton activé.");
             }
