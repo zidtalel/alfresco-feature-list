@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion Étudiants - Accès Projet</title>
+    <!-- Chargement de Tailwind CSS pour un style moderne et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Police Inter pour l'esthétique -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fond immersif: Dégradé sombre et élégant */
+            background: #1f2937; /* Gris foncé */
+            background: linear-gradient(135deg, #1f2937 0%, #0f172a 100%); /* Dégradé */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Animation de vibration en cas d'échec de connexion */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        /* Style pour l'état de chargement */
+        #loading-message {
+            display: none;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Conteneur principal de la carte de connexion -->
+    <div id="login-card" class="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 md:p-10 transition-all duration-500 hover:shadow-3xl">
+        
+        <header class="text-center mb-8">
+            <svg class="mx-auto h-10 w-auto text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z" />
+            </svg>
+            <h2 class="mt-4 text-3xl font-extrabold text-gray-900">
+                Accès Étudiants
+            </h2>
+            <p class="mt-2 text-sm text-gray-600">
+                Identifiants de groupe pour l'accès au projet.
+            </p>
+        </header>
+
+        <form id="login-form" class="space-y-6">
+            
+            <!-- Champ Nom d'utilisateur (Login) -->
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                    Nom d'utilisateur (Login)
+                </label>
+                <input id="username" name="username" type="text" autocomplete="off" required 
+                       class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
+                       placeholder="Entrez le login commun">
+            </div>
+
+            <!-- Champ Mot de passe -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                    Mot de passe
+                </label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required 
+                       class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
+                       placeholder="Entrez le mot de passe commun">
+            </div>
+
+            <!-- Message d'erreur (initialement masqué) -->
+            <div id="error-message" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded-md text-sm" role="alert">
+                <p class="font-bold">Accès Refusé</p>
+                <p id="error-text">Login ou mot de passe incorrect. Veuillez vérifier vos identifiants.</p>
+            </div>
+            
+            <!-- Bouton de connexion -->
+            <div>
+                <button type="submit" id="login-button" disabled
+                        class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-gray-400 cursor-not-allowed">
+                    <span id="button-text">Chargement des identifiants...</span>
+                </button>
+                <p id="loading-message" class="text-center mt-3">Tentative de connexion en cours...</p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ==========================================================
+        // === LOGIQUE DE CONNEXION (CÔTÉ CLIENT) ===
+        // ==========================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('login-form');
+            const errorDiv = document.getElementById('error-message');
+            const loginCard = document.getElementById('login-card');
+            const loginButton = document.getElementById('login-button');
+            const buttonText = document.getElementById('button-text');
+            const loadingMessage = document.getElementById('loading-message');
+            
+            // Variable pour stocker les identifiants chargés et déchiffrés
+            let VALID_CREDENTIALS = null; 
+            
+            // --- PAGE DE REDIRECTION EN CAS DE SUCCÈS ---
+            const REDIRECT_URL = "menu.html"; 
+            const CREDENTIALS_FILE = "credentials.json";
+            
+            /**
+             * Décode une chaîne Base64 en utilisant l'API native du navigateur.
+             * @param {string} encodedString - Chaîne encodée en Base64.
+             * @returns {string} Chaîne décodée.
+             */
+            function decodeBase64(encodedString) {
+                try {
+                    return atob(encodedString);
+                } catch (e) {
+                    console.error("Erreur de décodage Base64:", e);
+                    return ""; 
+                }
+            }
+
+
+            /**
+             * Charge et déchiffre les identifiants depuis le fichier JSON externe.
+             */
+            async function loadCredentials() {
+                try {
+                    const response = await fetch(CREDENTIALS_FILE);
+                    
+                    if (!response.ok) {
+                        throw new Error(\`Erreur HTTP: \${response.status} - Le fichier d'identifiants n'a pas pu être chargé.\`);
+                    }
+                    
+                    const encodedData = await response.json();
+                    
+                    // DECHIFFREMENT (DE-OBFUSCATION)
+                    VALID_CREDENTIALS = {
+                        username: decodeBase64(encodedData.username),
+                        password: decodeBase64(encodedData.password)
+                    };
+                    
+                    // Une fois les identifiants chargés et décodés, activer le bouton
+                    loginButton.disabled = false;
+                    loginButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                    loginButton.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                    buttonText.textContent = 'Se Connecter';
+
+                } catch (error) {
+                    console.error("Erreur critique lors du chargement des identifiants:", error);
+                    buttonText.textContent = "Erreur de chargement des identifiants";
+                    // Afficher un message d'erreur persistant dans la zone d'erreur
+                    errorDiv.classList.remove('hidden');
+                    document.getElementById('error-text').textContent = "Erreur: Le fichier des identifiants est manquant ou inaccessible (voir console).";
+                    loginButton.classList.remove('bg-gray-400');
+                    loginButton.classList.add('bg-red-600'); 
+                    // Le bouton reste désactivé
+                }
+            }
+
+
+            // ==========================================================
+            // === FONCTION DE GESTION DE LA CONNEXION ===
+            // ==========================================================
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // 1. Vérifier si les identifiants ont été chargés
+                if (!VALID_CREDENTIALS) {
+                    console.warn("Tentative de connexion avant le chargement des identifiants.");
+                    return; // Ignorer si non prêt
+                }
+
+                // Masquer le message d'erreur et retirer l'animation de vibration
+                errorDiv.classList.add('hidden');
+                loginCard.classList.remove('shake');
+                loadingMessage.style.display = 'block';
+
+                const usernameInput = document.getElementById('username').value.trim();
+                const passwordInput = document.getElementById('password').value.trim();
+                
+                // Vérification des identifiants
+                if (usernameInput === VALID_CREDENTIALS.username && passwordInput === VALID_CREDENTIALS.password) {
+                    
+                    // --- CONNEXION RÉUSSIE ---
+                    console.log("Connexion réussie. Redirection en cours...");
+                    
+                    // Redirection vers la page principale
+                    setTimeout(() => { // Petite temporisation pour simuler un traitement
+                        window.location.href = REDIRECT_URL;
+                    }, 500);
+
+
+                } else {
+                    
+                    // --- CONNEXION ÉCHOUÉE (SUGGESTION) ---
+                    console.log("Échec de la connexion.");
+                    loadingMessage.style.display = 'none';
+
+                    // 1. Afficher l'erreur
+                    errorDiv.classList.remove('hidden');
+                    
+                    // 2. Ajouter l'animation de vibration
+                    loginCard.classList.add('shake');
+                    
+                    // 3. Effacer le mot de passe pour forcer la resaisie
+                    document.getElementById('password').value = '';
+
+                    // 4. Se concentrer à nouveau sur le champ de login ou mot de passe
+                    document.getElementById('username').focus();
+                }
+            });
+            
+            // Écouteur pour retirer l'animation une fois qu'elle est terminée
+            loginCard.addEventListener('animationend', () => {
+                loginCard.classList.remove('shake');
+            });
+
+            // Lancement du chargement des identifiants au début
+            loadCredentials();
+        });
+    </script>
+</body>
+</html>
