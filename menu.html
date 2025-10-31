@@ -47,8 +47,8 @@
             background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
             color: var(--dark-text);
             margin: 0;
+            /* Le centrage est assuré ici: */
             display: flex;
-            /* Centrage vertical et horizontal */
             justify-content: center;
             align-items: center;
             /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
@@ -181,21 +181,24 @@
                 min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
                 overflow: auto; /* Permet le défilement */
                 padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
-                display: block; /* Retire le flex pour un layout plus traditionnel */
+                display: block; /* Retire le flex pour un layout plus traditionnel sur mobile */
             }
 
             .accueil-container {
                 width: 95%; /* Utilise plus de largeur */
                 padding: 20px; /* Réduction du padding */
-                margin: 20px auto; /* Centre le conteneur et donne de l'air */
+                /* margin: 20px auto; SUPPRIMÉ: on laisse le conteneur prendre sa place naturelle */
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px; /* Ajout d'une marge en haut pour l'espace */
             }
             
             /* Ajustement pour mobile du bouton de déconnexion */
             .logout-btn {
                 position: relative; /* Devient relatif sur mobile */
                 width: 95%;
-                margin: 20px auto 0 auto; /* Centre le bouton sous le conteneur */
+                margin: 20px auto 0 auto; /* Centre le bouton */
                 top: auto;
                 right: auto;
             }
