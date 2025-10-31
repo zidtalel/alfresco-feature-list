@@ -1,128 +1,162 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accueil - Portail du Projet de Test</title>
-    <link rel="icon" type="image/png" href="images/alfresco_icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <style>
-        /* Couleurs d'accentuation */
-        :root {
-            --primary-color: #007bff;
-            --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
-            --light-bg: #e6f7ff;
-            --dark-text: #2c3e50;
-            --shadow-color: rgba(0, 188, 212, 0.4);
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Portail du Projet de Test</title>
+    <link rel="icon" type="image/png" href="images/alfresco_icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- ================================================================= -->
+    <!-- === BLOC DE SÉCURITÉ DÉPLACÉ DANS LE HEAD POUR EXÉCUTION RAPIDE === -->
+    <!-- ================================================================= -->
+    <script>
+        /**
+         * Fonction de vérification d'authentification. 
+         * S'exécute immédiatement. Si non authentifié, redirige vers la page de connexion.
+         */
+        (function checkAuth() {
+            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+            const loginPage = 'index.html'; // Redirection vers la page de connexion
+            
+            // Si la clé n'est pas "true" ou est absente, on redirige immédiatement
+            if (isAuthenticated !== 'true') {
+                console.warn('Accès non autorisé. Redirection vers la page de connexion.');
+                // Utiliser replace pour qu'on ne puisse pas revenir en arrière facilement
+                window.location.replace(loginPage); 
+                // Arrêter l'exécution du reste du script de la page
+                return;
+            } else {
+                console.log('Utilisateur authentifié. Chargement du menu.');
+            }
+        })();
 
-        /* Styles de base pour les grands écrans */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
-            color: var(--dark-text);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
-            height: 100vh; 
-            overflow: hidden; /* Cache le défilement sur grand écran */
-            transition: background 0.5s ease;
-        }
+        /**
+         * Fonction de déconnexion globale (accessible via l'attribut onclick).
+         */
+        function logout() {
+            sessionStorage.removeItem('isAuthenticated');
+            window.location.replace('index.html');
+        }
+    </script>
 
-        /* Conteneur principal */
-        .accueil-container {
-            width: 90%;
-            max-width: 650px;
-            background-color: #ffffff;
-            padding: 30px; 
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            border-top: 5px solid var(--accent-color);
-            animation: fadeIn 1s ease-out;
-            box-sizing: border-box; 
-        }
+    <style>
+        /* Couleurs d'accentuation */
+        :root {
+            --primary-color: #007bff;
+            --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
+            --light-bg: #e6f7ff;
+            --dark-text: #2c3e50;
+            --shadow-color: rgba(0, 188, 212, 0.4);
+        }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        /* Styles de base pour les grands écrans */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+            color: var(--dark-text);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
+            height: 100vh; 
+            overflow: hidden; /* Cache le défilement sur grand écran */
+            transition: background 0.5s ease;
+        }
 
-        /* Titres */
-        h1 {
-            color: var(--accent-color);
-            font-size: 2.2em;
-            margin-bottom: 3px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-        }
-        
-        h2 {
-            color: #7f8c8d;
-            font-size: 1.2em;
-            margin-bottom: 25px;
-            font-weight: 300;
-        }
+        /* Conteneur principal */
+        .accueil-container {
+            width: 90%;
+            max-width: 650px;
+            background-color: #ffffff;
+            padding: 30px; 
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            border-top: 5px solid var(--accent-color);
+            animation: fadeIn 1s ease-out;
+            box-sizing: border-box; 
+        }
 
-        /* Icone de projet */
-        .project-icon {
-            font-size: 2.5em;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            display: inline-block;
-        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* Styles de navigation (Liste des liens) */
-        .navigation-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 15px;
-            border-top: 2px solid #ecf0f1;
-            padding-top: 15px;
-        }
+        /* Titres */
+        h1 {
+            color: var(--accent-color);
+            font-size: 2.2em;
+            margin-bottom: 3px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        
+        h2 {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
 
-        .navigation-list li {
-            margin-bottom: 12px;
-        }
+        /* Icone de projet */
+        .project-icon {
+            font-size: 2.5em;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            display: inline-block;
+        }
 
-        /* Liens de navigation */
-        .navigation-list a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px; 
-            text-decoration: none;
-            color: var(--dark-text);
-            background-color: #ecf0f1;
-            border: none;
-            border-radius: 8px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            font-weight: 600;
-            text-align: left;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Styles de navigation (Liste des liens) */
+        .navigation-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+            border-top: 2px solid #ecf0f1;
+            padding-top: 15px;
+        }
+
+        .navigation-list li {
+            margin-bottom: 12px;
+        }
+
+        /* Liens de navigation */
+        .navigation-list a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px; 
+            text-decoration: none;
+            color: var(--dark-text);
+            background-color: #ecf0f1;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-weight: 600;
+            text-align: left;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative; /* Pour positionner l'icône de déconnexion */
-        }
+        }
 
-        .navigation-list a:hover {
-            background-color: var(--accent-color);
-            color: #ffffff;
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 15px var(--shadow-color);
-        }
+        .navigation-list a:hover {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 15px var(--shadow-color);
+        }
 
-        /* Style pour les icônes (Font Awesome) */
-        .navigation-list a i {
-            font-size: 1.2em;
-            margin-right: 12px;
-            width: 25px;
-            text-align: center;
-            color: var(--accent-color);
-            transition: color 0.4s;
-        }
-        
-        .navigation-list a:hover i {
-            color: #ffffff;
-        }
+        /* Style pour les icônes (Font Awesome) */
+        .navigation-list a i {
+            font-size: 1.2em;
+            margin-right: 12px;
+            width: 25px;
+            text-align: center;
+            color: var(--accent-color);
+            transition: color 0.4s;
+        }
+        
+        .navigation-list a:hover i {
+            color: #ffffff;
+        }
         
         /* Bouton de Déconnexion */
         .logout-link {
@@ -146,94 +180,68 @@
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
-        /* ======================================= */
-        /* MEDIA QUERIES pour les appareils mobiles */
-        /* ======================================= */
-        @media (max-width: 768px) {
-            
-            /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
-            body {
-                height: auto; /* Supprime la hauteur fixe */
-                min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
-                overflow: auto; /* Permet le défilement */
-                padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
-                display: block; /* Retire le flex pour un layout plus traditionnel */
-            }
+        /* ======================================= */
+        /* MEDIA QUERIES pour les appareils mobiles */
+        /* ======================================= */
+        @media (max-width: 768px) {
+            
+            /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
+            body {
+                height: auto; /* Supprime la hauteur fixe */
+                min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
+                overflow: auto; /* Permet le défilement */
+                padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
+                display: block; /* Retire le flex pour un layout plus traditionnel */
+            }
 
-            .accueil-container {
-                width: 95%; /* Utilise plus de largeur */
-                padding: 20px; /* Réduction du padding */
-                margin: 20px auto; /* Centre le conteneur et donne de l'air */
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
-            }
+            .accueil-container {
+                width: 95%; /* Utilise plus de largeur */
+                padding: 20px; /* Réduction du padding */
+                margin: 20px auto; /* Centre le conteneur et donne de l'air */
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+            }
 
-            h1 {
-                font-size: 1.6em; /* Réduction de la taille du titre principal */
-            }
-            
-            h2 {
-                font-size: 1em; /* Réduction de la taille du sous-titre */
-                margin-bottom: 20px;
-            }
+            h1 {
+                font-size: 1.6em; /* Réduction de la taille du titre principal */
+            }
+            
+            h2 {
+                font-size: 1em; /* Réduction de la taille du sous-titre */
+                margin-bottom: 20px;
+            }
 
-            .project-icon {
-                font-size: 2em; /* Réduction de la taille de l'icône */
-                margin-bottom: 5px;
-            }
+            .project-icon {
+                font-size: 2em; /* Réduction de la taille de l'icône */
+                margin-bottom: 5px;
+            }
 
-            .navigation-list {
-                padding-top: 10px;
-                margin-top: 10px;
-            }
+            .navigation-list {
+                padding-top: 10px;
+                margin-top: 10px;
+            }
 
-            .navigation-list li {
-                margin-bottom: 8px; /* Réduction de l'espace entre les liens */
-            }
+            .navigation-list li {
+                margin-bottom: 8px; /* Réduction de l'espace entre les liens */
+            }
 
-            .navigation-list a {
-                padding: 10px 15px; /* Réduction du padding des liens */
-                font-size: 0.95em; /* Taille de police légèrement réduite */
-            }
+            .navigation-list a {
+                padding: 10px 15px; /* Réduction du padding des liens */
+                font-size: 0.95em; /* Taille de police légèrement réduite */
+            }
 
-            .navigation-list a:hover {
-                transform: translateY(-2px) scale(1.0); /* Effet de soulèvement moins prononcé */
-            }
+            .navigation-list a:hover {
+                transform: translateY(-2px) scale(1.0); /* Effet de soulèvement moins prononcé */
+            }
 
-            .navigation-list a i {
-                margin-right: 10px;
-            }
-        }
-    </style>
+            .navigation-list a i {
+                margin-right: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Bloc de script de sécurité : À placer en haut du <body> pour une exécution rapide -->
-    <script>
-        // =================================================================
-        // === VÉRIFICATION D'AUTHENTIFICATION ===
-        // =================================================================
-        (function checkAuth() {
-            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
-            const loginPage = 'index.html'; // Redirection vers la page de connexion
-            
-            if (isAuthenticated !== 'true') {
-                console.warn('Accès non autorisé. Redirection vers la page de connexion.');
-                // Utiliser replace pour qu'on ne puisse pas revenir en arrière facilement
-                window.location.replace(loginPage); 
-                // Masquer le corps pendant la redirection pour éviter le flash de contenu non sécurisé
-                document.body.style.display = 'none'; 
-            } else {
-                console.log('Utilisateur authentifié. Chargement du menu.');
-            }
-        })();
-
-        // Fonction de déconnexion globale
-        function logout() {
-            sessionStorage.removeItem('isAuthenticated');
-            window.location.replace('index.html');
-        }
-    </script>
-
+    <!-- Le corps de la page reste intact -->
     <div class="accueil-container">
         <div class="project-icon">
              <i class="fas fa-project-diagram"></i> 
