@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User Stories et Critères d'Acceptation Redmine</title>
 	<link rel="icon" type="image/png" href="images/us_icon.png">
+    
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script>
+        // Vérifier immédiatement si l'utilisateur est authentifié
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+            if (isAuthenticated !== 'true') {
+                // Redirection immédiate vers la page de connexion
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+    
     <style>
       /* Styles de base */
       body {

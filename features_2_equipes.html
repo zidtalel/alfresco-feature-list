@@ -2,6 +2,19 @@
     <meta charset="UTF-8">
     <title>Matrice des User Stories du Projet (Module &gt; Epic &gt; US)</title>
     <link rel="icon" type="image/png" href="images/alfresco_icon.png">
+    
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script>
+        // Vérifier immédiatement si l'utilisateur est authentifié
+        (function() {
+            const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+            if (isAuthenticated !== 'true') {
+                // Redirection immédiate vers la page de connexion
+                window.location.href = 'index.html';
+            }
+        })();
+    </script>
+    
     <style>
 	
 

@@ -1,238 +1,338 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Accueil - Portail du Projet de Test</title>
-    <link rel="icon" type="image/png" href="images/alfresco_icon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/alfresco_icon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script>
+      // Vérifier immédiatement si l'utilisateur est authentifié
+      (function () {
+        const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+        if (isAuthenticated !== "true") {
+          // Redirection immédiate vers la page de connexion
+          window.location.href = "index.html";
+        }
+      })();
+    </script>
+
     <style>
-        /* Couleurs d'accentuation */
-        :root {
-            --primary-color: #007bff;
-            --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
-            --light-bg: #e6f7ff;
-            --dark-text: #2c3e50;
-            --shadow-color: rgba(0, 188, 212, 0.4);
-        }
+      /* Couleurs d'accentuation */
+      :root {
+        --primary-color: #007bff;
+        --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
+        --light-bg: #e6f7ff;
+        --dark-text: #2c3e50;
+        --shadow-color: rgba(0, 188, 212, 0.4);
+      }
 
-        /* Styles de base pour les grands écrans */
+      /* Styles de base pour les grands écrans */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        color: var(--dark-text);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
+        height: 100vh;
+        overflow: hidden; /* Cache le défilement sur grand écran */
+        transition: background 0.5s ease;
+      }
+
+      /* Conteneur principal */
+      .accueil-container {
+        width: 90%;
+        max-width: 650px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        border-top: 5px solid var(--accent-color);
+        animation: fadeIn 1s ease-out;
+        box-sizing: border-box;
+        position: relative; /* Permet de positionner le bouton de déconnexion en haut à droite */
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Titres */
+      h1 {
+        color: var(--accent-color);
+        font-size: 2.2em;
+        margin-bottom: 3px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      h2 {
+        color: #7f8c8d;
+        font-size: 1.2em;
+        margin-bottom: 25px;
+        font-weight: 300;
+      }
+
+      /* Icone de projet */
+      .project-icon {
+        font-size: 2.5em;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+
+      /* Styles de navigation (Liste des liens) */
+      .navigation-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 15px;
+        border-top: 2px solid #ecf0f1;
+        padding-top: 15px;
+      }
+
+      .navigation-list li {
+        margin-bottom: 12px;
+      }
+
+      /* Liens de navigation */
+      .navigation-list a {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: var(--dark-text);
+        background-color: #ecf0f1;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        font-weight: 600;
+        text-align: left;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .navigation-list a:hover {
+        background-color: var(--accent-color);
+        color: #ffffff;
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 8px 15px var(--shadow-color);
+      }
+
+      /* Style pour les icônes (Font Awesome) */
+      .navigation-list a i {
+        font-size: 1.2em;
+        margin-right: 12px;
+        width: 25px;
+        text-align: center;
+        color: var(--accent-color);
+        transition: color 0.4s;
+      }
+
+      .navigation-list a:hover i {
+        color: #ffffff;
+      }
+
+      /* Bouton de déconnexion (distinct en taille et position) */
+      .logout-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background-color: #e74c3c;
+        color: #ffffff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.9em;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        z-index: 2;
+      }
+
+      .logout-btn i {
+        margin: 0; /* annule la marge des icônes des liens nav */
+        color: #ffffff; /* icône blanche sur bouton rouge */
+      }
+
+      .logout-btn:hover,
+      .logout-btn:focus {
+        background-color: #c0392b;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(231, 76, 60, 0.35);
+        outline: none;
+      }
+
+      /* ======================================= */
+      /* MEDIA QUERIES pour les appareils mobiles */
+      /* ======================================= */
+      @media (max-width: 768px) {
+        /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
-            color: var(--dark-text);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
-            height: 100vh; 
-            overflow: hidden; /* Cache le défilement sur grand écran */
-            transition: background 0.5s ease;
+          height: auto; /* Supprime la hauteur fixe */
+          min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
+          overflow: auto; /* Permet le défilement */
+          padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
+          display: block; /* Retire le flex pour un layout plus traditionnel */
         }
 
-        /* Conteneur principal */
         .accueil-container {
-            width: 90%;
-            max-width: 650px;
-            background-color: #ffffff;
-            padding: 30px; 
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            border-top: 5px solid var(--accent-color);
-            animation: fadeIn 1s ease-out;
-            box-sizing: border-box; 
+          width: 95%; /* Utilise plus de largeur */
+          padding: 20px; /* Réduction du padding */
+          margin: 20px auto; /* Centre le conteneur et donne de l'air */
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Titres */
         h1 {
-            color: var(--accent-color);
-            font-size: 2.2em;
-            margin-bottom: 3px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+          font-size: 1.6em; /* Réduction de la taille du titre principal */
         }
-        
+
         h2 {
-            color: #7f8c8d;
-            font-size: 1.2em;
-            margin-bottom: 25px;
-            font-weight: 300;
+          font-size: 1em; /* Réduction de la taille du sous-titre */
+          margin-bottom: 20px;
         }
 
-        /* Icone de projet */
         .project-icon {
-            font-size: 2.5em;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            display: inline-block;
+          font-size: 2em; /* Réduction de la taille de l'icône */
+          margin-bottom: 5px;
         }
 
-        /* Styles de navigation (Liste des liens) */
         .navigation-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 15px;
-            border-top: 2px solid #ecf0f1;
-            padding-top: 15px;
+          padding-top: 10px;
+          margin-top: 10px;
         }
 
         .navigation-list li {
-            margin-bottom: 12px;
+          margin-bottom: 8px; /* Réduction de l'espace entre les liens */
         }
 
-        /* Liens de navigation */
         .navigation-list a {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px; 
-            text-decoration: none;
-            color: var(--dark-text);
-            background-color: #ecf0f1;
-            border: none;
-            border-radius: 8px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            font-weight: 600;
-            text-align: left;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          padding: 10px 15px; /* Réduction du padding des liens */
+          font-size: 0.95em; /* Taille de police légèrement réduite */
         }
 
         .navigation-list a:hover {
-            background-color: var(--accent-color);
-            color: #ffffff;
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 8px 15px var(--shadow-color);
+          transform: translateY(-2px) scale(1); /* Effet de soulèvement moins prononcé */
         }
 
-        /* Style pour les icônes (Font Awesome) */
         .navigation-list a i {
-            font-size: 1.2em;
-            margin-right: 12px;
-            width: 25px;
-            text-align: center;
-            color: var(--accent-color);
-            transition: color 0.4s;
-        }
-        
-        .navigation-list a:hover i {
-            color: #ffffff;
+          margin-right: 10px;
         }
 
-        /* ======================================= */
-        /* MEDIA QUERIES pour les appareils mobiles */
-        /* ======================================= */
-        @media (max-width: 768px) {
-            
-            /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
-            body {
-                height: auto; /* Supprime la hauteur fixe */
-                min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
-                overflow: auto; /* Permet le défilement */
-                padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
-                display: block; /* Retire le flex pour un layout plus traditionnel */
-            }
-
-            .accueil-container {
-                width: 95%; /* Utilise plus de largeur */
-                padding: 20px; /* Réduction du padding */
-                margin: 20px auto; /* Centre le conteneur et donne de l'air */
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
-            }
-
-            h1 {
-                font-size: 1.6em; /* Réduction de la taille du titre principal */
-            }
-            
-            h2 {
-                font-size: 1em; /* Réduction de la taille du sous-titre */
-                margin-bottom: 20px;
-            }
-
-            .project-icon {
-                font-size: 2em; /* Réduction de la taille de l'icône */
-                margin-bottom: 5px;
-            }
-
-            .navigation-list {
-                padding-top: 10px;
-                margin-top: 10px;
-            }
-
-            .navigation-list li {
-                margin-bottom: 8px; /* Réduction de l'espace entre les liens */
-            }
-
-            .navigation-list a {
-                padding: 10px 15px; /* Réduction du padding des liens */
-                font-size: 0.95em; /* Taille de police légèrement réduite */
-            }
-
-            .navigation-list a:hover {
-                transform: translateY(-2px) scale(1.0); /* Effet de soulèvement moins prononcé */
-            }
-
-            .navigation-list a i {
-                margin-right: 10px;
-            }
+        /* Ajustements du bouton de déconnexion sur mobile */
+        .logout-btn {
+          top: 12px;
+          right: 12px;
+          padding: 7px 10px;
+          font-size: 0.85em;
+          border-radius: 18px;
         }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="accueil-container">
-        <div class="project-icon">
-             <i class="fas fa-project-diagram"></i> 
-        </div>
+      <!-- Bouton de déconnexion distinct (positionné en haut à droite) -->
+      <a
+        href="#"
+        id="logout-btn"
+        class="logout-btn"
+        title="Se déconnecter et revenir à la page de connexion"
+        aria-label="Se déconnecter"
+      >
+        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+        <span>Déconnexion</span>
+      </a>
+      <div class="project-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
 
-        <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
-        <h2>CMS Alfresco</h2>
+      <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
+      <h2>CMS Alfresco</h2>
 
-        <ul class="navigation-list">
-            <li>
-                <a href="project_timeline.html" title="Consulter l'échéancier et les phases du projet">
-                    <i class="fas fa-calendar-alt"></i> 
-                    Planification et Chronologie du Projet
-                </a>
-            </li>
+      <ul class="navigation-list">
+        <li>
+          <a
+            href="project_timeline.html"
+            title="Consulter l'échéancier et les phases du projet"
+          >
+            <i class="fas fa-calendar-alt"></i>
+            Planification et Chronologie du Projet
+          </a>
+        </li>
 
-            <li>
-                <a href="features_3_equipes.html" title="Voir les User Stories et Critères d'Acceptation">
-                    <i class="fas fa-list-check"></i> 
-                    Fonctions du Projet (Epics & User Stories)
-                </a>
-            </li>
-            <li>
-                <a href="test_environment.html" title="Environnement de test">
-                    <i class="fas fa-server"></i> 
-                    Environnement de test pour l'application Alfresco
-                </a>
-            </li>
-            <li>
-                <a href="exemple_us.html" title="Voir un exemple de User Story et de Critères d'Acceptation">
-                    <i class="fas fa-file-alt"></i> 
-                    Exemples de User Stories (US et Critères d'acceptation)
-                </a>
-            </li>
-            <li>
-                <a href="cheat_sheet_xpath.html" title="Cette fiche Xpath est construite comme antisèche rapide d'accès.">
-                    <i class="fas fa-book"></i> 
-                    Aide-mémoire Xpath
-                </a>
-            </li>
-            <li>
-                <a href="cheat_sheet_robot.html" title="Cette fiche Robot framework est construite comme antisèche rapide d'accès.">
-                    <i class="fas fa-book"></i> 
-                    Aide-mémoire Robot Framework
-                </a>
-            </li>
-            </ul>
-        
+        <li>
+          <a
+            href="features_3_equipes.html"
+            title="Voir les User Stories et Critères d'Acceptation"
+          >
+            <i class="fas fa-list-check"></i>
+            Fonctions du Projet (Epics & User Stories)
+          </a>
+        </li>
+        <li>
+          <a href="test_environment.html" title="Environnement de test">
+            <i class="fas fa-server"></i>
+            Environnement de test pour l'application Alfresco
+          </a>
+        </li>
+        <li>
+          <a
+            href="exemple_us.html"
+            title="Voir un exemple de User Story et de Critères d'Acceptation"
+          >
+            <i class="fas fa-file-alt"></i>
+            Exemples de User Stories (US et Critères d'acceptation)
+          </a>
+        </li>
+        <li>
+          <a
+            href="cheat_sheet_xpath.html"
+            title="Cette fiche Xpath est construite comme antisèche rapide d'accès."
+          >
+            <i class="fas fa-book"></i>
+            Aide-mémoire Xpath
+          </a>
+        </li>
+        <li>
+          <a
+            href="cheat_sheet_robot.html"
+            title="Cette fiche Robot framework est construite comme antisèche rapide d'accès."
+          >
+            <i class="fas fa-book"></i>
+            Aide-mémoire Robot Framework
+          </a>
+        </li>
+      </ul>
     </div>
 
-</body>
+    <script>
+      // Gestion de la déconnexion
+      document
+        .getElementById("logout-btn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          // Suppression de l'indicateur d'authentification
+          sessionStorage.removeItem("isAuthenticated");
+          // Redirection vers la page de connexion
+          window.location.href = "index.html";
+        });
+    </script>
+  </body>
 </html>
