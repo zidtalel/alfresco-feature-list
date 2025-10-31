@@ -48,8 +48,7 @@
             color: var(--dark-text);
             margin: 0;
             display: flex;
-            /* Le body est maintenant un conteneur flex-column pour gérer le bouton de déconnexion et le menu */
-            flex-direction: column; 
+            /* Centrage vertical et horizontal */
             justify-content: center;
             align-items: center;
             /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
@@ -163,7 +162,6 @@
             font-size: 1.2em;
             margin-right: 12px;
             width: 25px;
-            text-align: center;
             color: var(--accent-color);
             transition: color 0.4s;
         }
@@ -242,7 +240,7 @@
 </head>
 <body>
 
-    <!-- BOUTON DE DÉCONNEXION - Positionné en haut à droite -->
+    <!-- BOUTON DE DÉCONNEXION - Positionné en haut à droite (Absolu) -->
     <button class="logout-btn" onclick="logout()">
         <i class="fas fa-sign-out-alt"></i> Déconnexion
     </button>
