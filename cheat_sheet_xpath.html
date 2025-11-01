@@ -142,6 +142,16 @@
         box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
         font-family: "Consolas", "Monaco", monospace;
         font-size: 0.85em;
+        text-align: left !important; /* Force l'alignement à gauche pour tous les blocs de code */
+        width: 100%;
+        margin-left: 0 !important;
+        box-sizing: border-box;
+      }
+
+      /* Afficher le contenu depuis un attribut pour éviter les espaces ajoutés par les formatteurs */
+      .code-block[data-code]::before {
+        content: attr(data-code);
+        white-space: pre-wrap; /* Conserver sauts de ligne du contenu si nécessaire */
       }
 
       /* COULEURS DES BLOCS DE CODE (Harmonisation avec la section) */
@@ -351,6 +361,10 @@
           margin: 3px 0;
           box-shadow: none;
           /* Assure que le code soit noir sur fond coloré (grâce à print-color-adjust: exact) */
+          text-align: left !important; /* Assure l'alignement à gauche aussi à l'impression (Chrome) */
+          width: 100%;
+          margin-left: 0 !important;
+          box-sizing: border-box;
         }
 
         table {
@@ -441,9 +455,16 @@
           Un chemin absolu part de la racine. Très précis, mais fragile en cas
           de modification du DOM.
         </p>
-        <div class="code-block">
-          /html/body/div[1]/span/div/div/section/p[2]
-        </div>
+        <div
+          class="code-block"
+          data-code="/html/body/div[1]/span/div/div/section/p[2]"
+          style="
+            text-align: left !important;
+            width: 100%;
+            margin-left: 0 !important;
+            box-sizing: border-box;
+          "
+        ></div>
         <p>Un chemin relatif (// ou .) commence n'importe où. Plus robuste.</p>
         <div class="code-block">//div[@class='menu']/a[@id='accueil']</div>
       </div>
@@ -473,10 +494,18 @@
         </p>
         <ul>
           <li>
-            Axe (Direction) : Ex: child:: (par défaut), parent::, attribute::.
+            <strong>Axe</strong> : ➤ <code>child::</code> (par défaut),
+            <code>parent::</code>, <code>attribute::</code>.
           </li>
-          <li>Test de Nœud : Ex: div, span, input, * (tout élément).</li>
-          <li>Prédicat (Filtre) : Ex: [@class='menu'], [@id='valeur'], [1].</li>
+          <li>
+            <strong>Test de Nœud</strong> : ➤ <code>div</code>,
+            <code>span</code>, <code>input</code>, <code>*</code> (tout
+            élément).
+          </li>
+          <li>
+            <strong>Prédicat</strong> : ➤ <code>[@class='menu']</code>,
+            <code>[@id='valeur']</code>, <code>[1]</code>.
+          </li>
         </ul>
         <p><strong>Exemple (Les 3 éléments) :</strong></p>
         <div class="code-block">parent::div[@class='menu']</div>
@@ -509,9 +538,16 @@
           </li>
           <li>
             OR : Au moins une condition doit être vraie.
-            <div class="code-block">
-              //button[@name='Ajouter' or @name='Supprimer']
-            </div>
+            <div
+              class="code-block"
+              data-code="//button[@name='Ajouter' or @name='Supprimer']"
+              style="
+                text-align: left !important;
+                width: 100%;
+                margin-left: 0 !important;
+                box-sizing: border-box;
+              "
+            ></div>
           </li>
         </ul>
         <h3>Prédicats Complexes</h3>
@@ -526,9 +562,16 @@
           </li>
           <li>
             Filtre basé sur un descendant avec opérateur logique :
-            <div class="code-block">
-              //div[.//a[@class='link' and text()='Détails']]
-            </div>
+            <div
+              class="code-block"
+              data-code="//div[.//a[@class='link' and text()='Détails']]"
+              style="
+                text-align: left !important;
+                width: 100%;
+                margin-left: 0 !important;
+                box-sizing: border-box;
+              "
+            ></div>
           </li>
         </ul>
       </div>
@@ -551,7 +594,7 @@
           <tbody>
             <tr>
               <td>child::</td>
-              <td>(omis)</td>
+              <td>/</td>
               <td>Nœuds enfants directs.</td>
             </tr>
             <tr>
@@ -746,7 +789,7 @@
 
     <footer>
       <p>
-        &copy; Talel Zid | Version 1.1 — Octobre 2025 | Basé sur XPath 2.0.
+        &copy; Talel Zid | Version 1.4 — Octobre 2025 | Basé sur XPath 2.0.
         <br />Pour usage personnel ou éducatif seulement.
       </p>
     </footer>
