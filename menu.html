@@ -40,24 +40,26 @@
         margin: 0;
         display: flex;
         justify-content: center;
-        align-items: center;
-        /* Hauteur exacte de la fenêtre pour l'effet centré sur grand écran */
-        height: 100vh;
-        overflow: hidden; /* Cache le défilement sur grand écran */
+        align-items: flex-start;
+        /* Autorise le contenu long à défiler tout en gardant un look plein écran */
+        min-height: 100vh;
+        height: auto;
+        overflow: auto;
+        padding: 40px 0;
         transition: background 0.5s ease;
       }
 
       /* Conteneur principal */
       .accueil-container {
-        width: 90%;
-        max-width: 650px;
+        width: 92%;
+        max-width: 1100px;
         background-color: #ffffff;
         padding: 30px;
         border-radius: 15px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         text-align: center;
         border-top: 5px solid var(--accent-color);
-        animation: fadeIn 1s ease-out;
+        animation: fadeIn 0.8s ease-out;
         box-sizing: border-box;
         position: relative; /* Permet de positionner le bouton de déconnexion en haut à droite */
       }
@@ -96,54 +98,68 @@
         display: inline-block;
       }
 
-      /* Styles de navigation (Liste des liens) */
-      .navigation-list {
-        list-style: none;
-        padding: 0;
-        margin-top: 15px;
-        border-top: 2px solid #ecf0f1;
-        padding-top: 15px;
+      /* Grille de navigation (cartes) */
+      .nav-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        text-align: left;
       }
 
-      .navigation-list li {
-        margin-bottom: 12px;
-      }
-
-      /* Liens de navigation */
-      .navigation-list a {
+      .nav-card {
         display: flex;
-        align-items: center;
-        padding: 12px 20px;
+        flex-direction: row;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 14px 16px;
         text-decoration: none;
         color: var(--dark-text);
         background-color: #ecf0f1;
-        border: none;
-        border-radius: 8px;
-        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        font-weight: 600;
-        text-align: left;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        border: 1px solid #e1e7ea;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        min-height: 76px;
       }
 
-      .navigation-list a:hover {
+      .nav-card:hover {
         background-color: var(--accent-color);
         color: #ffffff;
-        transform: translateY(-3px) scale(1.01);
-        box-shadow: 0 8px 15px var(--shadow-color);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 18px var(--shadow-color);
       }
 
-      /* Style pour les icônes (Font Awesome) */
-      .navigation-list a i {
-        font-size: 1.2em;
-        margin-right: 12px;
-        width: 25px;
+      .nav-card i {
+        font-size: 1.4em;
+        line-height: 1;
+        width: 28px;
         text-align: center;
         color: var(--accent-color);
-        transition: color 0.4s;
+        flex: 0 0 28px;
+        margin-top: 2px;
+        transition: color 0.3s ease;
       }
 
-      .navigation-list a:hover i {
+      .nav-card:hover i {
         color: #ffffff;
+      }
+
+      .nav-card .meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .nav-card .title {
+        font-weight: 700;
+        font-size: 1.02em;
+      }
+
+      .nav-card .desc {
+        font-weight: 400;
+        font-size: 0.9em;
+        opacity: 0.9;
       }
 
       /* Bouton de déconnexion (distinct en taille et position) */
@@ -228,21 +244,15 @@
           font-size: 0.95em; /* Taille de police légèrement réduite */
         }
 
-        .navigation-list a:hover {
-          transform: translateY(-2px) scale(1); /* Effet de soulèvement moins prononcé */
+        .nav-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin-top: 12px;
         }
 
-        .navigation-list a i {
-          margin-right: 10px;
-        }
-
-        /* Ajustements du bouton de déconnexion sur mobile */
-        .logout-btn {
-          top: 12px;
-          right: 12px;
-          padding: 7px 10px;
-          font-size: 0.85em;
-          border-radius: 18px;
+        .nav-card {
+          padding: 12px 14px;
+          font-size: 0.97em;
         }
       }
     </style>
@@ -267,60 +277,109 @@
       <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
       <h2>CMS Alfresco</h2>
 
-      <ul class="navigation-list">
-        <li>
-          <a
-            href="project_timeline.html"
-            title="Consulter l'échéancier et les phases du projet"
-          >
-            <i class="fas fa-calendar-alt"></i>
-            Planification et Chronologie du Projet
-          </a>
-        </li>
+      <div class="nav-grid" role="navigation" aria-label="Liens du portail">
+        <a
+          class="nav-card"
+          href="project_timeline.html"
+          title="Consulter l'échéancier et les phases du projet"
+        >
+          <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Planification et Chronologie</div>
+            <div class="desc">Phases, jalons et calendrier du projet</div>
+          </div>
+        </a>
 
-        <li>
-          <a
-            href="features_3_equipes.html"
-            title="Voir les User Stories et Critères d'Acceptation"
-          >
-            <i class="fas fa-list-check"></i>
-            Fonctions du Projet (Epics & User Stories)
-          </a>
-        </li>
-        <li>
-          <a href="test_environment.html" title="Environnement de test">
-            <i class="fas fa-server"></i>
-            Environnement de test pour l'application Alfresco
-          </a>
-        </li>
-        <li>
-          <a
-            href="exemple_us.html"
-            title="Voir un exemple de User Story et de Critères d'Acceptation"
-          >
-            <i class="fas fa-file-alt"></i>
-            Exemples de User Stories (US et Critères d'acceptation)
-          </a>
-        </li>
-        <li>
-          <a
-            href="cheat_sheet_xpath.html"
-            title="Cette fiche Xpath est construite comme antisèche rapide d'accès."
-          >
-            <i class="fas fa-book"></i>
-            Aide-mémoire Xpath
-          </a>
-        </li>
-        <li>
-          <a
-            href="cheat_sheet_robot.html"
-            title="Cette fiche Robot framework est construite comme antisèche rapide d'accès."
-          >
-            <i class="fas fa-book"></i>
-            Aide-mémoire Robot Framework
-          </a>
-        </li>
-      </ul>
+        <a
+          class="nav-card"
+          href="features_3_equipes.html"
+          title="Voir les User Stories et Critères d'Acceptation"
+        >
+          <i class="fas fa-list-check" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Epics & User Stories</div>
+            <div class="desc">Backlog, critères d'acceptation</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="test_environment.html"
+          title="Environnement de test"
+        >
+          <i class="fas fa-server" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Environnement de test</div>
+            <div class="desc">Infra, accès, jeux de données</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="exemple_us.html"
+          title="Exemple de User Story et Critères d'acceptation"
+        >
+          <i class="fas fa-file-alt" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Exemple de User Story</div>
+            <div class="desc">Modèle d'US et critères</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="cheat_sheet_xpath.html"
+          title="Fiche mémo Xpath"
+        >
+          <i class="fas fa-book" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Aide-mémoire Xpath</div>
+            <div class="desc">Sélecteurs et astuces</div>
+          </div>
+        </a>
+
+        <!-- Nouveaux liens demandés -->
+        <a
+          class="nav-card"
+          href="guide_plan.html"
+          title="Guide du Plan de test (ISO 29119-3)"
+        >
+          <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Plan de test</div>
+            <div class="desc">Structure conforme ISO 29119-3</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="guide_plan_auto.html"
+          title="Guide du Plan d'automatisation des tests"
+        >
+          <i class="fas fa-robot" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Plan d'automatisation</div>
+            <div class="desc">Structure, téléchargement, bonnes pratiques</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="guide_rapport_tests.html"
+          title="Guide de rédaction du rapport de tests"
+        >
+          <i class="fas fa-chart-line" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Rapport de tests</div>
+            <div class="desc">Modèle, métriques et traçabilité</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Pied de page avec date de mise à jour -->
+      <footer style="margin-top: 30px; padding-top: 16px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 0.8em; color: #9ca3af;">
+        Dernière mise à jour : 5 novembre 2025
+      </footer>
     </div>
 
     <script>
