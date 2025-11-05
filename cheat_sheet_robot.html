@@ -41,6 +41,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur écran */
         gap: 20px;
+        grid-auto-flow: dense; /* Remplit automatiquement les trous */
       }
 
       h1 {
@@ -66,6 +67,8 @@
         transition: transform 0.2s;
         page-break-inside: avoid;
         break-inside: avoid;
+        min-width: 0; /* Permet au contenu de rétrécir si nécessaire */
+        overflow: hidden; /* Évite que le contenu déborde */
       }
       .cheat-sheet-section:hover {
         transform: translateY(-3px);
@@ -147,6 +150,29 @@
         font-family: "Consolas", "Monaco", monospace;
         font-size: 0.8em; /* Légèrement réduit pour Robot Framework */
         line-height: 1.2;
+        text-align: left !important; /* Assure l'alignement à gauche à l'écran */
+        width: 100%;
+        margin-left: 0 !important;
+        box-sizing: border-box;
+        overflow-x: auto; /* Scrollbar horizontale si débordement */
+        max-width: 100%; /* Ne jamais dépasser la largeur du parent */
+      }
+
+      /* Afficher le contenu depuis un attribut pour éviter les espaces ajoutés par les formatteurs */
+      .code-block[data-code]::before {
+        content: attr(data-code);
+        white-space: pre-wrap; /* Conserver les sauts de ligne */
+      }
+      /* Conteneur injecté au chargement pour un rendu robuste et copiable */
+      .code-block .code-block-content {
+        margin: 0;
+        white-space: pre-wrap;
+        font: inherit; /* hérite police/size de .code-block */
+        tab-size: 8; /* largeur des tabulations (Chrome/Edge/Safari) */
+        -moz-tab-size: 8; /* largeur des tabulations (Firefox) */
+        max-width: 100%;
+        overflow-x: auto;
+        box-sizing: border-box;
       }
 
       /* COULEURS DES BLOCS DE CODE (Harmonisation avec la section) */
@@ -371,6 +397,14 @@
           margin: 3px 0;
           box-shadow: none;
           /* Assure que le code soit noir sur fond coloré (grâce à print-color-adjust: exact) */
+          text-align: left !important; /* Assure l'alignement à gauche à l'impression (Chrome/Firefox) */
+          width: 100%;
+          margin-left: 0 !important;
+          box-sizing: border-box;
+        }
+        .code-block .code-block-content {
+          font-size: inherit;
+          line-height: inherit;
         }
 
         table {
@@ -439,6 +473,43 @@
         }
       }
     </style>
+    <script>
+      // Normalise les blocs de code pour éviter l'indentation/formatting tout en préservant
+      // 1) les retours à la ligne (<br>) et 2) les tabulations/espaces multiples internes
+      // Règle clé: SEUL <br> crée un saut de ligne. Les autres sauts (dus à la mise en forme HTML) deviennent des espaces.
+      document.addEventListener("DOMContentLoaded", function () {
+        var blocks = document.querySelectorAll(".code-block");
+        blocks.forEach(function (el) {
+          if (el.getAttribute("data-normalized") === "1") return;
+
+          var html = el.innerHTML || "";
+          // 1) Marque les <br> par un token
+          var TOKEN = "__BR__TOKEN__";
+          var marked = html.replace(/<br\s*\/?\s*>/gi, TOKEN);
+          // 2) Supprime toutes les autres balises tout en conservant l'espacement brut
+          marked = marked.replace(/&nbsp;/gi, "\u00A0"); // préserver NBSP distinct si présent
+          // 3) Convertit toute fin de ligne en espace (car non-<br>)
+          marked = marked.replace(/\r\n?|\u2028|\u2029|\n/g, " ");
+          // 4) Retire le reste de balises
+          marked = marked.replace(/<[^>]+>/g, "");
+          // 5) Restaure les vrais sauts uniquement pour les <br>
+          var text = marked.replace(new RegExp(TOKEN, "g"), "\n");
+          // 6) Nettoie bords vides, mais NE TOUCHE PAS à l'indentation interne
+          var lines = text.split("\n");
+          while (lines.length && /^\s*$/.test(lines[0])) lines.shift();
+          while (lines.length && /^\s*$/.test(lines[lines.length - 1]))
+            lines.pop();
+          var finalText = lines.join("\n");
+
+          el.innerHTML = "";
+          var pre = document.createElement("pre");
+          pre.className = "code-block-content";
+          pre.textContent = finalText;
+          el.appendChild(pre);
+          el.setAttribute("data-normalized", "1");
+        });
+      });
+    </script>
   </head>
   <body>
     <a href="menu.html" class="home-link" title="Retour à la page d'accueil">
@@ -479,10 +550,11 @@
         </ul>
 
         <div class="code-block">
-          *** Settings *** Library SeleniumLibrary Resource
-          ./Common_Keywords.robot Test Setup Ouvrir Navigateur Test Teardown
-          Fermer Navigateur *** Test Cases *** Mon Premier Test RF Log To
-          Console Début du test
+          *** Settings ***<br />Library SeleniumLibrary<br />Resource
+          ./Common_Keywords.robot<br />Test Setup Ouvrir Navigateur<br />Test
+          Teardown Fermer Navigateur<br /><br />*** Test Cases ***<br />Mon
+          Premier Test RF<br />
+          Log To Console Début du test
         </div>
       </div>
 
@@ -527,8 +599,8 @@
         </table>
 
         <div class="code-block">
-          *** Variables *** ${URL_LOGIN} https://mon-site.com/login ${USERNAME}
-          utilisateur_standard @\{LISTE_PRODUITS} Pomme Poire Banane
+          *** Variables ***<br />${URL_LOGIN} https://mon-site.com/login<br />${USERNAME}
+          utilisateur_standard<br />@{LISTE_PRODUITS} Pomme Poire Banane
         </div>
       </div>
 
@@ -556,9 +628,11 @@
 
         <p><strong>Exemple de Mot-clé :</strong></p>
         <div class="code-block">
-          *** Keywords *** Se Connecter [Arguments] ${user} ${pwd} Input Text
-          id=username ${user} Input Text id=password ${pwd} Click Button
-          xpath=//button[text()='Login']
+          *** Keywords ***<br />Se Connecter<br />
+          [Arguments] ${user} ${pwd}<br />
+          Input Text id=username ${user}<br />
+          Input Text id=password ${pwd}<br />
+          Click Button xpath=//button[text()='Login']
         </div>
       </div>
 
@@ -598,8 +672,9 @@
         </table>
 
         <div class="code-block">
-          Mon Test De Validation ${Statut}= Get Element Attribute id=status
-          value Run Keyword If '${Statut}' == 'actif' Log Utilisateur Actif
+          Mon Test De Validation<br />
+          ${Statut}= Get Element Attribute id=status value<br />
+          Run Keyword If '${Statut}' == 'actif' Log Utilisateur Actif
         </div>
       </div>
 
@@ -639,7 +714,7 @@
         </table>
 
         <div class="code-block">
-          *** Settings *** Library SeleniumLibrary timeout=10
+          *** Settings ***<br />Library SeleniumLibrary timeout=10
         </div>
       </div>
 
@@ -747,9 +822,10 @@
 
         <p><strong>Exemple Pratique :</strong></p>
         <div class="code-block">
-          Mon Cas de Test de Contenu ${Message Complet}= Get Text
-          css=div#notification Should Contain ${Message Complet} Article ajouté
-          avec succès Log To Console Message validé.
+          Mon Cas de Test de Contenu<br />
+          ${Message Complet}= Get Text css=div#notification<br />
+          Should Contain ${Message Complet} Article ajouté avec succès<br />
+          Log To Console Message validé.
         </div>
       </div>
 
@@ -794,8 +870,10 @@
 
         <p><strong>Exemple de Cas de Test avec Métadonnées :</strong></p>
         <div class="code-block">
-          Valider Ajout Au Panier [Documentation] Vérifie le workflow complet
-          d'achat. [Tags] Critique Achat ... Effectuer les étapes de test
+          Valider Ajout Au Panier<br />
+          [Documentation] Vérifie le workflow complet d'achat.<br />
+          [Tags] Critique Achat<br />
+          # Effectuer les étapes de test
         </div>
       </div>
     </div>
