@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation Détaillée sur le Format Markdown (.md)</title>
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script src="js/auth-guard.js"></script>
+    <style>
+      /* Styles Globaux et Reset */
+      body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+
+      /* Conteneur principal */
+      .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 40px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Typographie et En-têtes */
+      h1 {
+        color: #2c3e50;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 30px;
+        font-weight: 300;
+        font-size: 2.5em;
+      }
+
+      h2 {
+        color: #34495e;
+        border-left: 5px solid #3498db;
+        padding-left: 10px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-weight: 400;
+      }
+
+      h3 {
+        color: #555;
+        margin-top: 25px;
+        font-weight: 600;
+      }
+
+      strong {
+        font-weight: bold;
+      }
+
+      /* Blocs de Code et Exemples */
+      .code-block {
+        background-color: #ecf0f1;
+        padding: 15px;
+        border-radius: 4px;
+        overflow-x: auto;
+        margin-bottom: 20px;
+        white-space: pre-wrap;
+      }
+
+      .code-block .markdown-syntax {
+        color: #c0392b; /* Rouge pour mettre en évidence la syntaxe Markdown */
+        font-weight: bold;
+      }
+
+      code {
+        font-family: "Consolas", "Courier New", monospace;
+        font-size: 0.9em;
+        color: #2c3e50;
+      }
+
+      /* Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #3498db;
+        color: white;
+        text-transform: uppercase;
+      }
+
+      tr:nth-child(even) {
+        background-color: #f8f8f8;
+      }
+
+      /* Notes et informations supplémentaires */
+      .note {
+        background-color: #e8f6f8;
+        border-left: 5px solid #3498db;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+
+      /* Section de Démonstration Côté à Côté */
+      .demo-container {
+        display: flex;
+        gap: 20px;
+        margin-top: 30px;
+        border-top: 2px dashed #bdc3c7;
+        padding-top: 30px;
+      }
+
+      .demo-panel {
+        flex: 1;
+        padding: 15px;
+        border-radius: 4px;
+      }
+
+      .demo-source {
+        background-color: #ecf0f1;
+        border: 1px solid #bdc3c7;
+        font-family: "Consolas", "Courier New", monospace;
+        white-space: pre-wrap;
+      }
+
+      .demo-render {
+        background-color: #ffffff;
+        border: 1px solid #3498db;
+        /* Simulation du style de rendu Markdown */
+      }
+
+      .demo-render blockquote {
+        margin: 10px 0;
+        padding: 5px 15px;
+        border-left: 4px solid #7f8c8d;
+        color: #7f8c8d;
+        font-style: italic;
+      }
+
+      .demo-render ul {
+        padding-left: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Le Format Markdown (.md) : Un Guide Détaillé</h1>
+
+      <section id="definition">
+        <h2>Définition</h2>
+        <p>
+          Le <strong>Markdown</strong> est un
+          <strong>langage de balisage léger</strong> conçu pour permettre la
+          création de texte formaté en utilisant une syntaxe de texte brut
+          simple et facile à lire. Son objectif principal est de se concentrer
+          sur le contenu sans se soucier des complexités du rendu final.
+        </p>
+        <p>
+          Un fichier Markdown (avec l'extension
+          <strong><code>.md</code></strong> ou
+          <strong><code>.markdown</code></strong
+          >) est un simple fichier texte. Il est ensuite traité par un logiciel
+          (appelé processeur Markdown) qui le convertit en
+          <strong>HTML</strong> (HyperText Markup Language) pour être affiché
+          sur le web, ou exporté vers d'autres formats comme PDF.
+        </p>
+      </section>
+
+      <hr />
+
+      <section id="origine">
+        <h2>Origine et Philosophie</h2>
+        <p>
+          Le Markdown a été créé en <strong>2004</strong> par
+          <strong>John Gruber</strong>, avec la collaboration d'Aaron Swartz.
+        </p>
+        <div class="note">
+          <h3>Philosophie de Conception</h3>
+          <p>
+            L'intention initiale était de créer un format qui soit à la fois
+            facile à écrire et facile à lire <strong>en l'état</strong> (non
+            converti). La syntaxe utilise des conventions simples héritées des
+            courriels en texte brut pour indiquer la mise en forme (comme
+            l'utilisation d'astérisques pour le gras). Aujourd'hui, le projet
+            <strong>CommonMark</strong> vise à standardiser ce langage en raison
+            de la multiplication des "dialectes" (implémentations).
+          </p>
+        </div>
+      </section>
+
+      <hr />
+
+      <section id="syntaxe">
+        <h2>Syntaxe de Base et Exemples (CommonMark)</h2>
+        <p>
+          Voici les éléments de syntaxe les plus fondamentaux et universellement
+          supportés. La syntaxe est montrée en
+          <span
+            class="markdown-syntax"
+            style="color: #c0392b; font-weight: bold"
+            >rouge</span
+          >
+          pour une meilleure distinction.
+        </p>
+
+        <h3>Titres (Headings)</h3>
+        <p>
+          Les titres sont définis par un ou plusieurs symboles dièse
+          (<code>#</code>) au début de la ligne, le nombre de dièses indiquant
+          le niveau du titre (de H1 à H6).
+        </p>
+        <div class="code-block">
+          <span class="markdown-syntax">#</span> Titre de Niveau 1 (H1)<br />
+          <span class="markdown-syntax">##</span> Titre de Niveau 2 (H2)<br />
+          <span class="markdown-syntax">###</span> Titre de Niveau 3 (H3)
+        </div>
+
+        <h3>Mise en forme du Texte</h3>
+        <p>
+          L'utilisation d'astérisques ou de traits de soulignement permet de
+          mettre l'accent.
+        </p>
+        <div class="code-block">
+          Ceci est en <span class="markdown-syntax">**gras**</span> ou
+          <span class="markdown-syntax">__gras__</span>.<br />
+          Ceci est en <span class="markdown-syntax">*italique*</span> ou
+          <span class="markdown-syntax">_italique_</span>.<br />
+          Ceci est en
+          <span class="markdown-syntax">***gras et italique***</span>.
+        </div>
+
+        <h3>Listes</h3>
+        <p>
+          Les listes non-ordonnées utilisent un astérisque (<code>*</code>) ou
+          un tiret (<code>-</code>). Les listes ordonnées utilisent des nombres
+          suivis d'un point.
+        </p>
+        <div class="code-block">
+          <span class="markdown-syntax">*</span> Article A<br />
+          <span class="markdown-syntax">-</span> Article B<br />
+          1<span class="markdown-syntax">.</span> Première étape<br />
+          2<span class="markdown-syntax">.</span> Deuxième étape
+        </div>
+
+        <h3>Liens et Images</h3>
+        <p>
+          La structure générale est <code>[Texte] (URL)</code>, avec un point
+          d'exclamation pour les images.
+        </p>
+        <div class="code-block">
+          <span class="markdown-syntax">[</span>Texte du lien<span
+            class="markdown-syntax"
+            >] (</span
+          >https://www.exemple.com<span class="markdown-syntax">)</span><br />
+          <span class="markdown-syntax">! [</span>Texte alternatif<span
+            class="markdown-syntax"
+            >] (</span
+          >/chemin/vers/image.jpg<span class="markdown-syntax">)</span>
+        </div>
+
+        <h3>Blocs de Code et Citations</h3>
+        <p>
+          Le code est entouré d'accents graves (<code>`</code>). Les citations
+          sont précédées d'un chevron (<code>></code>).
+        </p>
+        <div class="code-block">
+          Code en ligne :
+          <span class="markdown-syntax">`</span>print("hello")<span
+            class="markdown-syntax"
+            >`</span
+          ><br />
+          <span class="markdown-syntax">```python</span><br />
+          # Bloc de code<br />
+          <span class="markdown-syntax">```</span><br />
+          <span class="markdown-syntax">></span> Ceci est une citation.
+        </div>
+      </section>
+
+      <hr />
+
+      <section id="demo">
+        <h2>Démonstration : Source Markdown vs. Rendu Final</h2>
+        <p>
+          Cette section illustre comment le code source Markdown (à gauche) est
+          transformé par un processeur pour donner le rendu HTML stylisé (à
+          droite).
+        </p>
+
+        <div class="demo-container">
+          <div class="demo-panel demo-source">
+            <h3>Code Source (Markdown)</h3>
+            <pre>
+# Rapport d'Activité
+
+Voici un résumé :
+
+* Réunion Client
+* Préparation du Budget
+
+Le texte important est **en gras** et le code est `en ligne`.
+
+> Prochaine étape : Valider le plan.
+                    </pre
+            >
+          </div>
+
+          <div class="demo-panel demo-render">
+            <h3>Rendu Visuel (Simulé)</h3>
+
+            <h1>Rapport d'Activité</h1>
+            <p>Voici un résumé :</p>
+            <ul>
+              <li>Réunion Client</li>
+              <li>Préparation du Budget</li>
+            </ul>
+            <p>
+              Le texte important est <strong>en gras</strong> et le code est
+              <code>en ligne</code>.
+            </p>
+            <blockquote>Prochaine étape : Valider le plan.</blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Astuces Navigateurs -->
+      <section
+        style="
+          margin-top: 50px;
+          padding: 25px;
+          background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+          border-radius: 8px;
+          border-left: 5px solid #4caf50;
+        "
+      >
+        <h2 style="color: #2e7d32; margin-top: 0">
+          <i style="margin-right: 8px">💡</i> Astuce : Visualiser vos fichiers
+          Markdown directement dans le navigateur
+        </h2>
+        <p style="font-size: 1.05em; line-height: 1.7">
+          Pour afficher et prévisualiser vos fichiers
+          <code>.md</code> directement dans votre navigateur sans les convertir,
+          installez l'une de ces extensions gratuites :
+        </p>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+          "
+        >
+          <!-- Firefox -->
+          <div
+            style="
+              background: white;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            "
+          >
+            <h3
+              style="
+                color: #ff6611;
+                margin-top: 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 88 88"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="44" cy="44" r="42" fill="#ff6611" />
+                <path
+                  d="M44 12c17.7 0 32 14.3 32 32s-14.3 32-32 32-32-14.3-32-32S26.3 12 44 12z"
+                  fill="#ff9500"
+                />
+              </svg>
+              Firefox
+            </h3>
+            <p style="margin: 10px 0">
+              <strong>Extension recommandée :</strong>
+            </p>
+            <p style="margin: 5px 0">
+              <a
+                href="https://addons.mozilla.org/fr/firefox/addon/markdown-viewer-webext/"
+                target="_blank"
+                style="color: #0066cc; text-decoration: none; font-weight: 600"
+              >
+                Markdown Viewer Webext
+              </a>
+            </p>
+            <p style="font-size: 0.9em; color: #555; margin-top: 10px">
+              Rendu élégant avec support de thèmes, coloration syntaxique du
+              code, et support des diagrammes Mermaid.
+            </p>
+          </div>
+
+          <!-- Microsoft Edge / Chrome -->
+          <div
+            style="
+              background: white;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            "
+          >
+            <h3
+              style="
+                color: #0078d4;
+                margin-top: 0;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+              "
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 88 88"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle cx="44" cy="44" r="42" fill="#0078d4" />
+                <path d="M44 20l20 12-8 20-24-8z" fill="#50e6ff" />
+              </svg>
+              Edge / Chrome
+            </h3>
+            <p style="margin: 10px 0">
+              <strong>Extension recommandée :</strong>
+            </p>
+            <p style="margin: 5px 0">
+              <a
+                href="https://microsoftedge.microsoft.com/addons/detail/markdown-viewer/cgfmjloamohlkdlbpoelmpejbkeoidfp"
+                target="_blank"
+                style="color: #0066cc; text-decoration: none; font-weight: 600"
+              >
+                Markdown Viewer (Edge)
+              </a>
+              <br />
+              <a
+                href="https://chromewebstore.google.com/detail/markdown-viewer/ckkdlimhmcjmikdlpkmbgfkaikojcbjk"
+                target="_blank"
+                style="color: #0066cc; text-decoration: none; font-weight: 600"
+              >
+                Markdown Viewer (Chrome)
+              </a>
+            </p>
+            <p style="font-size: 0.9em; color: #555; margin-top: 10px">
+              Aperçu rapide des fichiers <code>.md</code> locaux ou distants
+              avec support de GitHub Flavored Markdown (GFM).
+            </p>
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+          "
+        >
+          <p style="margin: 0; font-size: 0.95em">
+            <strong>⚠️ Important :</strong> Après installation, vous devrez
+            autoriser l'extension à accéder aux fichiers locaux dans les
+            paramètres de l'extension (section "Autoriser l'accès aux URL de
+            fichier" ou "Allow access to file URLs").
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <p
+          style="
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: #7f8c8d;
+          "
+        >
+          &copy; Talel Zid | Version 1.0 — Octobre 2025 | Basé sur Markdown.pl
+          1.0.1.
+          <br />Pour usage personnel ou éducatif seulement.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
