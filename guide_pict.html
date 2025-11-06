@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      Guide — Génération de données avec PICT (Pairwise) — Alfresco Exemples
+    </title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+        color: #222;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--maxw);
+      }
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(33, 107, 165, 0.12),
+          rgba(29, 119, 184, 0.06)
+        );
+        padding: 20px 24px;
+        border-radius: calc(var(--radius) + 4px);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(13, 66, 104, 0.06);
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(33, 107, 165, 0.12);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #083b5a;
+      }
+      p.lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .grid {
+        display: grid;
+        /* Deux colonnes : principal (2/3) et sidebar (1/3) */
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .card {
+        background: var(--card);
+        padding: 22px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 20px rgba(20, 30, 40, 0.04);
+        border: 1px solid rgba(16, 24, 32, 0.03);
+      }
+      main.card {
+        padding: 26px;
+      }
+      aside.card {
+        position: sticky; /* Pour garder l'aside visible en haut */
+        top: 20px;
+        padding: 22px;
+        height: fit-content;
+      }
+      h2 {
+        color: #0f3e5f;
+        margin-top: 0;
+        font-size: 18px; /* Légèrement plus grand pour la lisibilité */
+        border-bottom: 2px solid #e6edf4;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+      h3 {
+        color: #123d57;
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      p,
+      li {
+        color: #233242;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      ul,
+      ol {
+        margin-left: 18px;
+        padding-left: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #e6edf4;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f7fb;
+        color: #123d57;
+        font-weight: 600;
+      }
+      pre {
+        background: #f6fbff;
+        padding: 15px;
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #0b3b57;
+        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .tip-box {
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      .tip-box h4 {
+        color: var(--accent);
+        margin: 0 0 5px 0;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tip-box p {
+        margin: 0;
+        font-size: 14px;
+      }
+      .list-unstyled {
+        list-style: none;
+        padding-left: 0;
+      }
+      .list-unstyled li {
+        margin-bottom: 8px;
+      }
+
+      footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      @media (max-width: 1000px) {
+        .grid {
+          grid-template-columns: 1fr 320px;
+        }
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        aside.card {
+          order: 2;
+          position: static; /* Retire sticky sur mobile */
+        }
+      }
+      /* Lien Accueil (copié du style commun des pages features) */
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+      }
+      .home-link:hover {
+        background-color: #e9ecef;
+        color: #007bff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="menu.html" class="home-link" title="Retour à la page d'accueil"
+      >🏠 Accueil</a
+    >
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo" aria-hidden="true">PW</div>
+        <div>
+          <h1 id="title">
+            Guide — Génération de données de test avec PICT (Pairwise)
+          </h1>
+          <p class="lead">
+            Optimisez vos jeux de tests pour une couverture maximale avec un
+            nombre minimal de cas de test.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid">
+        <main class="card" aria-label="Contenu du guide PICT Pairwise">
+          <h2>Introduction au Pairwise Testing</h2>
+          <p>
+            Le **Pairwise Testing** (ou tests par paires) est une technique de
+            conception de tests combinatoire. Elle est basée sur l'observation
+            selon laquelle la majorité des défauts sont causés par l'interaction
+            de **seulement deux facteurs** (ou paramètres) à la fois.
+          </p>
+          <p>
+            L'outil **PICT (Pairwise Independent Combinatorial Testing)** de
+            Microsoft génère un ensemble minimal de cas de test garantissant que
+            chaque paire de valeurs (une valeur d'un paramètre et une valeur
+            d'un autre) apparaît au moins une fois.
+          </p>
+
+          <h3>1. Quand utiliser PICT ?</h3>
+          <p>
+            Utilisez PICT lorsque vous avez une fonctionnalité qui dépend de :
+          </p>
+          <ul>
+            <li>
+              Un grand nombre de **paramètres indépendants** (ex: 5 à 10 champs
+              de formulaire).
+            </li>
+            <li>
+              Chaque paramètre ayant plusieurs **valeurs possibles** (ex: 3 à 5
+              options).
+            </li>
+          </ul>
+          <p>
+            L'exécution de tous les cas de test possibles (approche exhaustive)
+            serait exponentielle. PICT permet de passer de milliers de cas à
+            quelques dizaines.
+          </p>
+
+          <h2>2. Exemple Pratique Alfresco : Création de Document</h2>
+          <p>
+            Imaginons le formulaire de téléversement et de création de document
+            dans Alfresco. Les paramètres que nous souhaitons tester sont :
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Paramètre</th>
+                <th>Valeurs Possibles</th>
+                <th>Rôles dans le Test</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Type de Fichier</strong></td>
+                <td>PDF, DOCX, TXT, Image</td>
+                <td>Validation du type de contenu.</td>
+              </tr>
+              <tr>
+                <td><strong>Destination (Dossier)</strong></td>
+                <td>Public, Privé, Archivé</td>
+                <td>Test des permissions d'accès.</td>
+              </tr>
+              <tr>
+                <td><strong>Métadonnée "Statut"</strong></td>
+                <td>Brouillon, Approuvé, Final</td>
+                <td>Test du workflow de contenu.</td>
+              </tr>
+              <tr>
+                <td><strong>Droits d'Accès</strong></td>
+                <td>LectureSeule, Édition, Propriétaire</td>
+                <td>Vérification des droits du créateur.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>3. Fichier d'Entrée PICT (Modèle)</h3>
+          <p>
+            Le fichier d'entrée (souvent un `.txt`) définit les paramètres et
+            leurs valeurs. Chaque ligne est un paramètre, séparé par deux-points
+            (`:`) des valeurs, séparées par des virgules (`,`).
+          </p>
+
+          <pre>
+# Fichier Alfresco_Upload.txt pour PICT
+
+Type_Fichier: PDF, DOCX, TXT, Image
+Destination: Public, Privé, Archivé
+Statut_Metadonnee: Brouillon, Approuvé, Final
+Droits_Acces: LectureSeule, Edition, Proprietaire
+</pre
+          >
+
+          <h3>4. Génération des Combinaisons Pairwise</h3>
+          <p>
+            L'exécution de PICT avec ce modèle (4 paramètres, 4*3*3*3 = 108
+            combinaisons exhaustives) est la suivante :
+          </p>
+          <pre>
+# Commande d'exécution
+pict.exe Alfresco_Upload.txt
+</pre
+          >
+          <p>**Résultat (Extrait des 12 combinaisons générées par PICT) :**</p>
+          <pre>
+Type_Fichier    Destination    Statut_Metadonnee    Droits_Acces
+PDF             Public         Brouillon            LectureSeule
+DOCX            Privé          Approuvé             Edition
+TXT             Archivé        Final                Proprietaire
+Image           Public         Final                Edition
+DOCX            Archivé        Brouillon            LectureSeule
+PDF             Privé          Final                Proprietaire
+TXT             Public         Approuvé             Proprietaire
+Image           Privé          Brouillon            Edition
+PDF             Archivé        Approuvé             Edition
+DOCX            Public         Final                LectureSeule
+TXT             Privé          Brouillon            Proprietaire
+Image           Archivé        Approuvé             LectureSeule
+
+# Note : Seules 12 lignes sont nécessaires pour couvrir toutes les paires !
+</pre
+          >
+
+          <h3>5. Interprétation des Résultats</h3>
+          <p>
+            Chaque ligne de la sortie est un **cas de test** que vous devez
+            exécuter. Ces 12 cas de test garantissent que :
+          </p>
+          <ul>
+            <li>La combinaison (PDF, Public) est testée.</li>
+            <li>La combinaison (DOCX, Approuvé) est testée.</li>
+            <li>La combinaison (Privé, Édition) est testée.</li>
+            <li>
+              ... Et ainsi de suite pour les $\text{4 x 3 + 4 x 3 + 4 x 3 + 3 x
+              3 + 3 x 3 + 3 x 3} = 51$ paires uniques possibles.
+            </li>
+          </ul>
+        </main>
+
+        <aside class="card" aria-label="Liens et concepts avancés">
+          <h2>Concepts Avancés PICT</h2>
+          <ul class="list-unstyled" style="font-size: 14px; line-height: 1.6">
+            <li>
+              <i class="fas fa-link" style="color: var(--accent)"></i>
+              **Contraintes (`IF` / `THEN`)**
+              <p class="muted">
+                Définir des règles d'exclusion. Ex: Si le `Statut_Metadonnee`
+                est 'Final', alors `Droits_Acces` ne peut pas être 'Édition'.
+              </p>
+              <pre style="padding: 8px; margin-top: 5px">
+IF [Statut_Metadonnee] = 'Final' THEN [Droits_Acces] &lt;&gt; 'Edition';
+</pre
+              >
+            </li>
+            <hr
+              style="
+                border: none;
+                border-top: 1px solid #eef6fb;
+                margin: 15px 0;
+              "
+            />
+            <li>
+              <i class="fas fa-layer-group" style="color: var(--accent)"></i>
+              **Niveau de Couverture (N-Wise)**
+              <p class="muted">
+                Par défaut, PICT utilise N=2 (pairwise). Vous pouvez augmenter à
+                N=3 ou N=4 pour tester toutes les combinaisons de 3 ou 4
+                paramètres à la fois, si vous suspectez des interactions plus
+                complexes (mais cela augmente le nombre de tests!).
+              </p>
+            </li>
+            <hr
+              style="
+                border: none;
+                border-top: 1px solid #eef6fb;
+                margin: 15px 0;
+              "
+            />
+            <li>
+              <i class="fas fa-file-csv" style="color: var(--accent)"></i>
+              **Sortie CSV**
+              <p class="muted">
+                Utilisez l'option `/o:csv` dans la commande pour obtenir la
+                sortie au format CSV, ce qui facilite l'importation dans Excel
+                ou un outil de gestion des tests.
+              </p>
+              <pre style="padding: 8px; margin-top: 5px">
+				pict.exe model.txt /o:csv > tests.csv
+				</pre
+              >
+            </li>
+          </ul>
+
+          <hr
+            style="border: none; border-top: 1px solid #eef6fb; margin: 20px 0"
+          />
+          <div
+            class="tip-box"
+            style="background: #fff8e1; border-color: #ffe082"
+          >
+            <h4>
+              <i class="fas fa-podcast"></i> Podcast Audio : Pairwise Testing
+            </h4>
+            <p>
+              Écoutez le podcast complet sur la puissance du Pairwise Testing
+              (16-17 min) dans la langue de votre choix :
+            </p>
+
+            <div style="margin-top: 15px">
+              <div style="margin-bottom: 15px">
+                <label
+                  for="audio-fr"
+                  style="display: block; font-weight: 600; color: #123d57"
+                >
+                  <i class="fas fa-headset" style="color: #216ba5"></i> 🇫🇷
+                  Français
+                </label>
+                <audio
+                  id="audio-fr"
+                  controls
+                  style="width: 100%; margin-top: 5px"
+                >
+                  <source
+                    src="ressources/podcast_pict_fr.mp3"
+                    type="audio/mp3"
+                  />
+                  Votre navigateur ne supporte pas le lecteur audio.
+                </audio>
+              </div>
+
+              <div>
+                <label
+                  for="audio-en"
+                  style="display: block; font-weight: 600; color: #123d57"
+                >
+                  <i class="fas fa-headset" style="color: #216ba5"></i> 🇬🇧
+                  English
+                </label>
+                <audio
+                  id="audio-en"
+                  controls
+                  style="width: 100%; margin-top: 5px"
+                >
+                  <source
+                    src="ressources/podcast_pict_en.mp3"
+                    type="audio/mp3"
+                  />
+                  Your browser does not support the audio element.
+                </audio>
+              </div>
+            </div>
+          </div>
+
+          <div class="tip-box">
+            <h4><i class="fas fa-lightbulb"></i> Rappel</h4>
+            <p>
+              Le Pairwise ne remplace pas les tests limites ou d'erreur
+              critiques. Il optimise la couverture des **interactions**
+              fonctionnelles. Complétez toujours avec vos tests de valeurs
+              extrêmes.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <p>
+          &copy; Talel Zid | Version 1.0 — Octobre 2025 | Guide PICT Pairwise
+          |<br />Usage personnel ou éducatif.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
