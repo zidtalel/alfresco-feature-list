@@ -10,9 +10,9 @@
 
 Ce portail web est conçu comme **ressource pédagogique** pour l'enseignement des techniques de test logiciel, de l'automatisation et de la gestion de projet Agile. Il centralise l'ensemble de la documentation, guides et outils nécessaires aux étudiants pour mener à bien un projet de test sur le CMS Alfresco.
 
-**Public cible :** Étudiants en informatique (Groupe 1292)  
-**Contexte :** Projet de test du CMS Alfresco  
-**Technologies couvertes :** Robot Framework, Selenium, Gherkin/BDD, ISO 29119-3
+**Public cible :** Étudiants en informatique (Groupes SQL)  
+**Contexte :** Projet de test du CMS Alfresco dans le cours projet de synthèse
+**Technologies couvertes :** Robot Framework, Selenium webdriver, Gherkin/BDD, Xpath, Postman, Jmeter
 
 ---
 
@@ -38,8 +38,8 @@ Ce portail web est conçu comme **ressource pédagogique** pour l'enseignement d
 - **Aide-mémoire XPath** : Sélecteurs et astuces pour localiser les éléments
 - **Environnement de test** : Infrastructure, accès, jeux de données
 - **Planification & Timeline** : Phases du projet, jalons, deadlines
-- **User Stories & Epics** : Backlog complet avec critères d'acceptation
-- **Exemples de User Story** : Modèles et templates
+- **User Stories & Epics** : Backlog complet avec Épics et user stories
+- **Exemples de User Story** : Modèles et templates pour user stories et critères d'acceptation
 
 ### 🎨 Interface utilisateur
 
@@ -191,8 +191,8 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plu
 
 ## 📧 Contact
 
-**Enseignant** : Talel Zid  
-**Institution** : [Votre institution]  
+**Enseignant** : Talel Zid  (zidtalel@gmail.com)
+**Institution** : Collège de Bois de Boulogne  
 **Année académique** : 2025
 
 ---
