@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      Guide — Écrire des scénarios Gherkin efficaces — Redmine Exemples
+    </title>
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script src="js/auth-guard.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+        color: #222;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--maxw);
+      }
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(33, 107, 165, 0.12),
+          rgba(29, 119, 184, 0.06)
+        );
+        padding: 20px 24px;
+        border-radius: calc(var(--radius) + 4px);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(13, 66, 104, 0.06);
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(33, 107, 165, 0.12);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #083b5a;
+      }
+      p.lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .grid {
+        display: grid;
+        /* Deux colonnes : principal (2/3) et sidebar (1/3) */
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      .card {
+        background: var(--card);
+        padding: 22px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 20px rgba(20, 30, 40, 0.04);
+        border: 1px solid rgba(16, 24, 32, 0.03);
+      }
+      main.card {
+        padding: 26px;
+      }
+      aside.card {
+        position: sticky; /* Pour garder l'aside visible en haut */
+        top: 20px;
+        padding: 22px;
+        height: fit-content;
+      }
+      h2 {
+        color: #0f3e5f;
+        margin-top: 0;
+        font-size: 18px; /* Légèrement plus grand pour la lisibilité */
+        border-bottom: 2px solid #e6edf4;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+      h3 {
+        color: #123d57;
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      p,
+      li {
+        color: #233242;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      ul,
+      ol {
+        margin-left: 18px;
+        padding-left: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #e6edf4;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f7fb;
+        color: #123d57;
+        font-weight: 600;
+      }
+      pre {
+        background: #f6fbff;
+        padding: 15px;
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #0b3b57;
+        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .tip-box {
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      .tip-box h4 {
+        color: var(--accent);
+        margin: 0 0 5px 0;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .tip-box p {
+        margin: 0;
+        font-size: 14px;
+      }
+      .list-unstyled {
+        list-style: none;
+        padding-left: 0;
+      }
+      .list-unstyled li {
+        margin-bottom: 8px;
+      }
+
+      footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      @media (max-width: 1000px) {
+        .grid {
+          grid-template-columns: 1fr 320px;
+        }
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        aside.card {
+          order: 2;
+          position: static; /* Retire sticky sur mobile */
+        }
+      }
+      /* Lien Accueil (copié du style commun des pages features) */
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+      }
+      .home-link:hover {
+        background-color: #e9ecef;
+        color: #007bff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="menu.html" class="home-link" title="Retour à la page d'accueil"
+      >🏠 Accueil</a
+    >
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo" aria-hidden="true">GK</div>
+        <div>
+          <h1 id="title">Guide — Écrire des scénarios Gherkin efficaces</h1>
+          <p class="lead">
+            Règles et meilleures pratiques pour le Behavior-Driven Development
+            (BDD) avec des exemples basés sur Redmine.
+          </p>
+        </div>
+      </header>
+
+      <div class="grid">
+        <main class="card" aria-label="Contenu du guide Gherkin">
+          <h2>Introduction au Langage Gherkin</h2>
+          <p>
+            Le Gherkin est un langage orienté métier qui permet de décrire le
+            comportement des systèmes de manière claire, structurée et non
+            ambiguë. Il sert de **documentation vivante** et de base pour
+            l'automatisation des tests (BDD).
+          </p>
+
+          <h3>1. Structure de Base : Feature et Scenario</h3>
+          <p>
+            Chaque fichier Gherkin (`.feature`) commence par une **`Feature:`**
+            (Fonctionnalité) qui donne le titre du composant testé. Il est suivi
+            d'un ou plusieurs **`Scenario:`** (Scénario) décrivant un cas
+            d'utilisation spécifique.
+          </p>
+
+          <h2>2. Les Mots-Clés Fondamentaux (AAA)</h2>
+          <p>
+            Les étapes d'un scénario suivent le principe **AAA** (Arrange, Act,
+            Assert).
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Mot-Clé</th>
+                <th>Phase AAA</th>
+                <th>Rôle</th>
+                <th>Exemple Redmine</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Given</strong></td>
+                <td>Arrange (Préparer)</td>
+                <td>
+                  Définit le **contexte initial** du système ou les
+                  préconditions nécessaires.
+                </td>
+                <td><code>Given</code> l'utilisateur "Manager" est connecté</td>
+              </tr>
+              <tr>
+                <td><strong>When</strong></td>
+                <td>Act (Agir)</td>
+                <td>
+                  Décrit l'**action** spécifique entreprise par l'utilisateur ou
+                  le système.
+                </td>
+                <td>
+                  <code>When</code> il crée un nouveau ticket avec le sujet
+                  "Problème"
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Then</strong></td>
+                <td>Assert (Affirmer/Vérifier)</td>
+                <td>
+                  Décrit le **résultat** attendu et vérifiable après l'action.
+                </td>
+                <td>
+                  <code>Then</code> le ticket doit être créé avec le statut
+                  "Nouveau"
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Exemple Complet (Création de ticket dans Redmine) :</h3>
+          <pre>
+Feature: Création de tickets standard
+  Scenario: Création d'un nouveau ticket
+    Given l'utilisateur "Testeur" est connecté à Redmine
+    When il crée un nouveau ticket avec le sujet "Vérifier le lien de la page d'accueil"
+    And le statut est défini sur "Nouveau"
+    Then un message de confirmation "Création réussie" doit être affiché
+    And le ticket doit être visible dans la liste des tickets actifs
+</pre
+          >
+
+          <h2>3. Les Mots-Clés Secondaires et Avancés</h2>
+
+          <h3>`And` (Et), `But` (Mais)</h3>
+          <p>
+            Ces mots-clés sont utilisés pour améliorer la fluidité et
+            l'enchaînement des étapes de la **même catégorie** (plusieurs
+            <code>Given</code>, <code>When</code>, ou <code>Then</code>).
+          </p>
+          <pre>
+  Given l'utilisateur est connecté
+  <strong>And</strong> il est membre du projet "1292"
+  When il soumet le formulaire
+  <strong>And</strong> il clique sur "Ajouter"
+  Then la page de profil est affichée
+  <strong>But</strong> le mot de passe n'est pas révélé
+</pre
+          >
+
+          <h3>`Background` (Contexte)</h3>
+          <p>
+            Définit une ou plusieurs étapes <code>Given</code> qui sont
+            exécutées **avant chaque `Scenario`** du Feature File. Il est
+            utilisé pour éviter la répétition de préconditions communes
+            (connexion, initialisation).
+          </p>
+          <pre>
+Feature: Gestion des accès au projet
+
+  Background: Préparation de l'environnement
+    Given l'utilisateur "Admin" est connecté
+    And le projet "Système de Paie" existe
+
+  Scenario: Un non-membre ne peut pas voir le projet
+    ...
+  Scenario: Un membre peut consulter la page des activités
+    ...
+</pre
+          >
+
+          <h3>`Scenario Outline` (Plan de Scénario) & `Examples` (Exemples)</h3>
+          <p>
+            Permet d'exécuter le même scénario plusieurs fois avec des jeux de
+            données variés. Les variables dans le scénario sont encadrées par
+            <code>&lt; &gt;</code> et sont remplies par les valeurs du tableau
+            <strong>`Examples`</strong>.
+          </p>
+          <pre>
+Scenario Outline: Afficher les tickets selon leur statut
+  Given je suis sur la page de la liste des tickets
+  When je filtre par le statut "&lt;Statut&gt;"
+  Then je vois seulement les tickets ayant le statut "&lt;Statut&gt;"
+  And le nombre de tickets affichés est égal à &lt;Nombre_Attendu&gt;
+
+  Examples:
+    | Statut   | Nombre_Attendu |
+    | Nouveau  | 15             |
+    | Fermé    | 32             |
+    | En cours | 8              |
+</pre
+          >
+        </main>
+
+        <aside class="card" aria-label="Règles et bonnes pratiques">
+          <h2>Règles d'Or pour l'écriture Gherkin</h2>
+          <ul class="list-unstyled" style="font-size: 14px; line-height: 1.6">
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Une Seule Action** (`When`) par scénario.
+            </li>
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Focus Métier** : Utilisez le langage de l'utilisateur final.
+              Évitez le jargon technique.
+            </li>
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Scénarios Indépendants** : L'ordre d'exécution ne devrait pas
+              importer.
+            </li>
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Nommage Clair** : Le titre du scénario doit décrire l'intention
+              (ex : *Création de ticket en statut Fermé*).
+            </li>
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Éléments Réutilisables** : Créez des étapes qui peuvent être
+              utilisées dans plusieurs scénarios.
+            </li>
+            <li>
+              <i class="fas fa-check-circle" style="color: green"></i>
+              **Loi de l'Unité** : Une étape Gherkin ne doit faire qu'une seule
+              chose (ex : ne pas créer l'utilisateur *et* le connecter dans la
+              même ligne).
+            </li>
+          </ul>
+
+          <hr
+            style="border: none; border-top: 1px solid #eef6fb; margin: 20px 0"
+          />
+
+          <div class="tip-box">
+            <h4><i class="fas fa-lightbulb"></i> Astuce Redmine/BDD</h4>
+            <p>
+              Pour les tests d'API, vos étapes <code>When</code> pourraient
+              ressembler à "When l'utilisateur envoie une requête GET à
+              /api/issues/&lt;ticket_id&gt;", et vos <code>Then</code>
+              vérifieront le statut HTTP et les champs JSON de la réponse.
+            </p>
+          </div>
+        </aside>
+      </div>
+
+      <footer>
+        <p>
+          &copy; Talel Zid | Version 1.0 — Octobre 2025 | Guide Gherkin |<br />Usage
+          personnel ou éducatif.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
