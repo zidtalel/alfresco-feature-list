@@ -265,24 +265,25 @@
         <main class="card" aria-label="Contenu du guide Gherkin">
           <h2>Introduction au Langage Gherkin</h2>
           <p>
-            Le Gherkin est un langage orienté métier qui permet de décrire le
+            Gherkin est un langage orienté métier qui permet de décrire le
             comportement des systèmes de manière claire, structurée et non
-            ambiguë. Il sert de **documentation vivante** et de base pour
-            l'automatisation des tests (BDD).
+            ambiguë. Il sert de <strong>documentation vivante</strong> et de
+            base pour l'automatisation des tests (BDD).
           </p>
 
           <h3>1. Structure de Base : Feature et Scenario</h3>
           <p>
-            Chaque fichier Gherkin (`.feature`) commence par une **`Feature:`**
-            (Fonctionnalité) qui donne le titre du composant testé. Il est suivi
-            d'un ou plusieurs **`Scenario:`** (Scénario) décrivant un cas
+            Chaque fichier Gherkin (.feature) commence par une
+            <strong><code>Feature:</code></strong> (Fonctionnalité) qui donne le
+            titre du composant testé. Il est suivi d'un ou plusieurs
+            <strong><code>Scenario:</code></strong> (Scénario) décrivant un cas
             d'utilisation spécifique.
           </p>
 
           <h2>2. Les Mots-Clés Fondamentaux (AAA)</h2>
           <p>
-            Les étapes d'un scénario suivent le principe **AAA** (Arrange, Act,
-            Assert).
+            Les étapes d'un scénario suivent le principe
+            <strong>AAA</strong> (Arrange, Act, Assert).
           </p>
 
           <table>
@@ -299,7 +300,7 @@
                 <td><strong>Given</strong></td>
                 <td>Arrange (Préparer)</td>
                 <td>
-                  Définit le **contexte initial** du système ou les
+                  Définit le <strong>contexte initial</strong> du système ou les
                   préconditions nécessaires.
                 </td>
                 <td><code>Given</code> l'utilisateur "Manager" est connecté</td>
@@ -308,8 +309,8 @@
                 <td><strong>When</strong></td>
                 <td>Act (Agir)</td>
                 <td>
-                  Décrit l'**action** spécifique entreprise par l'utilisateur ou
-                  le système.
+                  Décrit l'<strong>action</strong> spécifique entreprise par
+                  l'utilisateur ou le système.
                 </td>
                 <td>
                   <code>When</code> il crée un nouveau ticket avec le sujet
@@ -320,7 +321,8 @@
                 <td><strong>Then</strong></td>
                 <td>Assert (Affirmer/Vérifier)</td>
                 <td>
-                  Décrit le **résultat** attendu et vérifiable après l'action.
+                  Décrit le <strong>résultat</strong> attendu et vérifiable
+                  après l'action.
                 </td>
                 <td>
                   <code>Then</code> le ticket doit être créé avec le statut
@@ -344,11 +346,12 @@ Feature: Création de tickets standard
 
           <h2>3. Les Mots-Clés Secondaires et Avancés</h2>
 
-          <h3>`And` (Et), `But` (Mais)</h3>
+          <h3>And (Et), But (Mais)</h3>
           <p>
             Ces mots-clés sont utilisés pour améliorer la fluidité et
-            l'enchaînement des étapes de la **même catégorie** (plusieurs
-            <code>Given</code>, <code>When</code>, ou <code>Then</code>).
+            l'enchaînement des étapes de la
+            <strong>même catégorie</strong> (plusieurs <code>Given</code>,
+            <code>When</code>, ou <code>Then</code>).
           </p>
           <pre>
   Given l'utilisateur est connecté
@@ -360,12 +363,12 @@ Feature: Création de tickets standard
 </pre
           >
 
-          <h3>`Background` (Contexte)</h3>
+          <h3>Background (Contexte)</h3>
           <p>
             Définit une ou plusieurs étapes <code>Given</code> qui sont
-            exécutées **avant chaque `Scenario`** du Feature File. Il est
-            utilisé pour éviter la répétition de préconditions communes
-            (connexion, initialisation).
+            exécutées <strong>avant chaque <code>Scenario</code></strong> du
+            Feature File. Il est utilisé pour éviter la répétition de
+            préconditions communes (connexion, initialisation).
           </p>
           <pre>
 Feature: Gestion des accès au projet
@@ -381,12 +384,12 @@ Feature: Gestion des accès au projet
 </pre
           >
 
-          <h3>`Scenario Outline` (Plan de Scénario) & `Examples` (Exemples)</h3>
+          <h3>Scenario Outline (Plan de Scénario) & Examples (Exemples)</h3>
           <p>
             Permet d'exécuter le même scénario plusieurs fois avec des jeux de
             données variés. Les variables dans le scénario sont encadrées par
             <code>&lt; &gt;</code> et sont remplies par les valeurs du tableau
-            <strong>`Examples`</strong>.
+            <strong>Examples</strong>.
           </p>
           <pre>
 Scenario Outline: Afficher les tickets selon leur statut
@@ -409,33 +412,34 @@ Scenario Outline: Afficher les tickets selon leur statut
           <ul class="list-unstyled" style="font-size: 14px; line-height: 1.6">
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Une Seule Action** (`When`) par scénario.
+              <strong>Une Seule Action</strong> (<code>When</code>) par
+              scénario.
             </li>
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Focus Métier** : Utilisez le langage de l'utilisateur final.
-              Évitez le jargon technique.
+              <strong>Focus Métier</strong> : Utilisez le langage de
+              l'utilisateur final. Évitez le jargon technique.
             </li>
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Scénarios Indépendants** : L'ordre d'exécution ne devrait pas
-              importer.
+              <strong>Scénarios Indépendants</strong> : L'ordre d'exécution ne
+              devrait pas importer.
             </li>
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Nommage Clair** : Le titre du scénario doit décrire l'intention
-              (ex : *Création de ticket en statut Fermé*).
+              <strong>Nommage Clair</strong> : Le titre du scénario doit décrire
+              l'intention (ex : <em>Création de ticket en statut Fermé</em>).
             </li>
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Éléments Réutilisables** : Créez des étapes qui peuvent être
-              utilisées dans plusieurs scénarios.
+              <strong>Éléments Réutilisables</strong> : Créez des étapes qui
+              peuvent être utilisées dans plusieurs scénarios.
             </li>
             <li>
               <i class="fas fa-check-circle" style="color: green"></i>
-              **Loi de l'Unité** : Une étape Gherkin ne doit faire qu'une seule
-              chose (ex : ne pas créer l'utilisateur *et* le connecter dans la
-              même ligne).
+              <strong>Loi de l'Unité</strong> : Une étape Gherkin ne doit faire
+              qu'une seule chose (ex : ne pas créer l'utilisateur <em>et</em> le
+              connecter dans la même ligne).
             </li>
           </ul>
 
