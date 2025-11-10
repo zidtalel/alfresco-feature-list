@@ -1,0 +1,544 @@
+# PRD - Configuration Dynamique du Calendrier de Projet
+
+## 📋 Métadonnées du Document
+
+- **Titre** : Configuration Dynamique des Dates du Timeline du Projet
+- **Version** : 1.0
+- **Date de création** : 10 novembre 2025
+- **Auteur** : GitHub Copilot
+- **Statut** : Proposition - En attente d'approbation
+- **Priorité** : Haute
+- **Effort estimé** : 2-3 heures
+
+---
+
+## 🎯 Objectif
+
+Rendre les dates du calendrier de projet (timeline) configurables dynamiquement via un fichier JSON et une interface d'administration, permettant ainsi d'adapter facilement les dates pour différents groupes d'étudiants sans modifier le code HTML.
+
+---
+
+## 📊 Contexte et Problématique
+
+### Situation Actuelle
+
+La page `project_timeline.html` contient **8 cartes de sprint** avec des dates codées en dur :
+
+| Sprint | Date actuelle (codée en dur) | Élément HTML |
+|--------|------------------------------|--------------|
+| Sprint 1 | Semaine du 3 novembre | `<div class="sprint-date">` |
+| Sprint 2 | Semaine du 10 novembre | `<div class="sprint-date">` |
+| Sprint 3 | Semaine du 17 novembre | `<div class="sprint-date">` |
+| Sprint 4 | Semaine du 24 novembre | `<div class="sprint-date">` |
+| Sprint 5 | Semaine du 1er décembre | `<div class="sprint-date">` |
+| Sprint 6 | Semaine du 8 décembre au 23 janvier | `<div class="sprint-date">` |
+| Sprint 7 | Semaine du 26 janvier | `<div class="sprint-date">` |
+| Présentation | Semaine du 2 février | `<div class="sprint-date">` |
+
+### Problème Identifié
+
+1. **Modification manuelle** : Chaque changement de dates nécessite l'édition directe du fichier HTML
+2. **Groupes multiples** : Les dates varient selon les groupes d'étudiants, mais un seul fichier HTML existe
+3. **Maintenance complexe** : Risque d'erreurs lors des modifications répétitives
+4. **Pas d'interface** : Aucun moyen simple pour l'administrateur de mettre à jour les dates
+
+### Utilisateurs Impactés
+
+- **Administrateur/Enseignant** : Doit pouvoir configurer les dates facilement
+- **Étudiants** : Visualisent le calendrier adapté à leur groupe
+
+---
+
+## 💡 Solution Proposée
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│  Interface Admin (admin-timeline.html)          │
+│  - Formulaire de configuration des 8 dates      │
+│  - Sauvegarde via GitHub API                    │
+│  - Export JSON manuel                           │
+└──────────────────┬──────────────────────────────┘
+                   │ Écrit/Lit
+                   ▼
+┌─────────────────────────────────────────────────┐
+│  Fichier JSON (config/timeline.json)            │
+│  {                                               │
+│    "sprints": [                                  │
+│      { "id": 1, "label": "...", "date": "..." },│
+│      ...                                         │
+│    ]                                             │
+│  }                                               │
+└──────────────────┬──────────────────────────────┘
+                   │ Lit
+                   ▼
+┌─────────────────────────────────────────────────┐
+│  Page Timeline (project_timeline.html)          │
+│  - JavaScript charge timeline.json              │
+│  - Injecte dynamiquement les dates              │
+└─────────────────────────────────────────────────┘
+```
+
+### Composants
+
+#### 1. Fichier de Configuration : `config/timeline.json`
+
+```json
+{
+  "sprints": [
+    {
+      "id": 1,
+      "label": "Sprint 1",
+      "date": "3 novembre"
+    },
+    {
+      "id": 2,
+      "label": "Sprint 2",
+      "date": "10 novembre"
+    },
+    {
+      "id": 3,
+      "label": "Sprint 3",
+      "date": "17 novembre"
+    },
+    {
+      "id": 4,
+      "label": "Sprint 4",
+      "date": "24 novembre"
+    },
+    {
+      "id": 5,
+      "label": "Sprint 5",
+      "date": "1er décembre"
+    },
+    {
+      "id": 6,
+      "label": "Sprint 6",
+      "date": "8 décembre au 23 janvier"
+    },
+    {
+      "id": 7,
+      "label": "Sprint 7",
+      "date": "26 janvier"
+    },
+    {
+      "id": 8,
+      "label": "Présenter les résultats",
+      "date": "2 février"
+    }
+  ]
+}
+```
+
+**Schéma du modèle de données** :
+
+| Champ | Type | Description | Exemple |
+|-------|------|-------------|---------|
+| `id` | number | Identifiant unique du sprint | `1` |
+| `label` | string | Libellé du sprint | `"Sprint 1"` |
+| `date` | string | Date formatée à afficher (format libre) | `"3 novembre"` ou `"8 décembre au 23 janvier"` |
+
+**Note** : Le format de date est libre (pas de contrainte ISO) pour permettre des plages comme "8 décembre au 23 janvier".
+
+#### 2. Page d'Administration : `pages/admin/admin-timeline.html`
+
+**Fonctionnalités** :
+- ✅ Formulaire avec 8 champs texte pour les dates
+- ✅ Chargement automatique des dates actuelles depuis `timeline.json`
+- ✅ Validation des champs (non vides)
+- ✅ Prévisualisation avant sauvegarde
+- ✅ Sauvegarde via GitHub API (pattern identique à `admin-announcements.html`)
+- ✅ Export manuel JSON en fallback
+- ✅ Protection admin (auth-guard + admin-guard)
+- ✅ Design cohérent avec les autres pages admin
+
+**Structure du formulaire** :
+
+```html
+<form id="timeline-form">
+  <div class="form-group">
+    <label for="sprint1">Sprint 1</label>
+    <input type="text" id="sprint1" placeholder="Ex: 3 novembre" required>
+  </div>
+  <!-- Répété pour les 8 sprints -->
+</form>
+```
+
+#### 3. Modification de `project_timeline.html`
+
+**Changements** :
+- ✅ Ajouter un attribut `data-sprint-id` sur chaque `<div class="sprint-date">`
+- ✅ Script JavaScript pour charger `timeline.json`
+- ✅ Injection dynamique des dates via DOM manipulation
+- ✅ Fallback sur dates en dur si le JSON ne charge pas
+
+**Avant** :
+```html
+<div class="sprint-date">Semaine du 3 novembre</div>
+```
+
+**Après** :
+```html
+<div class="sprint-date" data-sprint-id="1">Semaine du 3 novembre</div>
+<!-- La date "3 novembre" sera remplacée dynamiquement -->
+```
+
+**Script d'injection** :
+```javascript
+(async function loadTimelineDates() {
+  try {
+    const response = await fetch('../../config/timeline.json');
+    const data = await response.json();
+    
+    data.sprints.forEach(sprint => {
+      const el = document.querySelector(`[data-sprint-id="${sprint.id}"]`);
+      if (el) {
+        el.textContent = `Semaine du ${sprint.date}`;
+      }
+    });
+  } catch (e) {
+    console.warn('Impossible de charger timeline.json, dates par défaut conservées');
+  }
+})();
+```
+
+---
+
+## 🔧 Spécifications Techniques
+
+### Fichier JSON
+
+**Emplacement** : `config/timeline.json`
+
+**Format** :
+```json
+{
+  "sprints": [
+    {
+      "id": number,        // 1-8
+      "label": string,     // "Sprint 1", "Sprint 2", etc.
+      "date": string       // Format libre, ex: "3 novembre" ou "8 décembre au 23 janvier"
+    }
+  ]
+}
+```
+
+**Validation** :
+- ✅ `id` : Nombre entre 1 et 8, unique
+- ✅ `label` : Chaîne non vide
+- ✅ `date` : Chaîne non vide, pas de contrainte de format (liberté totale)
+
+### Page Admin (`admin-timeline.html`)
+
+**Emplacement** : `pages/admin/admin-timeline.html`
+
+**Scripts requis** :
+```html
+<script src="../../assets/js/auth-guard.js"></script>
+<script src="../../assets/js/admin-guard.js"></script>
+```
+
+**Structure HTML** :
+```html
+<div class="container">
+  <header>
+    <h1><i class="fas fa-calendar-alt"></i> Gestion du Calendrier</h1>
+    <a href="../main/menu.html" class="back-btn">Retour</a>
+  </header>
+
+  <!-- Configuration GitHub (identique à admin-announcements) -->
+  <div id="github-config" class="github-config">
+    <!-- ... -->
+  </div>
+
+  <!-- Onglets -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="edit">Modifier les Dates</button>
+  </div>
+
+  <!-- Contenu -->
+  <div id="edit-tab" class="tab-content active">
+    <form id="timeline-form">
+      <div class="form-row">
+        <label>Sprint 1</label>
+        <input type="text" id="sprint1" placeholder="Ex: 3 novembre" required>
+      </div>
+      <!-- Répété 8 fois -->
+    </form>
+    <div class="button-group">
+      <button id="save-github-btn">Sauvegarder (GitHub)</button>
+      <button id="export-btn">Exporter JSON</button>
+    </div>
+  </div>
+</div>
+```
+
+**Fonctions JavaScript** :
+- `loadTimeline()` : Charge `timeline.json` et remplit le formulaire
+- `saveToGitHub()` : Sauvegarde via GitHub API (pattern identique à admin-announcements)
+- `exportJSON()` : Télécharge le JSON manuellement
+- `validateForm()` : Vérifie que tous les champs sont remplis
+
+**Appels GitHub API** :
+```javascript
+// 1. GET pour récupérer le SHA actuel
+GET https://api.github.com/repos/{owner}/{repo}/contents/config/timeline.json
+
+// 2. PUT pour mettre à jour le fichier
+PUT https://api.github.com/repos/{owner}/{repo}/contents/config/timeline.json
+Body: {
+  "message": "Update timeline dates",
+  "content": base64(JSON.stringify(timelineData)),
+  "sha": currentSHA,
+  "branch": "master"
+}
+```
+
+### Modification de `project_timeline.html`
+
+**Ajout d'attributs data** :
+```html
+<!-- Sprint 1 -->
+<div class="sprint-date" data-sprint-id="1">Semaine du 3 novembre</div>
+
+<!-- Sprint 2 -->
+<div class="sprint-date" data-sprint-id="2">Semaine du 10 novembre</div>
+
+<!-- ... (répété pour les 8 sprints) -->
+```
+
+**Script d'injection** (ajouté avant `</body>`) :
+```javascript
+<script>
+  (async function loadTimelineDates() {
+    try {
+      const response = await fetch('../../config/timeline.json');
+      if (!response.ok) {
+        console.warn('timeline.json non trouvé, dates par défaut conservées');
+        return;
+      }
+      
+      const data = await response.json();
+      
+      data.sprints.forEach(sprint => {
+        const el = document.querySelector(`[data-sprint-id="${sprint.id}"]`);
+        if (el) {
+          el.textContent = `Semaine du ${sprint.date}`;
+        }
+      });
+    } catch (e) {
+      console.warn('Erreur chargement timeline.json:', e);
+    }
+  })();
+</script>
+```
+
+---
+
+## 🎨 Design et UX
+
+### Page Admin
+
+**Palette de couleurs** : Cohérente avec les autres pages admin
+- Primaire : `#007bff`
+- Succès : `#28a745`
+- Danger : `#dc3545`
+- Fond : `#f0f8ff`
+
+**Layout** :
+- Header avec titre + icône calendrier + bouton retour
+- Configuration GitHub (repliable, identique aux autres pages admin)
+- Formulaire en grille 2 colonnes (responsive : 1 colonne sur mobile)
+- Boutons d'action en bas : "Sauvegarder" (bleu) et "Exporter JSON" (gris)
+
+**Validation visuelle** :
+- Champs vides : bordure rouge
+- Champs valides : bordure verte
+- Message d'erreur sous chaque champ invalide
+
+### Timeline Page
+
+**Pas de changement visuel** : Les dates sont injectées dynamiquement sans modifier le design existant.
+
+**Indicateur de chargement** (optionnel) : Petit spinner pendant le fetch du JSON.
+
+---
+
+## 📋 Plan d'Implémentation
+
+### Phase 1 : Création du Fichier JSON (10 min)
+
+1. ✅ Créer `config/timeline.json`
+2. ✅ Remplir avec les 8 dates actuelles de `project_timeline.html`
+3. ✅ Valider la structure JSON
+
+### Phase 2 : Modification de `project_timeline.html` (20 min)
+
+1. ✅ Ajouter `data-sprint-id` sur les 8 `<div class="sprint-date">`
+2. ✅ Créer le script d'injection dynamique
+3. ✅ Tester le chargement et l'injection
+4. ✅ Vérifier le fallback si JSON absent
+
+### Phase 3 : Création de `admin-timeline.html` (90 min)
+
+1. ✅ Structure HTML de base (header, tabs, formulaire)
+2. ✅ Styles CSS (cohérents avec les autres pages admin)
+3. ✅ Scripts de protection (auth-guard, admin-guard)
+4. ✅ Fonction `loadTimeline()` pour charger les données
+5. ✅ Fonction `saveToGitHub()` (pattern de admin-announcements)
+6. ✅ Fonction `exportJSON()` pour export manuel
+7. ✅ Validation du formulaire
+8. ✅ Tests de sauvegarde et rechargement
+
+### Phase 4 : Intégration dans le Menu (10 min)
+
+1. ✅ Ajouter un lien "Gestion du Calendrier" dans le dropdown admin de `menu.html`
+2. ✅ Icône : `<i class="fas fa-calendar-alt"></i>`
+3. ✅ Href : `../admin/admin-timeline.html`
+
+### Phase 5 : Tests et Validation (30 min)
+
+1. ✅ Tester la page timeline avec JSON valide
+2. ✅ Tester la page timeline sans JSON (fallback)
+3. ✅ Tester l'admin : chargement, modification, sauvegarde GitHub
+4. ✅ Tester l'admin : export JSON manuel
+5. ✅ Tester avec différents formats de dates (plages, dates simples)
+6. ✅ Vérifier les permissions admin
+7. ✅ Tests responsive (mobile/tablet/desktop)
+
+**Durée totale estimée** : 2h30
+
+---
+
+## ⚠️ Risques et Mitigation
+
+### Risques Identifiés
+
+| Risque | Probabilité | Impact | Mitigation |
+|--------|-------------|--------|------------|
+| JSON corrompu | Moyenne | Moyen | Fallback sur dates en dur + validation côté admin |
+| GitHub API rate limit | Faible | Moyen | Export manuel JSON disponible |
+| Format de date incohérent | Moyenne | Faible | Format libre accepté, pas de validation stricte |
+| Chargement lent du JSON | Faible | Faible | Dates en dur visibles immédiatement, remplacement rapide |
+
+### Stratégies de Mitigation
+
+1. **Fallback robuste** : Si `timeline.json` échoue, les dates en dur restent affichées
+2. **Validation côté admin** : Empêche la sauvegarde de données invalides
+3. **Export manuel** : Alternative si GitHub API indisponible
+4. **Format flexible** : Accepte n'importe quel texte pour les dates (pas de contrainte ISO)
+
+---
+
+## ✅ Critères d'Acceptation
+
+### Fonctionnalité Principale
+
+- [ ] Les 8 dates de la timeline sont chargées depuis `timeline.json`
+- [ ] Si le JSON n'existe pas, les dates en dur sont conservées
+- [ ] Les dates s'affichent correctement sur tous les navigateurs (Chrome, Firefox, Safari, Edge)
+
+### Page Admin
+
+- [ ] Accessible uniquement aux utilisateurs avec rôle `admin`
+- [ ] Les 8 champs du formulaire se remplissent automatiquement avec les dates actuelles
+- [ ] Les modifications sont sauvegardées via GitHub API
+- [ ] Un bouton "Exporter JSON" permet le téléchargement manuel
+- [ ] Les champs vides sont détectés et empêchent la sauvegarde
+- [ ] Un message de confirmation s'affiche après sauvegarde réussie
+
+### Intégration
+
+- [ ] Un lien "Gestion du Calendrier" est ajouté au menu admin
+- [ ] Le lien redirige vers `pages/admin/admin-timeline.html`
+- [ ] La navigation entre pages fonctionne correctement
+
+### Non-Régression
+
+- [ ] La page timeline reste visuellement identique
+- [ ] Aucun impact sur les autres pages du projet
+- [ ] Les performances de chargement sont acceptables (< 200ms)
+
+---
+
+## 📊 Métriques de Succès
+
+### Quantitatives
+
+- ✅ 100% des dates chargées depuis le JSON
+- ✅ Temps de chargement du JSON < 100ms
+- ✅ 0 erreur JavaScript en console
+- ✅ Sauvegarde GitHub réussie en < 2 secondes
+
+### Qualitatives
+
+- ✅ Interface admin intuitive et facile à utiliser
+- ✅ Aucune modification visible du design de la timeline
+- ✅ Processus de modification des dates simplifié (plus besoin d'éditer le HTML)
+
+---
+
+## 🔄 Évolutions Futures (Post-MVP)
+
+### Phase 2 (Optionnel)
+
+1. **Multi-groupes** : Créer plusieurs fichiers JSON (timeline_groupe1.json, timeline_groupe2.json)
+2. **Sélecteur de groupe** : Permettre à l'étudiant de choisir son groupe au login
+3. **Import CSV** : Importer les dates depuis un fichier CSV
+4. **Historique** : Sauvegarder les anciennes configurations de dates
+5. **Validation de format** : Ajouter un calendrier picker pour les dates
+
+### Phase 3 (Avancé)
+
+1. **Notifications** : Alerter les étudiants X jours avant chaque sprint
+2. **Intégration calendrier** : Exporter vers iCal/Google Calendar
+3. **Gestion des tâches** : Rendre les tâches de chaque sprint configurables également
+
+---
+
+## 💡 Recommandations
+
+### Bonnes Pratiques
+
+1. **Cohérence** : Utiliser le même pattern GitHub API que `admin-announcements.html`
+2. **Fallback** : Toujours garder des dates en dur comme fallback
+3. **Validation** : Valider les données côté client ET côté serveur (GitHub)
+4. **Format libre** : Ne pas imposer de format de date strict (permet "8 décembre au 23 janvier")
+5. **Tests** : Tester avec et sans GitHub API configuré
+
+### Questions Ouvertes
+
+1. **Quelle est la fréquence de changement des dates ?** → Détermine si le cache est nécessaire
+2. **Faut-il historiser les modifications ?** → Permet de revenir en arrière
+3. **Y a-t-il besoin d'un système de multi-groupes dès le MVP ?** → Simplifierait la gestion
+
+---
+
+## 📞 Contacts et Support
+
+- **Responsable du projet** : À définir
+- **Questions techniques** : GitHub Issues
+- **Documentation** : Voir `docs/markdown/README.md`
+
+---
+
+## 📅 Historique des Versions
+
+| Version | Date | Auteur | Modifications |
+|---------|------|--------|---------------|
+| 1.0 | 10 nov 2025 | GitHub Copilot | Création initiale du PRD |
+
+---
+
+## ✍️ Signatures d'Approbation
+
+| Rôle | Nom | Date | Signature |
+|------|-----|------|-----------|
+| Chef de projet | | | |
+| Développeur principal | | | |
+| Testeur | | | |
+
+---
+
+**Fin du Document**
