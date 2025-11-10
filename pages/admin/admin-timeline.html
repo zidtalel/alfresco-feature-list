@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion du Calendrier - Administration</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Scripts de protection -->
+    <script src="../../assets/js/auth-guard.js"></script>
+    <script src="../../assets/js/admin-guard.js"></script>
+
+    <style>
+      :root {
+        --primary-color: #007bff;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --info-color: #17a2b8;
+        --muted: #6c757d;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      h1 {
+        margin: 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      h1 i {
+        color: var(--primary-color);
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .back-btn:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+      }
+
+      /* Configuration GitHub */
+      .github-config {
+        background: #e7f3ff;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      .github-config.configured {
+        background: #d4edda;
+        border-color: #28a745;
+      }
+      .github-config h3 {
+        margin: 0 0 15px 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .config-form {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+      .config-form .form-group {
+        flex: 1;
+        min-width: 200px;
+        margin: 0;
+      }
+      .config-form input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .status-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .status-badge.connected {
+        background: #28a745;
+        color: white;
+      }
+      .status-badge.disconnected {
+        background: #6c757d;
+        color: white;
+      }
+      .help-text {
+        font-size: 0.85em;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+      .help-text a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .help-text a:hover {
+        text-decoration: underline;
+      }
+
+      /* Formulaire Timeline */
+      .timeline-form {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+      @media (max-width: 700px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .form-row label {
+        font-weight: 600;
+        color: #495057;
+      }
+      .form-row small {
+        color: var(--muted);
+      }
+      .form-row input {
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.95em;
+      }
+      .invalid input {
+        border-color: #dc3545;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-primary {
+        background: var(--primary-color);
+        color: white;
+      }
+      .btn-primary:hover {
+        background: #0056b3;
+        transform: translateY(-1px);
+      }
+      .btn-muted {
+        background: #6c757d;
+        color: white;
+      }
+
+      .alert {
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        display: none;
+        align-items: center;
+        gap: 10px;
+      }
+      .alert.visible {
+        display: flex;
+      }
+      .alert.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .alert.danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1><i class="fas fa-calendar-alt"></i> Gestion du Calendrier</h1>
+        <a href="../main/menu.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i> Retour au menu
+        </a>
+      </header>
+
+      <!-- Configuration GitHub -->
+      <div id="github-config" class="github-config">
+        <h3>
+          <i class="fas fa-github"></i>
+          Configuration GitHub API
+          <span id="status-badge" class="status-badge disconnected">
+            <i class="fas fa-times-circle"></i>
+            Non configuré
+          </span>
+        </h3>
+        <form id="config-form" class="config-form">
+          <div class="form-group">
+            <label for="github-token">Personal Access Token *</label>
+            <input
+              type="password"
+              id="github-token"
+              placeholder="ghp_xxxxxxxxxxxx"
+              required
+            />
+            <div class="help-text">
+              <a
+                href="https://github.com/settings/tokens/new?scopes=repo"
+                target="_blank"
+                >Créer un token</a
+              >
+              avec le scope <code>repo</code>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="github-owner">Owner *</label>
+            <input
+              type="text"
+              id="github-owner"
+              placeholder="zidtalel"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-repo">Repository *</label>
+            <input
+              type="text"
+              id="github-repo"
+              placeholder="alfresco-project"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-branch">Branch</label>
+            <input
+              type="text"
+              id="github-branch"
+              value="master"
+              placeholder="master"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plug"></i> Connecter
+          </button>
+        </form>
+      </div>
+
+      <div id="alert" class="alert"></div>
+
+      <!-- Formulaire dates du calendrier -->
+      <div class="timeline-form">
+        <h2
+          style="
+            margin-top: 0;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          "
+        >
+          <i class="fas fa-sliders-h" style="color: var(--primary-color)"></i>
+          Modifier les Dates
+        </h2>
+        <form id="timeline-form">
+          <div class="grid">
+            <div class="form-row">
+              <label for="sprint1">Sprint 1</label
+              ><input
+                type="text"
+                id="sprint1"
+                placeholder="Ex: 3 novembre"
+                required
+              /><small>Remplacera la date du Sprint 1</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint2">Sprint 2</label
+              ><input
+                type="text"
+                id="sprint2"
+                placeholder="Ex: 10 novembre"
+                required
+              /><small>Remplacera la date du Sprint 2</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint3">Sprint 3</label
+              ><input
+                type="text"
+                id="sprint3"
+                placeholder="Ex: 17 novembre"
+                required
+              /><small>Remplacera la date du Sprint 3</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint4">Sprint 4</label
+              ><input
+                type="text"
+                id="sprint4"
+                placeholder="Ex: 24 novembre"
+                required
+              /><small>Remplacera la date du Sprint 4</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint5">Sprint 5</label
+              ><input
+                type="text"
+                id="sprint5"
+                placeholder="Ex: 1er décembre"
+                required
+              /><small>Remplacera la date du Sprint 5</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint6">Sprint 6</label
+              ><input
+                type="text"
+                id="sprint6"
+                placeholder="Ex: 8 décembre au 23 janvier"
+                required
+              /><small>Remplacera la date du Sprint 6</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint7">Sprint 7</label
+              ><input
+                type="text"
+                id="sprint7"
+                placeholder="Ex: 26 janvier"
+                required
+              /><small>Remplacera la date du Sprint 7</small>
+            </div>
+            <div class="form-row">
+              <label for="sprint8">Présenter les résultats</label
+              ><input
+                type="text"
+                id="sprint8"
+                placeholder="Ex: 2 février"
+                required
+              /><small>Remplacera la date de Présentation</small>
+            </div>
+          </div>
+        </form>
+        <div class="button-group" style="margin-top: 16px">
+          <button
+            id="save-github-btn"
+            class="btn btn-primary"
+            onclick="saveToGitHub()"
+            disabled
+          >
+            <i class="fas fa-cloud-upload-alt"></i> Sauvegarder (GitHub)
+          </button>
+          <button
+            id="export-btn"
+            class="btn btn-muted"
+            onclick="exportTimeline()"
+          >
+            <i class="fas fa-file-download"></i> Exporter JSON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Configuration GitHub (stockée en session)
+      let githubConfig = {
+        token: null,
+        owner: null,
+        repo: null,
+        branch: "master",
+      };
+
+      // Charger les dates depuis timeline.json et remplir le formulaire
+      async function loadTimeline() {
+        try {
+          const resp = await fetch("../../config/timeline.json");
+          if (!resp.ok) return; // fallback: laisser les placeholders
+          const data = await resp.json();
+          if (!data || !Array.isArray(data.sprints)) return;
+          // Map des id -> date
+          data.sprints.forEach((s) => {
+            const input = document.getElementById("sprint" + s.id);
+            if (input) input.value = s.date || "";
+          });
+        } catch (e) {
+          console.warn("Erreur chargement timeline.json:", e);
+        }
+      }
+
+      // Construire l'objet timeline à partir du formulaire
+      function buildTimelineData() {
+        const sprints = [];
+        for (let i = 1; i <= 8; i++) {
+          const input = document.getElementById("sprint" + i);
+          const value = (input?.value || "").trim();
+          sprints.push({
+            id: i,
+            label: i === 8 ? "Présenter les résultats" : `Sprint ${i}`,
+            date: value,
+          });
+        }
+        return { sprints };
+      }
+
+      // Exporter le JSON
+      function exportTimeline() {
+        const data = buildTimelineData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "timeline.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        showAlert(
+          "📥 Fichier JSON téléchargé. Remplacez-le dans config/timeline.json si nécessaire.",
+          "success"
+        );
+      }
+
+      // Sauvegarder via GitHub API (pattern admin-announcements)
+      async function saveToGitHub() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert(
+            "Configuration GitHub manquante. Connectez-vous d'abord.",
+            "danger"
+          );
+          return;
+        }
+
+        const btn = document.getElementById("save-github-btn");
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sauvegarde...';
+
+        try {
+          const filePath = "config/timeline.json";
+          const apiUrl = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${filePath}`;
+
+          // 1. Récupérer le SHA
+          const getResp = await fetch(`${apiUrl}?ref=${githubConfig.branch}`, {
+            headers: {
+              Authorization: `Bearer ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          });
+          let sha = null;
+          if (getResp.ok) {
+            const fileData = await getResp.json();
+            sha = fileData.sha;
+          }
+
+          // 2. Contenu encodé
+          const content = JSON.stringify(buildTimelineData(), null, 2);
+          const encoded = btoa(unescape(encodeURIComponent(content)));
+
+          // 3. Commit
+          const putResp = await fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: `[Admin] Mise à jour du calendrier (${new Date().toLocaleDateString(
+                "fr-FR"
+              )})`,
+              content: encoded,
+              branch: githubConfig.branch,
+              ...(sha ? { sha } : {}),
+            }),
+          });
+
+          if (putResp.ok) {
+            showAlert("✅ Calendrier sauvegardé sur GitHub !", "success");
+          } else {
+            const err = await putResp.json();
+            throw new Error(err.message || `HTTP ${putResp.status}`);
+          }
+        } catch (e) {
+          showAlert(`❌ Erreur lors de la sauvegarde: ${e.message}`, "danger");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML =
+            '<i class="fas fa-cloud-upload-alt"></i> Sauvegarder (GitHub)';
+        }
+      }
+
+      // Alerte utilisateur
+      function showAlert(message, type) {
+        const el = document.getElementById("alert");
+        el.className = `alert ${type} visible`;
+        el.innerHTML = `<i class="fas fa-${
+          type === "success" ? "check-circle" : "exclamation-triangle"
+        }"></i><span>${message}</span>`;
+        setTimeout(() => el.classList.remove("visible"), 5000);
+      }
+
+      // Form validation (simple)
+      function validateForm() {
+        let valid = true;
+        for (let i = 1; i <= 8; i++) {
+          const row = document.getElementById("sprint" + i)?.parentElement;
+          const value = document.getElementById("sprint" + i)?.value.trim();
+          if (!value) {
+            row?.classList.add("invalid");
+            valid = false;
+          } else {
+            row?.classList.remove("invalid");
+          }
+        }
+        return valid;
+      }
+
+      // Config GitHub - formulaire
+      document
+        .getElementById("config-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          githubConfig.token = document
+            .getElementById("github-token")
+            .value.trim();
+          githubConfig.owner = document
+            .getElementById("github-owner")
+            .value.trim();
+          githubConfig.repo = document
+            .getElementById("github-repo")
+            .value.trim();
+          githubConfig.branch =
+            document.getElementById("github-branch").value.trim() || "master";
+          sessionStorage.setItem("githubConfig", JSON.stringify(githubConfig));
+          testGitHubConnection();
+        });
+
+      async function testGitHubConnection() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert("Veuillez remplir tous les champs requis.", "danger");
+          return;
+        }
+        try {
+          const resp = await fetch(
+            `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}`,
+            {
+              headers: {
+                Authorization: `Bearer ${githubConfig.token}`,
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+          if (resp.ok) {
+            updateConfigStatus(true);
+            showAlert("✅ Connexion GitHub réussie !", "success");
+          } else {
+            throw new Error(`HTTP ${resp.status}: ${resp.statusText}`);
+          }
+        } catch (e) {
+          updateConfigStatus(false);
+          showAlert(`❌ Erreur de connexion GitHub: ${e.message}`, "danger");
+        }
+      }
+
+      function updateConfigStatus(connected) {
+        const configDiv = document.getElementById("github-config");
+        const statusBadge = document.getElementById("status-badge");
+        const saveBtn = document.getElementById("save-github-btn");
+        if (connected) {
+          configDiv.classList.add("configured");
+          statusBadge.className = "status-badge connected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-check-circle"></i> Connecté';
+          saveBtn.disabled = false;
+        } else {
+          configDiv.classList.remove("configured");
+          statusBadge.className = "status-badge disconnected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-times-circle"></i> Non configuré';
+          saveBtn.disabled = true;
+        }
+      }
+
+      function restoreGitHubConfig() {
+        const saved = sessionStorage.getItem("githubConfig");
+        if (saved) {
+          try {
+            const cfg = JSON.parse(saved);
+            githubConfig = cfg;
+            document.getElementById("github-token").value = cfg.token || "";
+            document.getElementById("github-owner").value = cfg.owner || "";
+            document.getElementById("github-repo").value = cfg.repo || "";
+            document.getElementById("github-branch").value =
+              cfg.branch || "master";
+            if (cfg.token && cfg.owner && cfg.repo) testGitHubConnection();
+          } catch (e) {
+            console.warn("Erreur restauration config:", e);
+          }
+        }
+      }
+
+      // Initialisation
+      loadTimeline();
+      restoreGitHubConfig();
+    </script>
+  </body>
+</html>
