@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion Étudiants - Accès Projet</title>
+    <!-- Chargement de Tailwind CSS pour un style moderne et responsive -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Police Inter pour l'esthétique -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+      body {
+        font-family: "Inter", sans-serif;
+        /* Fond immersif: Dégradé sombre et élégant */
+        background: #1f2937; /* Gris foncé */
+        background: linear-gradient(
+          135deg,
+          #1f2937 0%,
+          #0f172a 100%
+        ); /* Dégradé */
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* Animation de vibration en cas d'échec de connexion */
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+          transform: translateX(-5px);
+        }
+        20%,
+        40%,
+        60%,
+        80% {
+          transform: translateX(5px);
+        }
+      }
+
+      .shake {
+        animation: shake 0.5s;
+      }
+
+      /* Style pour l'état de chargement */
+      #loading-message {
+        display: none;
+        color: #4f46e5;
+        font-weight: 600;
+      }
+
+      /* Ajustement du padding pour l'icône dans le champ mot de passe */
+      #password {
+        padding-right: 3rem; /* Espace pour l'icône */
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Conteneur principal de la carte de connexion -->
+    <div
+      id="login-card"
+      class="w-full max-w-md bg-white shadow-2xl rounded-xl p-8 md:p-10 transition-all duration-500 hover:shadow-3xl"
+    >
+      <header class="text-center mb-8">
+        <svg
+          class="mx-auto h-10 w-auto text-indigo-600"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v3h8z"
+          />
+        </svg>
+        <h2 class="mt-4 text-3xl font-extrabold text-gray-900">
+          Accès Étudiants
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+          Identifiants de groupe pour l'accès au projet.
+        </p>
+      </header>
+
+      <form id="login-form" class="space-y-6">
+        <!-- Champ Nom d'utilisateur (Login) -->
+        <div>
+          <label
+            for="username"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Nom d'utilisateur (Login)
+          </label>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            autocomplete="off"
+            required
+            class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
+            placeholder="Entrez le login commun"
+          />
+        </div>
+
+        <!-- Champ Mot de passe avec icône œil -->
+        <div>
+          <label
+            for="password"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
+            Mot de passe
+          </label>
+          <div class="relative">
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+              class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150"
+              placeholder="Entrez le mot de passe commun"
+            />
+
+            <!-- Bouton/Icône Oeil -->
+            <button
+              type="button"
+              id="togglePassword"
+              aria-label="Afficher/Masquer le mot de passe"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-indigo-600 transition duration-150"
+            >
+              <!-- Icône Oeil (Masqué) - visible par défaut -->
+              <svg
+                id="eye-closed"
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <!-- Icône "œil barré" (eye-off) plus explicite -->
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.613-10-5.5a10.273 10.273 0 012.458-3.568m3.992-2.382A9.956 9.956 0 0112 5c4.478 0 8.268 2.613 10 5.5a10.478 10.478 0 01-4.202 4.411"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3l18 18"
+                />
+              </svg>
+              <!-- Icône Oeil (Visible) - caché par défaut -->
+              <svg
+                id="eye-open"
+                class="h-5 w-5 hidden"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Fin du Champ Mot de passe avec icône œil -->
+
+        <!-- Message d'erreur (initialement masqué) -->
+        <div
+          id="error-message"
+          class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded-md text-sm"
+          role="alert"
+        >
+          <p class="font-bold">Accès Refusé</p>
+          <p id="error-text">
+            Login ou mot de passe incorrect. Veuillez vérifier vos identifiants.
+          </p>
+        </div>
+
+        <!-- Bouton de connexion -->
+        <div>
+          <button
+            type="submit"
+            id="login-button"
+            disabled
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-sm font-medium text-white bg-gray-400 cursor-not-allowed"
+          >
+            <span id="button-text">Chargement des identifiants...</span>
+          </button>
+          <p id="loading-message" class="text-center mt-3">
+            Tentative de connexion en cours...
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      // ==========================================================
+      // === LOGIQUE DE CONNEXION (CÔTÉ CLIENT) ===
+      // ==========================================================
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("login-form");
+        const errorDiv = document.getElementById("error-message");
+        const loginCard = document.getElementById("login-card");
+        const loginButton = document.getElementById("login-button");
+        const buttonText = document.getElementById("button-text");
+        const loadingMessage = document.getElementById("loading-message");
+        const passwordInput = document.getElementById("password");
+        const togglePasswordButton = document.getElementById("togglePassword");
+        const eyeOpen = document.getElementById("eye-open");
+        const eyeClosed = document.getElementById("eye-closed");
+
+        // Tableau des comptes (décodés) chargé depuis credentials.json
+        let ACCOUNTS = [];
+
+        // --- FICHIER ET PAGE DE REDIRECTION MIS À JOUR ---
+        const CREDENTIALS_FILE = "../../config/credentials.json";
+        const REDIRECT_URL = "menu.html"; // <-- Mis à jour pour pointer vers menu.html
+
+        /**
+         * Décode une chaîne Base64 en utilisant l'API native du navigateur.
+         * @param {string} encodedString - Chaîne encodée en Base64.
+         * @returns {string} Chaîne décodée.
+         */
+        function decodeBase64(encodedString) {
+          try {
+            return atob(encodedString);
+          } catch (e) {
+            console.error("Erreur de décodage Base64:", e);
+            return "";
+          }
+        }
+
+        /**
+         * Charge les identifiants depuis le fichier JSON, les décode, et active le formulaire.
+         * Gère également les erreurs de chargement (404, CORS, JSON invalide).
+         */
+        async function loadCredentials() {
+          try {
+            console.log(
+              `Tentative de chargement des identifiants depuis ${CREDENTIALS_FILE}...`
+            );
+
+            // Utilisation de fetch pour lire le fichier JSON
+            const response = await fetch(CREDENTIALS_FILE);
+
+            if (!response.ok) {
+              throw new Error(
+                `Erreur HTTP: ${response.status} (Vérifiez l'existence du fichier et les droits d'accès/CORS)`
+              );
+            }
+
+            const data = await response.json();
+
+            // Nouvelle structure : data.accounts[]
+            if (!Array.isArray(data.accounts) || data.accounts.length === 0) {
+              throw new Error(
+                "Structure JSON invalide : 'accounts' manquant ou vide."
+              );
+            }
+
+            ACCOUNTS = data.accounts
+              .map((acc) => ({
+                username: decodeBase64(acc.username),
+                password: decodeBase64(acc.password),
+                role: acc.role || "student",
+              }))
+              .filter(
+                (acc) => acc.username !== "" && acc.password !== "" && acc.role
+              );
+
+            if (ACCOUNTS.length === 0) {
+              throw new Error(
+                "Aucun compte valide après décodage. Vérifiez le fichier credentials.json."
+              );
+            }
+
+            // 2. Activation du bouton de connexion
+            loginButton.disabled = false;
+            loginButton.classList.remove("bg-gray-400", "cursor-not-allowed");
+            loginButton.classList.add(
+              "bg-indigo-600",
+              "hover:bg-indigo-700",
+              "cursor-pointer"
+            );
+            buttonText.textContent = "Se Connecter";
+
+            console.log(
+              `Comptes chargés (${
+                ACCOUNTS.length
+              }) et bouton activé. Rôles détectés: ${[
+                ...new Set(ACCOUNTS.map((a) => a.role)),
+              ].join(", ")}`
+            );
+          } catch (error) {
+            console.error(
+              "Échec du chargement critique des identifiants:",
+              error.message
+            );
+
+            // Afficher un message d'erreur persistant sur le bouton
+            buttonText.textContent =
+              "Erreur: " +
+              (error.message.includes("HTTP")
+                ? "Fichier non trouvé (404)"
+                : "JSON/Décodage invalide");
+            loginButton.classList.remove("bg-gray-400");
+            loginButton.classList.add("bg-red-600");
+
+            // IMPORTANT: Le bouton reste désactivé (disabled=true) en cas d'échec
+            loginButton.disabled = true;
+          }
+        }
+
+        // ==========================================================
+        // === FONCTION DE GESTION DE LA VISIBILITÉ DU MOT DE PASSE ===
+        // ==========================================================
+        togglePasswordButton.addEventListener("click", () => {
+          const isPasswordVisible = passwordInput.type === "text";
+
+          // Changer le type du champ de saisie
+          passwordInput.type = isPasswordVisible ? "password" : "text";
+
+          // Basculer l'icône
+          eyeOpen.classList.toggle("hidden");
+          eyeClosed.classList.toggle("hidden");
+        });
+
+        // ==========================================================
+        // === FONCTION DE GESTION DE LA CONNEXION ===
+        // ==========================================================
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Vérification de la disponibilité des identifiants (devrait être chargé si le bouton est actif)
+          if (ACCOUNTS.length === 0 || loginButton.disabled) {
+            console.warn(
+              "Connexion impossible : identifiants non chargés ou erreur de configuration."
+            );
+            return;
+          }
+
+          // Masquer le message d'erreur et retirer l'animation
+          errorDiv.classList.add("hidden");
+          loginCard.classList.remove("shake");
+
+          // Afficher le message de tentative de connexion
+          loadingMessage.style.display = "block";
+
+          const usernameInput = document
+            .getElementById("username")
+            .value.trim();
+          const passwordInput = document
+            .getElementById("password")
+            .value.trim();
+
+          // Recherche du compte correspondant
+          const matchedAccount = ACCOUNTS.find(
+            (acc) =>
+              acc.username === usernameInput && acc.password === passwordInput
+          );
+
+          if (matchedAccount) {
+            // --- CONNEXION RÉUSSIE ---
+            console.log("Connexion réussie. Redirection en cours...");
+            // 1. Définir l'indicateur de session + rôle + username
+            sessionStorage.setItem("isAuthenticated", "true");
+            sessionStorage.setItem("userRole", matchedAccount.role);
+            sessionStorage.setItem("username", matchedAccount.username);
+
+            // Redirection vers la page principale
+            setTimeout(() => {
+              // Petite temporisation pour simuler un traitement
+              window.location.href = REDIRECT_URL;
+            }, 500);
+          } else {
+            // --- CONNEXION ÉCHOUÉE ---
+            console.log(
+              "Échec de la connexion (identifiants ou rôle inexistant)."
+            );
+
+            // 1. Masquer le message de chargement
+            loadingMessage.style.display = "none";
+
+            // 2. Afficher l'erreur
+            errorDiv.classList.remove("hidden");
+
+            // 3. Ajouter l'animation de vibration
+            loginCard.classList.add("shake");
+
+            // 4. Effacer le mot de passe
+            document.getElementById("password").value = "";
+
+            // 5. Se concentrer à nouveau sur le champ de login
+            document.getElementById("username").focus();
+          }
+        });
+
+        // Écouteur pour retirer l'animation une fois qu'elle est terminée
+        loginCard.addEventListener("animationend", () => {
+          loginCard.classList.remove("shake");
+        });
+
+        // Lancement du chargement des identifiants au début
+        loadCredentials();
+      });
+    </script>
+  </body>
+</html>

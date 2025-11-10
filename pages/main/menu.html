@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil - Portail du Projet de Test</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Script de protection d'accès - Vérification de l'authentification -->
+    <script src="../../assets/js/auth-guard.js"></script>
+
+    <style>
+      /* Couleurs d'accentuation */
+      :root {
+        --primary-color: #007bff;
+        --accent-color: #00bcd4; /* Cyan/Turquoise pour l'effet "wow" */
+        --light-bg: #e6f7ff;
+        --dark-text: #2c3e50;
+        --shadow-color: rgba(0, 188, 212, 0.4);
+      }
+
+      /* Styles de base pour les grands écrans */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        color: var(--dark-text);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        /* Autorise le contenu long à défiler tout en gardant un look plein écran */
+        min-height: 100vh;
+        height: auto;
+        overflow: auto;
+        padding: 40px 0;
+        transition: background 0.5s ease;
+      }
+
+      /* Conteneur principal */
+      .accueil-container {
+        width: 92%;
+        max-width: 1100px;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        border-top: 5px solid var(--accent-color);
+        animation: fadeIn 0.8s ease-out;
+        box-sizing: border-box;
+        position: relative; /* Permet de positionner le bouton de déconnexion en haut à droite */
+      }
+
+      /* Contrôles supérieurs (badge + roue + cloche) */
+      .top-controls {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 3;
+      }
+
+      .gear-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Titres */
+      h1 {
+        color: var(--accent-color);
+        font-size: 2.2em;
+        margin-bottom: 3px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      h2 {
+        color: #7f8c8d;
+        font-size: 1.2em;
+        margin-bottom: 25px;
+        font-weight: 300;
+      }
+
+      /* Icone de projet */
+      .project-icon {
+        font-size: 2.5em;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+        display: inline-block;
+      }
+
+      /* Grille de navigation (cartes) */
+      .nav-grid {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        text-align: left;
+      }
+
+      .nav-card {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        align-items: flex-start;
+        padding: 14px 16px;
+        text-decoration: none;
+        color: var(--dark-text);
+        background-color: #ecf0f1;
+        border-radius: 10px;
+        border: 1px solid #e1e7ea;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
+        min-height: 76px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Badge "Nouveau" diagonal */
+      .nav-card .new-badge {
+        position: absolute;
+        top: 24px;
+        right: -32px;
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        color: white;
+        padding: 4px 40px;
+        font-size: 0.9em;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transform: rotate(45deg);
+        box-shadow: 0 2px 8px rgba(255, 107, 107, 0.4);
+        z-index: 1;
+      }
+
+      .nav-card:hover {
+        background-color: var(--accent-color);
+        color: #ffffff;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 18px var(--shadow-color);
+      }
+
+      .nav-card i {
+        font-size: 1.4em;
+        line-height: 1;
+        width: 28px;
+        text-align: center;
+        color: var(--accent-color);
+        flex: 0 0 28px;
+        margin-top: 2px;
+        transition: color 0.3s ease;
+      }
+
+      .nav-card:hover i {
+        color: #ffffff;
+      }
+
+      .nav-card .meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .nav-card .title {
+        font-weight: 700;
+        font-size: 1.02em;
+      }
+
+      .nav-card .desc {
+        font-weight: 400;
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      /* Badge utilisateur */
+      .user-badge {
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
+        top: 16px;
+        left: 16px;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.85em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        z-index: 2;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .user-badge {
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+      .user-badge.admin {
+        background-color: #28a745;
+        box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+      }
+
+      .user-badge i {
+        font-size: 1em;
+      }
+
+      .user-badge:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(0, 123, 255, 0.4);
+      }
+
+      .user-badge.admin:hover {
+        box-shadow: 0 6px 14px rgba(40, 167, 69, 0.4);
+      }
+
+      /* Bouton d'administration (roue dentée) */
+      .admin-gear-btn {
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
+        top: 16px;
+        left: 220px; /* Ancien positionnement fixe */
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: #ffffff;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: none; /* Masqué par défaut */
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(108, 117, 125, 0.4);
+        transition: all 0.3s ease;
+        z-index: 2;
+        cursor: pointer;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .admin-gear-btn {
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+      /* Bouton de notification (cloche) */
+      .notification-btn {
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
+        top: 16px;
+        left: 275px; /* Ancien positionnement fixe */
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        color: #ffffff;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+        transition: all 0.3s ease;
+        z-index: 2;
+        cursor: pointer;
+        position: relative;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .notification-btn {
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+      .notification-btn:hover {
+        background: linear-gradient(135deg, #f57c00, #e65100);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
+      }
+
+      .notification-btn i {
+        animation: bellRing 2s ease-in-out infinite;
+      }
+
+      @keyframes bellRing {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        10%,
+        30% {
+          transform: rotate(-15deg);
+        }
+        20%,
+        40% {
+          transform: rotate(15deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* Badge numérique sur la cloche */
+      .notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background-color: #dc3545;
+        color: #ffffff;
+        font-size: 0.7em;
+        font-weight: 700;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(220, 53, 69, 0.5);
+      }
+
+      .admin-gear-btn.visible {
+        display: flex; /* Affiché uniquement si admin */
+      }
+
+      .admin-gear-btn:hover {
+        background: linear-gradient(135deg, #495057, #343a40);
+        transform: translateY(-2px) rotate(90deg);
+        box-shadow: 0 6px 16px rgba(108, 117, 125, 0.5);
+      }
+
+      .admin-gear-btn i {
+        animation: none;
+        transition: transform 0.3s ease;
+      }
+
+      .admin-gear-btn:hover i {
+        transform: scale(1.15);
+      }
+
+      /* Menu déroulant administration */
+      .admin-dropdown {
+        position: absolute; /* sera ancré à .gear-wrap */
+        top: 48px;
+        left: 0;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        min-width: 240px;
+        display: none;
+        flex-direction: column;
+        z-index: 10;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+
+      .admin-dropdown.visible {
+        display: flex;
+        animation: slideDown 0.2s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .admin-dropdown a {
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .admin-dropdown a:last-child {
+        border-bottom: none;
+      }
+
+      .admin-dropdown a:hover {
+        background-color: #f8f9fa;
+        color: #007bff;
+      }
+
+      .admin-dropdown a i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1em;
+      }
+
+      /* Carrousel d'annonces */
+      .carousel-container {
+        margin: 20px 0;
+        position: relative;
+        height: 90px;
+        overflow: hidden;
+      }
+
+      .announcement-banner {
+        padding: 14px 18px;
+        border-radius: 8px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      .announcement-banner.active {
+        opacity: 1;
+        z-index: 1;
+      }
+
+      .announcement-banner.info {
+        background-color: #d1ecf1;
+        border-left: 4px solid #17a2b8;
+        color: #0c5460;
+      }
+
+      .announcement-banner.warning {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        color: #856404;
+      }
+
+      .announcement-banner.success {
+        background-color: #d4edda;
+        border-left: 4px solid #28a745;
+        color: #155724;
+      }
+
+      .announcement-banner.danger {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+      }
+
+      .announcement-banner i {
+        font-size: 1.3em;
+        margin-top: 2px;
+      }
+
+      .announcement-banner .content {
+        flex: 1;
+      }
+
+      .announcement-banner .content h4 {
+        margin: 0 0 6px 0;
+        font-size: 1em;
+        font-weight: 600;
+      }
+
+      .announcement-banner .content p {
+        margin: 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      /* Indicateurs de navigation du carrousel */
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #bdc3c7;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .carousel-dot.active {
+        background-color: #007bff;
+        transform: scale(1.3);
+      }
+
+      .carousel-dot:hover {
+        background-color: #7f8c8d;
+      }
+
+      /* Panneau latéral des annonces */
+      .announcements-panel {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100vh;
+        background-color: #ffffff;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease-in-out;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .announcements-panel.visible {
+        right: 0;
+      }
+
+      .panel-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: #ffffff;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .panel-header h3 {
+        margin: 0;
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .panel-close-btn {
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 1.5em;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+      }
+
+      .panel-close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .panel-content {
+        padding: 20px;
+      }
+
+      .panel-announcement {
+        margin-bottom: 16px;
+        padding: 14px;
+        border-radius: 8px;
+        border-left: 4px solid;
+      }
+
+      .panel-announcement.info {
+        background-color: #d1ecf1;
+        border-color: #17a2b8;
+        color: #0c5460;
+      }
+
+      .panel-announcement.warning {
+        background-color: #fff3cd;
+        border-color: #ffc107;
+        color: #856404;
+      }
+
+      .panel-announcement.success {
+        background-color: #d4edda;
+        border-color: #28a745;
+        color: #155724;
+      }
+
+      .panel-announcement.danger {
+        background-color: #f8d7da;
+        border-color: #dc3545;
+        color: #721c24;
+      }
+
+      .panel-announcement h4 {
+        margin: 0 0 8px 0;
+        font-size: 1em;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .panel-announcement p {
+        margin: 0 0 6px 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      .panel-announcement .date {
+        font-size: 0.75em;
+        opacity: 0.7;
+        font-style: italic;
+      }
+
+      .panel-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: #95a5a6;
+      }
+
+      .panel-empty i {
+        font-size: 3em;
+        margin-bottom: 10px;
+        opacity: 0.3;
+      }
+
+      /* Bouton de déconnexion (distinct en taille et position) */
+      .logout-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background-color: #e74c3c;
+        color: #ffffff;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-weight: 700;
+        font-size: 0.9em;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease,
+          background-color 0.2s ease;
+        z-index: 2;
+      }
+
+      .logout-btn i {
+        margin: 0; /* annule la marge des icônes des liens nav */
+        color: #ffffff; /* icône blanche sur bouton rouge */
+      }
+
+      .logout-btn:hover,
+      .logout-btn:focus {
+        background-color: #c0392b;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(231, 76, 60, 0.35);
+        outline: none;
+      }
+
+      /* ======================================= */
+      /* MEDIA QUERIES pour les appareils mobiles */
+      /* ======================================= */
+      @media (max-width: 768px) {
+        /* Permet le défilement sur mobile pour s'assurer que tout le contenu est visible */
+        body {
+          height: auto; /* Supprime la hauteur fixe */
+          min-height: 100vh; /* Assure que le fond couvre au moins l'écran */
+          overflow: auto; /* Permet le défilement */
+          padding: 20px 0; /* Ajout d'un peu de padding haut/bas */
+          display: block; /* Retire le flex pour un layout plus traditionnel */
+        }
+
+        .accueil-container {
+          width: 95%; /* Utilise plus de largeur */
+          padding: 20px; /* Réduction du padding */
+          margin: 20px auto; /* Centre le conteneur et donne de l'air */
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Ombre plus légère */
+        }
+
+        h1 {
+          font-size: 1.6em; /* Réduction de la taille du titre principal */
+        }
+
+        h2 {
+          font-size: 1em; /* Réduction de la taille du sous-titre */
+          margin-bottom: 20px;
+        }
+
+        .project-icon {
+          font-size: 2em; /* Réduction de la taille de l'icône */
+          margin-bottom: 5px;
+        }
+
+        /* Ajustements pour les boutons admin et notifications */
+        .user-badge {
+          font-size: 0.75em;
+          padding: 6px 12px;
+        }
+
+        .admin-gear-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1em;
+        }
+
+        .notification-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1em;
+        }
+
+        .logout-btn {
+          font-size: 0.8em;
+          padding: 6px 10px;
+        }
+
+        /* Panneau latéral pleine largeur sur mobile */
+        .announcements-panel {
+          width: 100%;
+          right: -100%;
+        }
+
+        /* Carrousel avec hauteur réduite */
+        .carousel-container {
+          height: auto;
+          min-height: 80px;
+        }
+
+        .announcement-banner .content h4 {
+          font-size: 0.95em;
+        }
+
+        .announcement-banner .content p {
+          font-size: 0.85em;
+        }
+
+        .navigation-list {
+          padding-top: 10px;
+          margin-top: 10px;
+        }
+
+        .navigation-list li {
+          margin-bottom: 8px; /* Réduction de l'espace entre les liens */
+        }
+
+        .navigation-list a {
+          padding: 10px 15px; /* Réduction du padding des liens */
+          font-size: 0.95em; /* Taille de police légèrement réduite */
+        }
+
+        .nav-grid {
+          grid-template-columns: 1fr;
+          gap: 12px;
+          margin-top: 12px;
+        }
+
+        .nav-card {
+          padding: 12px 14px;
+          font-size: 0.97em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="accueil-container">
+      <!-- Contrôles supérieurs regroupés -->
+      <div class="top-controls">
+        <div id="user-badge" class="user-badge" title="Utilisateur connecté">
+          <i class="fas fa-user" aria-hidden="true"></i>
+          <span id="user-info">Chargement...</span>
+        </div>
+        <div class="gear-wrap">
+          <!-- Bouton Administration (roue dentée) - Visible uniquement pour admin -->
+          <div
+            id="admin-gear-btn"
+            class="admin-gear-btn"
+            title="Menu Administration"
+            aria-label="Menu administration"
+          >
+            <i class="fas fa-cog" aria-hidden="true"></i>
+          </div>
+          <!-- Menu déroulant administration -->
+          <div id="admin-dropdown" class="admin-dropdown">
+            <a href="../admin/admin-announcements.html">
+              <i class="fas fa-bullhorn"></i>
+              <span>Gestion des Annonces</span>
+            </a>
+            <a href="../admin/features.html">
+              <i class="fas fa-table"></i>
+              <span>Matrice des User Stories</span>
+            </a>
+            <a href="../admin/admin-quiz.html">
+              <i class="fas fa-question-circle"></i>
+              <span>Gestion des Quiz</span>
+            </a>
+            <a href="../admin/admin-settings.html">
+              <i class="fas fa-sliders-h"></i>
+              <span>Configuration</span>
+            </a>
+          </div>
+        </div>
+        <!-- Bouton Notifications (cloche) -->
+        <div
+          id="notification-btn"
+          class="notification-btn"
+          title="Voir toutes les annonces"
+          aria-label="Notifications"
+        >
+          <i class="fas fa-bell" aria-hidden="true"></i>
+          <span id="notification-badge" class="notification-badge">0</span>
+        </div>
+      </div>
+      <!-- Bouton de déconnexion distinct (positionné en haut à droite) -->
+      <a
+        href="#"
+        id="logout-btn"
+        class="logout-btn"
+        title="Se déconnecter et revenir à la page de connexion"
+        aria-label="Se déconnecter"
+      >
+        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+        <span>Déconnexion</span>
+      </a>
+      <div class="project-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+
+      <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
+      <h2>CMS Alfresco</h2>
+
+      <!-- Carrousel des annonces prioritaires -->
+      <div
+        id="carousel-container"
+        class="carousel-container"
+        style="display: none"
+      >
+        <!-- Les annonces seront insérées ici dynamiquement -->
+      </div>
+      <div id="carousel-dots" class="carousel-dots" style="display: none">
+        <!-- Les points de navigation seront insérés ici -->
+      </div>
+
+      <!-- Panneau latéral des annonces -->
+      <div
+        id="announcements-panel"
+        class="announcements-panel"
+        style="display: none"
+      >
+        <div class="panel-header">
+          <h3>
+            <i class="fas fa-bell"></i>
+            Toutes les annonces
+          </h3>
+          <button
+            id="panel-close-btn"
+            class="panel-close-btn"
+            aria-label="Fermer"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="panel-content" class="panel-content">
+          <!-- Les annonces seront insérées ici dynamiquement -->
+        </div>
+      </div>
+
+      <div class="nav-grid" role="navigation" aria-label="Liens du portail">
+        <a
+          class="nav-card"
+          href="project_timeline.html"
+          title="Consulter l'échéancier et les phases du projet"
+        >
+          <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Planification et Chronologie</div>
+            <div class="desc">Phases, jalons et calendrier du projet</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_plan.html"
+          title="Guide du Plan de test (ISO 29119-3)"
+        >
+          <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Plan de test</div>
+            <div class="desc">Structure conforme ISO 29119-3</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_rapport_tests.html"
+          title="Guide de rédaction du rapport de tests"
+        >
+          <i class="fas fa-chart-line" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Rapport de tests</div>
+            <div class="desc">Modèle, métriques et traçabilité</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../features/features_3_equipes.html"
+          title="Voir les User Stories et Critères d'Acceptation"
+        >
+          <i class="fas fa-list-check" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Epics & User Stories</div>
+            <div class="desc">Backlog, critères d'acceptation</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../tools/exemple_us.html"
+          title="Exemple de User Story et Critères d'acceptation"
+        >
+          <i class="fas fa-file-alt" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Exemple de User Story</div>
+            <div class="desc">Modèle d'US et critères</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../tools/cheat_sheet_xpath.html"
+          title="Fiche mémo Xpath"
+        >
+          <i class="fas fa-book" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Aide-mémoire Xpath</div>
+            <div class="desc">Sélecteurs et astuces</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="test_environment.html"
+          title="Environnement de test"
+        >
+          <i class="fas fa-server" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Environnement de test</div>
+            <div class="desc">Infra, accès, jeux de données</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_plan_auto.html"
+          title="Guide du Plan d'automatisation des tests"
+        >
+          <i class="fas fa-robot" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Plan d'automatisation</div>
+            <div class="desc">Structure, téléchargement, bonnes pratiques</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_md.html"
+          title="Guide Markdown : syntaxe et astuces"
+        >
+          <i class="fas fa-markdown" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Markdown</div>
+            <div class="desc">Syntaxe, exemples et visualisation</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_gherkin.html"
+          title="Guide Gherkin : écrire des scénarios BDD efficaces"
+        >
+          <i class="fas fa-file-code" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide Gherkin / BDD</div>
+            <div class="desc">Scénarios, bonnes pratiques et exemples</div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="../guides/guide_pict.html"
+          title="Guide pairwise : utiliser PICT pour générer des données de tests (avec Podcast audio)"
+        >
+          <i class="fas fa-file-code" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Guide pairwise / PICT</div>
+            <div class="desc">
+              Pairwise, PICT, génération de données de tests
+            </div>
+          </div>
+        </a>
+
+        <a
+          class="nav-card"
+          href="quiz.html"
+          title="Quiz & Évaluation des connaissances"
+        >
+          <span class="new-badge">Nouveau</span>
+          <i class="fas fa-question-circle" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Quiz & Évaluation</div>
+            <div class="desc">Tester vos connaissances (local)</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Pied de page avec date de mise à jour -->
+      <footer
+        style="
+          margin-top: 30px;
+          padding-top: 16px;
+          border-top: 1px solid #e5e7eb;
+          text-align: center;
+          font-size: 0.8em;
+          color: #9ca3af;
+        "
+      >
+        Dernière mise à jour : 9 novembre 2025
+      </footer>
+    </div>
+
+    <script>
+      // Gestion de la déconnexion
+      document
+        .getElementById("logout-btn")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          // Suppression de l'indicateur d'authentification
+          sessionStorage.removeItem("isAuthenticated");
+          sessionStorage.removeItem("userRole");
+          sessionStorage.removeItem("username");
+          // Redirection vers la page de connexion
+          window.location.href = "index.html";
+        });
+
+      // Affichage du badge utilisateur avec nom et rôle
+      (function displayUserBadge() {
+        try {
+          const username = sessionStorage.getItem("username") || "Invité";
+          const role = sessionStorage.getItem("userRole") || "student";
+          const badge = document.getElementById("user-badge");
+          const userInfo = document.getElementById("user-info");
+
+          // Traduction des rôles pour affichage
+          const roleLabels = {
+            admin: "Administrateur",
+            student: "Étudiant",
+          };
+
+          // Mise à jour du contenu
+          userInfo.textContent = `${username} • ${roleLabels[role] || role}`;
+
+          // Ajout de la classe CSS pour le style admin
+          if (role === "admin") {
+            badge.classList.add("admin");
+            badge
+              .querySelector("i")
+              .classList.replace("fa-user", "fa-user-shield");
+          }
+        } catch (e) {
+          console.warn("Erreur lors de l'affichage du badge utilisateur:", e);
+        }
+      })();
+
+      // Affichage de la roue dentée d'administration si rôle = admin
+      (function showAdminGear() {
+        try {
+          const role = sessionStorage.getItem("userRole");
+          if (role === "admin") {
+            const gearBtn = document.getElementById("admin-gear-btn");
+            if (gearBtn) {
+              gearBtn.classList.add("visible");
+            }
+          }
+        } catch (e) {
+          console.warn("Erreur lors de l'affichage du bouton admin:", e);
+        }
+      })();
+
+      // Gestion du menu déroulant administration
+      (function setupAdminDropdown() {
+        const gearBtn = document.getElementById("admin-gear-btn");
+        const dropdown = document.getElementById("admin-dropdown");
+        const gearWrap = gearBtn ? gearBtn.parentElement : null;
+
+        if (gearBtn && dropdown && gearWrap) {
+          // Assure que le conteneur est positionné pour l'ancrage
+          gearWrap.style.position = "relative";
+
+          // Toggle du menu au clic sur la roue dentée avec positionnement dynamique
+          gearBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const isVisible = dropdown.classList.toggle("visible");
+            if (isVisible) {
+              // Ajuste largeur min selon contenu
+              dropdown.style.minWidth = "240px";
+            }
+          });
+
+          // Fermer le menu si on clique ailleurs
+          document.addEventListener("click", function (e) {
+            if (!gearWrap.contains(e.target) && !dropdown.contains(e.target)) {
+              dropdown.classList.remove("visible");
+            }
+          });
+
+          // Empêcher la fermeture si on clique dans le menu
+          dropdown.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        }
+      })();
+
+      // Chargement et affichage des annonces (Carrousel + Panneau latéral)
+      (async function loadAnnouncements() {
+        try {
+          const response = await fetch("../../config/announcements.json");
+          if (!response.ok) {
+            console.warn("Fichier announcements.json introuvable");
+            return;
+          }
+
+          const data = await response.json();
+
+          // Filtrer les annonces actives
+          const activeAnnouncements = data.announcements.filter(
+            (ann) => ann.active
+          );
+
+          if (activeAnnouncements.length === 0) return;
+
+          // Icônes selon le type
+          const icons = {
+            info: "fa-info-circle",
+            warning: "fa-exclamation-triangle",
+            success: "fa-check-circle",
+            danger: "fa-exclamation-circle",
+          };
+
+          // ===== CARROUSEL : Annonces prioritaires (max 3) =====
+          const priorityAnnouncements = activeAnnouncements
+            .filter((ann) => ann.priority)
+            .slice(0, 3);
+
+          if (priorityAnnouncements.length > 0) {
+            const carouselContainer =
+              document.getElementById("carousel-container");
+            const dotsContainer = document.getElementById("carousel-dots");
+
+            carouselContainer.style.display = "block";
+            dotsContainer.style.display = "flex";
+
+            // Créer les bannières du carrousel
+            priorityAnnouncements.forEach((announcement, index) => {
+              const banner = document.createElement("div");
+              banner.className = `announcement-banner ${announcement.type}`;
+              if (index === 0) banner.classList.add("active");
+
+              banner.innerHTML = `
+                <i class="fas ${icons[announcement.type] || icons.info}"></i>
+                <div class="content">
+                  <h4>${announcement.title}</h4>
+                  <p>${announcement.message}</p>
+                </div>
+              `;
+
+              carouselContainer.appendChild(banner);
+            });
+
+            // Créer les points de navigation
+            priorityAnnouncements.forEach((_, index) => {
+              const dot = document.createElement("div");
+              dot.className = "carousel-dot";
+              if (index === 0) dot.classList.add("active");
+              dot.dataset.index = index;
+              dotsContainer.appendChild(dot);
+            });
+
+            // Rotation automatique du carrousel
+            let currentIndex = 0;
+            const banners = carouselContainer.querySelectorAll(
+              ".announcement-banner"
+            );
+            const dots = dotsContainer.querySelectorAll(".carousel-dot");
+
+            function showSlide(index) {
+              banners.forEach((banner, i) => {
+                banner.classList.toggle("active", i === index);
+              });
+              dots.forEach((dot, i) => {
+                dot.classList.toggle("active", i === index);
+              });
+            }
+
+            // Auto-rotation toutes les 5 secondes
+            setInterval(() => {
+              currentIndex = (currentIndex + 1) % priorityAnnouncements.length;
+              showSlide(currentIndex);
+            }, 5000);
+
+            // Navigation manuelle par clic sur les points
+            dots.forEach((dot) => {
+              dot.addEventListener("click", () => {
+                currentIndex = parseInt(dot.dataset.index);
+                showSlide(currentIndex);
+              });
+            });
+          }
+
+          // ===== PANNEAU LATÉRAL : Toutes les annonces =====
+          const panelContent = document.getElementById("panel-content");
+          const notificationBadge =
+            document.getElementById("notification-badge");
+          const notificationBtn = document.getElementById("notification-btn");
+          const panel = document.getElementById("announcements-panel");
+          const closeBtn = document.getElementById("panel-close-btn");
+
+          // Mise à jour du badge avec le nombre total d'annonces actives
+          notificationBadge.textContent = activeAnnouncements.length;
+
+          // Afficher toutes les annonces dans le panneau
+          if (activeAnnouncements.length === 0) {
+            panelContent.innerHTML = `
+              <div class="panel-empty">
+                <i class="fas fa-inbox"></i>
+                <p>Aucune annonce pour le moment</p>
+              </div>
+            `;
+          } else {
+            activeAnnouncements.forEach((announcement) => {
+              const panelAnn = document.createElement("div");
+              panelAnn.className = `panel-announcement ${announcement.type}`;
+
+              panelAnn.innerHTML = `
+                <h4>
+                  <i class="fas ${icons[announcement.type] || icons.info}"></i>
+                  ${announcement.title}
+                </h4>
+                <p>${announcement.message}</p>
+                <div class="date">${new Date(
+                  announcement.date
+                ).toLocaleDateString("fr-FR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}</div>
+              `;
+
+              panelContent.appendChild(panelAnn);
+            });
+          }
+
+          // Ouvrir le panneau au clic sur la cloche
+          notificationBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            panel.style.display = "block";
+            // Petit délai pour permettre la transition CSS
+            setTimeout(() => {
+              panel.classList.add("visible");
+            }, 10);
+          });
+
+          // Fermer le panneau
+          closeBtn.addEventListener("click", () => {
+            panel.classList.remove("visible");
+            // Masquer après la transition
+            setTimeout(() => {
+              panel.style.display = "none";
+            }, 300);
+          });
+
+          // Fermer le panneau si on clique en dehors
+          document.addEventListener("click", (e) => {
+            if (
+              !panel.contains(e.target) &&
+              !notificationBtn.contains(e.target)
+            ) {
+              panel.classList.remove("visible");
+              // Masquer après la transition
+              setTimeout(() => {
+                panel.style.display = "none";
+              }, 300);
+            }
+          });
+
+          // Empêcher la fermeture si on clique dans le panneau
+          panel.addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
+        } catch (e) {
+          console.warn("Erreur lors du chargement des annonces:", e);
+        }
+      })();
+    </script>
+  </body>
+</html>

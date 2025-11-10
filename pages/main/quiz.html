@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz - Portail de Test</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <script src="../../assets/js/auth-guard.js"></script>
+    <style>
+      :root {
+        --accent-color: #00bcd4;
+        --primary: #007bff;
+        --success: #28a745;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --muted: #6c757d;
+      }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 40px 0;
+        min-height: 100vh;
+      }
+      .container {
+        width: 92%;
+        max-width: 900px;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        border-top: 5px solid var(--accent-color);
+        padding: 24px;
+      }
+      h1 {
+        margin: 0 0 8px 0;
+        color: var(--accent-color);
+      }
+      .subtitle {
+        color: #7f8c8d;
+        margin-bottom: 20px;
+      }
+      .quiz-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+      }
+      .quiz-card {
+        border: 1px solid #e6edf2;
+        border-radius: 12px;
+        padding: 14px;
+        background: #f9fbfd;
+      }
+      .quiz-card h3 {
+        margin: 6px 0;
+      }
+      .quiz-card .meta {
+        font-size: 0.85em;
+        color: #6b7280;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: none;
+        color: #fff;
+        background: var(--primary);
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #6c757d;
+      }
+      .btn.success {
+        background: var(--success);
+      }
+      .btn:hover {
+        filter: brightness(0.95);
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .screen {
+        display: none;
+      }
+      .screen.active {
+        display: block;
+      }
+      .question {
+        background: #f8fafc;
+        border: 1px solid #e6edf2;
+        border-radius: 10px;
+        padding: 16px;
+        margin-top: 14px;
+      }
+      .options {
+        margin-top: 10px;
+        display: grid;
+        gap: 8px;
+      }
+      .option {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 10px;
+        cursor: pointer;
+      }
+      .option input {
+        margin-right: 8px;
+      }
+      .progress {
+        height: 8px;
+        border-radius: 6px;
+        background: #e5e7eb;
+        overflow: hidden;
+        margin: 14px 0;
+      }
+      .progress > div {
+        height: 100%;
+        background: var(--primary);
+        width: 0%;
+      }
+      .summary {
+        background: #f8fff9;
+        border: 1px solid #d9f2e1;
+        border-radius: 10px;
+        padding: 16px;
+        margin-top: 14px;
+      }
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.8em;
+      }
+      .badge.success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .badge.warning {
+        background: #fff3cd;
+        color: #856404;
+      }
+      .badge.danger {
+        background: #f8d7da;
+        color: #721c24;
+      }
+      /* ================================== */
+      /* === STYLES DU LIEN ACCUEIL === */
+      /* Copié depuis project_timeline.html pour cohérence */
+      /* ================================== */
+
+      .home-link {
+        /* Positionnement */
+        position: fixed; /* Reste visible même en défilement */
+        top: 20px;
+        left: 20px;
+        z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+
+        /* Style du texte */
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057; /* Couleur de texte neutre */
+
+        /* Style du bouton/lien */
+        padding: 8px 15px;
+        border-radius: 20px; /* Bords arrondis pour l'effet soigné */
+        background-color: #f8f9fa; /* Fond très clair */
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        /* Transitions pour le côté soigné */
+        transition: all 0.2s ease-in-out;
+      }
+
+      .home-link:hover {
+        background-color: #e9ecef; /* Changement subtil au survol */
+        color: #007bff; /* Met l'accent sur la couleur primaire au survol */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Ombre plus marquée */
+        transform: translateY(-1px); /* Effet léger de "levée" */
+      }
+
+      /* Option pour les petits écrans (discrétion) */
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="menu.html" class="home-link" title="Retour à la page d'accueil">
+      🏠 Accueil
+    </a>
+    <div class="container">
+      <h1>Quiz</h1>
+      <div class="subtitle">
+        Testez vos connaissances (données locales, résultats conservés sur cet
+        appareil)
+      </div>
+
+      <!-- Liste des quiz -->
+      <div id="screen-list" class="screen active">
+        <div id="quiz-list" class="quiz-list"></div>
+      </div>
+
+      <!-- Écran de lancement -->
+      <div id="screen-start" class="screen">
+        <h2 id="start-title"></h2>
+        <p id="start-desc" class="subtitle"></p>
+        <div class="actions">
+          <button id="btn-begin" class="btn">
+            <i class="fas fa-play"></i> Commencer
+          </button>
+          <button id="btn-back-list" class="btn secondary">
+            <i class="fas fa-arrow-left"></i> Retour
+          </button>
+        </div>
+      </div>
+
+      <!-- Passage du quiz -->
+      <div id="screen-quiz" class="screen">
+        <div class="progress"><div id="progress-bar"></div></div>
+        <div id="question-container" class="question"></div>
+        <div class="actions">
+          <button id="btn-prev" class="btn secondary">
+            <i class="fas fa-arrow-left"></i> Précédent
+          </button>
+          <button id="btn-next" class="btn">
+            <i class="fas fa-arrow-right"></i> Suivant
+          </button>
+          <button id="btn-finish" class="btn success">
+            <i class="fas fa-flag-checkered"></i> Terminer
+          </button>
+        </div>
+      </div>
+
+      <!-- Résumé -->
+      <div id="screen-summary" class="screen">
+        <h2 id="summary-title"></h2>
+        <div id="summary-box" class="summary"></div>
+        <div class="actions">
+          <button id="btn-retry" class="btn">
+            <i class="fas fa-sync"></i> Recommencer
+          </button>
+          <button id="btn-to-list" class="btn secondary">
+            <i class="fas fa-list"></i> Retour
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../assets/js/quiz.js"></script>
+  </body>
+</html>

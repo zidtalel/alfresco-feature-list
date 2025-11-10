@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Quiz - Administration</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Scripts de protection -->
+    <script src="../../assets/js/auth-guard.js"></script>
+    <script src="../../assets/js/admin-guard.js"></script>
+
+    <style>
+      :root {
+        --primary-color: #007bff;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --info-color: #17a2b8;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      h1 {
+        margin: 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      h1 i {
+        color: var(--primary-color);
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .back-btn:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+      }
+
+      /* Navigation par onglets */
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      .tab {
+        padding: 12px 20px;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-weight: 600;
+        color: #6c757d;
+        transition: all 0.2s;
+      }
+
+      .tab:hover {
+        color: var(--primary-color);
+      }
+
+      .tab.active {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Liste des quiz */
+      .quiz-list {
+        display: grid;
+        gap: 15px;
+      }
+
+      .quiz-item {
+        background: #f8f9fa;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        transition: all 0.2s;
+      }
+
+      .quiz-item:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+      }
+
+      .quiz-content {
+        flex: 1;
+      }
+
+      .quiz-title {
+        font-weight: 700;
+        font-size: 1.1em;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .quiz-meta {
+        font-size: 0.85em;
+        color: #6c757d;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75em;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .badge.facile {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .badge.moyen {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .badge.difficile {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .quiz-actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      /* Formulaires */
+      .form-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.95em;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+
+      .form-group textarea {
+        min-height: 80px;
+        resize: vertical;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      /* Boutons */
+      .btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .btn-success {
+        background: var(--success-color);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #218838;
+      }
+
+      .btn-danger {
+        background: var(--danger-color);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #c82333;
+      }
+
+      .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.85em;
+      }
+
+      /* Questions dynamiques */
+      .questions-container {
+        margin-top: 20px;
+      }
+
+      .question-item {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .question-type-badge {
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.75em;
+        font-weight: 700;
+        background: #e7f3ff;
+        color: #0056b3;
+      }
+
+      .option-input {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        align-items: center;
+      }
+
+      .option-input input[type="text"] {
+        flex: 1;
+      }
+
+      .option-input input[type="radio"],
+      .option-input input[type="checkbox"] {
+        width: auto;
+      }
+
+      /* Alerte */
+      .alert {
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        display: none;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .alert.visible {
+        display: flex;
+      }
+
+      .alert.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert.danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* GitHub config */
+      .github-config {
+        background: #e7f3ff;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .github-config.configured {
+        background: #d4edda;
+        border-color: #28a745;
+      }
+
+      .config-form {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .config-form .form-group {
+        flex: 1;
+        min-width: 200px;
+        margin: 0;
+      }
+
+      .status-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-badge.connected {
+        background: #28a745;
+        color: white;
+      }
+
+      .status-badge.disconnected {
+        background: #6c757d;
+        color: white;
+      }
+
+      .help-text {
+        font-size: 0.85em;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+
+      .help-text a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .help-text a:hover {
+        text-decoration: underline;
+      }
+
+      /* Export section */
+      .export-section {
+        background: #fff3cd;
+        border: 2px dashed #ffc107;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .export-section h3 {
+        margin: 0 0 10px 0;
+        color: #856404;
+      }
+
+      .export-section p {
+        margin: 0 0 15px 0;
+        color: #856404;
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <i class="fas fa-question-circle"></i>
+          Gestion des Quiz
+        </h1>
+        <a href="../main/menu.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Retour au menu
+        </a>
+      </header>
+
+      <!-- Configuration GitHub -->
+      <div id="github-config" class="github-config">
+        <h3>
+          <i class="fas fa-github"></i>
+          Configuration GitHub API
+          <span id="status-badge" class="status-badge disconnected">
+            <i class="fas fa-times-circle"></i>
+            Non configuré
+          </span>
+        </h3>
+        <form id="config-form" class="config-form">
+          <div class="form-group">
+            <label for="github-token">Personal Access Token *</label>
+            <input
+              type="password"
+              id="github-token"
+              placeholder="ghp_xxxxxxxxxxxx"
+              required
+            />
+            <div class="help-text">
+              <a
+                href="https://github.com/settings/tokens/new?scopes=repo"
+                target="_blank"
+              >
+                Créer un token
+              </a>
+              avec le scope <code>repo</code>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="github-owner">Owner *</label>
+            <input
+              type="text"
+              id="github-owner"
+              placeholder="zidtalel"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-repo">Repository *</label>
+            <input
+              type="text"
+              id="github-repo"
+              placeholder="alfresco-project"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-branch">Branch</label>
+            <input
+              type="text"
+              id="github-branch"
+              value="master"
+              placeholder="master"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plug"></i>
+            Connecter
+          </button>
+        </form>
+      </div>
+
+      <!-- Message de succès/erreur -->
+      <div id="alert" class="alert"></div>
+
+      <!-- Navigation par onglets -->
+      <div class="tabs">
+        <button class="tab active" data-tab="list">
+          <i class="fas fa-list"></i> Liste des Quiz
+        </button>
+        <button class="tab" data-tab="create">
+          <i class="fas fa-plus-circle"></i> Créer un Quiz
+        </button>
+      </div>
+
+      <!-- Onglet: Liste des quiz -->
+      <div id="tab-list" class="tab-content active">
+        <h2>
+          <i class="fas fa-list"></i> Quiz Existants
+          <span
+            id="count-badge"
+            style="
+              background: var(--primary-color);
+              color: white;
+              padding: 4px 12px;
+              border-radius: 20px;
+              font-size: 0.7em;
+              margin-left: 10px;
+            "
+            >0</span
+          >
+        </h2>
+        <div id="quiz-list" class="quiz-list"></div>
+      </div>
+
+      <!-- Onglet: Créer/Éditer un quiz -->
+      <div id="tab-create" class="tab-content">
+        <h2 id="form-title"><i class="fas fa-plus-circle"></i> Nouveau Quiz</h2>
+        <form id="quiz-form" class="form-section">
+          <input type="hidden" id="quiz-id" />
+          <input type="hidden" id="edit-mode" value="false" />
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="quiz-title-input">Titre du Quiz *</label>
+              <input
+                type="text"
+                id="quiz-title-input"
+                required
+                placeholder="Ex: Bases de Gherkin"
+              />
+            </div>
+            <div class="form-group">
+              <label for="quiz-category">Catégorie *</label>
+              <input
+                type="text"
+                id="quiz-category"
+                required
+                placeholder="Ex: Gherkin"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="quiz-description">Description</label>
+            <textarea
+              id="quiz-description"
+              placeholder="Ex: Identifier Given/When/Then et bonnes pratiques."
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="quiz-difficulty">Difficulté *</label>
+            <select id="quiz-difficulty" required>
+              <option value="facile">Facile</option>
+              <option value="moyen">Moyen</option>
+              <option value="difficile">Difficile</option>
+            </select>
+          </div>
+
+          <h3>Questions</h3>
+          <div id="questions-container" class="questions-container"></div>
+
+          <button type="button" class="btn btn-primary" onclick="addQuestion()">
+            <i class="fas fa-plus"></i> Ajouter une Question
+          </button>
+
+          <div style="margin-top: 20px; display: flex; gap: 10px">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-save"></i>
+              <span id="submit-btn-text">Créer le Quiz</span>
+            </button>
+            <button
+              type="button"
+              class="btn"
+              style="background: #6c757d; color: white"
+              onclick="cancelEdit()"
+            >
+              <i class="fas fa-times"></i> Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Section Sauvegarde -->
+      <div class="export-section">
+        <h3><i class="fas fa-save"></i> Sauvegarder les modifications</h3>
+        <p id="save-instructions">
+          Connectez-vous à GitHub API pour sauvegarder automatiquement, ou
+          téléchargez manuellement le fichier JSON.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center">
+          <button
+            id="save-github-btn"
+            class="btn btn-success"
+            onclick="saveToGitHub()"
+            disabled
+          >
+            <i class="fas fa-cloud-upload-alt"></i>
+            Sauvegarder sur GitHub
+          </button>
+          <button
+            class="btn"
+            style="background: #6c757d; color: white"
+            onclick="exportQuizzes()"
+          >
+            <i class="fas fa-file-download"></i>
+            Télécharger JSON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Configuration GitHub
+      let githubConfig = {
+        token: null,
+        owner: null,
+        repo: null,
+        branch: "master",
+      };
+
+      // Stockage local des quiz
+      let quizzes = [];
+      let questionCounter = 0;
+
+      // Charger les quiz existants
+      async function loadQuizzes() {
+        try {
+          const response = await fetch("../../config/quizzes.json");
+          if (response.ok) {
+            const data = await response.json();
+            quizzes = data.quizzes || [];
+          }
+        } catch (e) {
+          console.warn("Erreur chargement quizzes.json:", e);
+        }
+        renderQuizList();
+      }
+
+      // Afficher la liste des quiz
+      function renderQuizList() {
+        const container = document.getElementById("quiz-list");
+        const countBadge = document.getElementById("count-badge");
+
+        countBadge.textContent = quizzes.length;
+
+        if (quizzes.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6c757d;">
+              <i class="fas fa-inbox" style="font-size: 3em; margin-bottom: 10px;"></i>
+              <p>Aucun quiz pour le moment. Créez-en un !</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = quizzes
+          .map(
+            (quiz) => `
+          <div class="quiz-item">
+            <div class="quiz-content">
+              <div class="quiz-title">${quiz.title}</div>
+              <div class="quiz-meta">
+                <span><i class="fas fa-tag"></i> ${quiz.category}</span>
+                <span class="badge ${quiz.difficulty}">${quiz.difficulty}</span>
+                <span><i class="fas fa-question"></i> ${
+                  quiz.questions.length
+                } question(s)</span>
+              </div>
+              <div style="margin-top: 8px; color: #6c757d; font-size: 0.9em;">
+                ${quiz.description || "Pas de description"}
+              </div>
+            </div>
+            <div class="quiz-actions">
+              <button class="btn btn-sm btn-primary" onclick="editQuiz('${
+                quiz.id
+              }')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="deleteQuiz('${
+                quiz.id
+              }')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // Supprimer un quiz
+      function deleteQuiz(quizId) {
+        if (confirm("Êtes-vous sûr de vouloir supprimer ce quiz ?")) {
+          quizzes = quizzes.filter((q) => q.id !== quizId);
+          renderQuizList();
+          showAlert("Quiz supprimé.", "success");
+        }
+      }
+
+      // Éditer un quiz
+      function editQuiz(quizId) {
+        const quiz = quizzes.find((q) => q.id === quizId);
+        if (!quiz) return;
+
+        // Remplir le formulaire
+        document.getElementById("quiz-id").value = quiz.id;
+        document.getElementById("edit-mode").value = "true";
+        document.getElementById("quiz-title-input").value = quiz.title;
+        document.getElementById("quiz-category").value = quiz.category;
+        document.getElementById("quiz-description").value =
+          quiz.description || "";
+        document.getElementById("quiz-difficulty").value = quiz.difficulty;
+
+        // Charger les questions
+        const container = document.getElementById("questions-container");
+        container.innerHTML = "";
+        questionCounter = 0;
+
+        quiz.questions.forEach((q) => {
+          addQuestion(q);
+        });
+
+        // Changer le titre
+        document.getElementById("form-title").innerHTML =
+          '<i class="fas fa-edit"></i> Éditer le Quiz';
+        document.getElementById("submit-btn-text").textContent =
+          "Mettre à jour";
+
+        // Basculer sur l'onglet création
+        switchTab("create");
+      }
+
+      // Annuler l'édition
+      function cancelEdit() {
+        document.getElementById("quiz-form").reset();
+        document.getElementById("edit-mode").value = "false";
+        document.getElementById("quiz-id").value = "";
+        document.getElementById("questions-container").innerHTML = "";
+        questionCounter = 0;
+        document.getElementById("form-title").innerHTML =
+          '<i class="fas fa-plus-circle"></i> Nouveau Quiz';
+        document.getElementById("submit-btn-text").textContent =
+          "Créer le Quiz";
+        switchTab("list");
+      }
+
+      // Ajouter une question
+      function addQuestion(existingData = null) {
+        const container = document.getElementById("questions-container");
+        const qId = questionCounter++;
+
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question-item";
+        questionDiv.dataset.questionId = qId;
+
+        const type = existingData?.type || "single_choice";
+
+        questionDiv.innerHTML = `
+          <div class="question-header">
+            <span class="question-type-badge">Question #${qId + 1}</span>
+            <button type="button" class="btn btn-sm btn-danger" onclick="removeQuestion(${qId})">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="form-group">
+            <label>Type de question *</label>
+            <select class="question-type" data-qid="${qId}" onchange="updateQuestionType(${qId})">
+              <option value="single_choice" ${
+                type === "single_choice" ? "selected" : ""
+              }>Choix unique</option>
+              <option value="multiple_choice" ${
+                type === "multiple_choice" ? "selected" : ""
+              }>Choix multiples</option>
+              <option value="true_false" ${
+                type === "true_false" ? "selected" : ""
+              }>Vrai/Faux</option>
+              <option value="match" ${
+                type === "match" ? "selected" : ""
+              }>Associer</option>
+              <option value="free_text" ${
+                type === "free_text" ? "selected" : ""
+              }>Texte libre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Question *</label>
+            <textarea class="question-text" required>${
+              existingData?.question || ""
+            }</textarea>
+          </div>
+          <div class="question-fields" id="fields-${qId}"></div>
+          <div class="form-group">
+            <label>Explication (optionnel)</label>
+            <textarea class="question-explanation">${
+              existingData?.explanation || ""
+            }</textarea>
+          </div>
+        `;
+
+        container.appendChild(questionDiv);
+        updateQuestionType(qId, existingData);
+      }
+
+      // Retirer une question
+      function removeQuestion(qId) {
+        const element = document.querySelector(`[data-question-id="${qId}"]`);
+        if (element && confirm("Supprimer cette question ?")) {
+          element.remove();
+        }
+      }
+
+      // Mettre à jour les champs selon le type
+      function updateQuestionType(qId, existingData = null) {
+        const container = document.getElementById(`fields-${qId}`);
+        const typeSelect = document.querySelector(
+          `.question-type[data-qid="${qId}"]`
+        );
+        const type = typeSelect.value;
+
+        if (type === "single_choice" || type === "multiple_choice") {
+          const options = existingData?.options || ["", ""];
+          const answer = existingData?.answer;
+          const answers = existingData?.answers || [];
+
+          container.innerHTML = `
+            <div class="form-group">
+              <label>Options (minimum 2) *</label>
+              <div class="options-list" id="options-${qId}">
+                ${options
+                  .map(
+                    (opt, idx) => `
+                  <div class="option-input">
+                    <input type="text" class="option-text" value="${opt}" placeholder="Option ${
+                      idx + 1
+                    }" required />
+                    ${
+                      type === "single_choice"
+                        ? `<input type="radio" name="answer-${qId}" value="${idx}" ${
+                            answer === idx ? "checked" : ""
+                          } />`
+                        : `<input type="checkbox" class="answer-check" value="${idx}" ${
+                            answers.includes(idx) ? "checked" : ""
+                          } />`
+                    }
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeOption(${qId}, this)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+              <button type="button" class="btn btn-sm btn-primary" onclick="addOption(${qId})" style="margin-top: 8px;">
+                <i class="fas fa-plus"></i> Ajouter Option
+              </button>
+              <div class="help-text">Cochez la/les bonne(s) réponse(s)</div>
+            </div>
+          `;
+        } else if (type === "true_false") {
+          const answer = existingData?.answer ?? true;
+          container.innerHTML = `
+            <div class="form-group">
+              <label>Réponse correcte *</label>
+              <select class="tf-answer">
+                <option value="true" ${
+                  answer === true ? "selected" : ""
+                }>Vrai</option>
+                <option value="false" ${
+                  answer === false ? "selected" : ""
+                }>Faux</option>
+              </select>
+            </div>
+          `;
+        } else if (type === "match") {
+          const pairs = existingData?.pairs || {};
+          const entries = Object.entries(pairs);
+          container.innerHTML = `
+            <div class="form-group">
+              <label>Paires à associer *</label>
+              <div class="pairs-list" id="pairs-${qId}">
+                ${
+                  entries.length === 0
+                    ? '<div class="help-text">Ajoutez au moins une paire</div>'
+                    : ""
+                }
+                ${entries
+                  .map(
+                    ([key, value], idx) => `
+                  <div class="option-input" style="margin-bottom: 8px;">
+                    <input type="text" class="pair-key" value="${key}" placeholder="Clé ${
+                      idx + 1
+                    }" required />
+                    <input type="text" class="pair-value" value="${value}" placeholder="Valeur ${
+                      idx + 1
+                    }" required />
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removePair(${qId}, this)">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+              <button type="button" class="btn btn-sm btn-primary" onclick="addPair(${qId})" style="margin-top: 8px;">
+                <i class="fas fa-plus"></i> Ajouter Paire
+              </button>
+            </div>
+          `;
+        } else if (type === "free_text") {
+          const expected = existingData?.expected || "";
+          const mode = existingData?.mode || "equals";
+          container.innerHTML = `
+            <div class="form-group">
+              <label>Réponse attendue *</label>
+              <input type="text" class="free-text-expected" value="${expected}" required placeholder="Ex: Examples" />
+            </div>
+            <div class="form-group">
+              <label>Mode de vérification</label>
+              <select class="free-text-mode">
+                <option value="equals" ${
+                  mode === "equals" ? "selected" : ""
+                }>Égal (strict)</option>
+                <option value="contains" ${
+                  mode === "contains" ? "selected" : ""
+                }>Contient</option>
+              </select>
+            </div>
+          `;
+        }
+      }
+
+      // Ajouter une option
+      function addOption(qId) {
+        const container = document.getElementById(`options-${qId}`);
+        const idx = container.children.length;
+        const typeSelect = document.querySelector(
+          `.question-type[data-qid="${qId}"]`
+        );
+        const type = typeSelect.value;
+
+        const optionDiv = document.createElement("div");
+        optionDiv.className = "option-input";
+        optionDiv.innerHTML = `
+          <input type="text" class="option-text" placeholder="Option ${
+            idx + 1
+          }" required />
+          ${
+            type === "single_choice"
+              ? `<input type="radio" name="answer-${qId}" value="${idx}" />`
+              : `<input type="checkbox" class="answer-check" value="${idx}" />`
+          }
+          <button type="button" class="btn btn-sm btn-danger" onclick="removeOption(${qId}, this)">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        container.appendChild(optionDiv);
+      }
+
+      // Retirer une option
+      function removeOption(qId, btn) {
+        btn.parentElement.remove();
+      }
+
+      // Ajouter une paire
+      function addPair(qId) {
+        const container = document.getElementById(`pairs-${qId}`);
+        const idx = container.querySelectorAll(".option-input").length;
+
+        const pairDiv = document.createElement("div");
+        pairDiv.className = "option-input";
+        pairDiv.style.marginBottom = "8px";
+        pairDiv.innerHTML = `
+          <input type="text" class="pair-key" placeholder="Clé ${
+            idx + 1
+          }" required />
+          <input type="text" class="pair-value" placeholder="Valeur ${
+            idx + 1
+          }" required />
+          <button type="button" class="btn btn-sm btn-danger" onclick="removePair(${qId}, this)">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        container.appendChild(pairDiv);
+      }
+
+      // Retirer une paire
+      function removePair(qId, btn) {
+        btn.parentElement.remove();
+      }
+
+      // Soumettre le formulaire de quiz
+      document
+        .getElementById("quiz-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const editMode =
+            document.getElementById("edit-mode").value === "true";
+          const quizId =
+            document.getElementById("quiz-id").value ||
+            document
+              .getElementById("quiz-title-input")
+              .value.toLowerCase()
+              .replace(/\s+/g, "_")
+              .replace(/[^a-z0-9_]/g, "");
+
+          const title = document
+            .getElementById("quiz-title-input")
+            .value.trim();
+          const category = document
+            .getElementById("quiz-category")
+            .value.trim();
+          const description = document
+            .getElementById("quiz-description")
+            .value.trim();
+          const difficulty = document.getElementById("quiz-difficulty").value;
+
+          // Collecter les questions
+          const questions = [];
+          const questionItems = document.querySelectorAll(".question-item");
+
+          if (questionItems.length === 0) {
+            showAlert("Ajoutez au moins une question.", "danger");
+            return;
+          }
+
+          let hasError = false;
+
+          questionItems.forEach((item) => {
+            const qId = item.dataset.questionId;
+            const type = item.querySelector(".question-type").value;
+            const question = item.querySelector(".question-text").value.trim();
+            const explanation = item
+              .querySelector(".question-explanation")
+              .value.trim();
+
+            if (!question) {
+              hasError = true;
+              return;
+            }
+
+            const questionData = { type, question };
+
+            if (explanation) questionData.explanation = explanation;
+
+            if (type === "single_choice") {
+              const options = Array.from(
+                item.querySelectorAll(".option-text")
+              ).map((inp) => inp.value.trim());
+              const answerRadio = item.querySelector(
+                `input[name="answer-${qId}"]:checked`
+              );
+
+              if (options.length < 2 || !answerRadio) {
+                hasError = true;
+                return;
+              }
+
+              questionData.options = options;
+              questionData.answer = parseInt(answerRadio.value);
+            } else if (type === "multiple_choice") {
+              const options = Array.from(
+                item.querySelectorAll(".option-text")
+              ).map((inp) => inp.value.trim());
+              const answers = Array.from(
+                item.querySelectorAll(".answer-check:checked")
+              ).map((inp) => parseInt(inp.value));
+
+              if (options.length < 2 || answers.length === 0) {
+                hasError = true;
+                return;
+              }
+
+              questionData.options = options;
+              questionData.answers = answers;
+            } else if (type === "true_false") {
+              const answer = item.querySelector(".tf-answer").value === "true";
+              questionData.answer = answer;
+            } else if (type === "match") {
+              const pairs = {};
+              const pairInputs = item.querySelectorAll(
+                "#pairs-" + qId + " .option-input"
+              );
+
+              if (pairInputs.length === 0) {
+                hasError = true;
+                return;
+              }
+
+              pairInputs.forEach((pairDiv) => {
+                const key = pairDiv.querySelector(".pair-key").value.trim();
+                const value = pairDiv.querySelector(".pair-value").value.trim();
+                if (key && value) {
+                  pairs[key] = value;
+                }
+              });
+
+              if (Object.keys(pairs).length === 0) {
+                hasError = true;
+                return;
+              }
+
+              questionData.pairs = pairs;
+            } else if (type === "free_text") {
+              const expected = item
+                .querySelector(".free-text-expected")
+                .value.trim();
+              const mode = item.querySelector(".free-text-mode").value;
+
+              if (!expected) {
+                hasError = true;
+                return;
+              }
+
+              questionData.expected = expected;
+              questionData.mode = mode;
+            }
+
+            questions.push(questionData);
+          });
+
+          if (hasError) {
+            showAlert(
+              "Veuillez remplir correctement toutes les questions.",
+              "danger"
+            );
+            return;
+          }
+
+          const newQuiz = {
+            id: quizId,
+            title,
+            category,
+            description,
+            difficulty,
+            questions,
+          };
+
+          if (editMode) {
+            const index = quizzes.findIndex((q) => q.id === quizId);
+            if (index !== -1) {
+              quizzes[index] = newQuiz;
+              showAlert("Quiz mis à jour !", "success");
+            }
+          } else {
+            quizzes.push(newQuiz);
+            showAlert("Quiz créé avec succès !", "success");
+          }
+
+          renderQuizList();
+          cancelEdit();
+        });
+
+      // Navigation par onglets
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const targetTab = tab.dataset.tab;
+          switchTab(targetTab);
+        });
+      });
+
+      function switchTab(tabName) {
+        document.querySelectorAll(".tab").forEach((t) => {
+          t.classList.remove("active");
+        });
+        document.querySelectorAll(".tab-content").forEach((c) => {
+          c.classList.remove("active");
+        });
+
+        document
+          .querySelector(`[data-tab="${tabName}"]`)
+          .classList.add("active");
+        document.getElementById(`tab-${tabName}`).classList.add("active");
+      }
+
+      // Configuration GitHub
+      document
+        .getElementById("config-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          githubConfig.token = document
+            .getElementById("github-token")
+            .value.trim();
+          githubConfig.owner = document
+            .getElementById("github-owner")
+            .value.trim();
+          githubConfig.repo = document
+            .getElementById("github-repo")
+            .value.trim();
+          githubConfig.branch =
+            document.getElementById("github-branch").value.trim() || "master";
+
+          sessionStorage.setItem("githubConfig", JSON.stringify(githubConfig));
+          testGitHubConnection();
+        });
+
+      async function testGitHubConnection() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert("Veuillez remplir tous les champs requis.", "danger");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}`,
+            {
+              headers: {
+                Authorization: `Bearer ${githubConfig.token}`,
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+
+          if (response.ok) {
+            updateConfigStatus(true);
+            showAlert("✅ Connexion GitHub réussie !", "success");
+          } else {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+        } catch (e) {
+          updateConfigStatus(false);
+          showAlert(`❌ Erreur de connexion GitHub: ${e.message}`, "danger");
+        }
+      }
+
+      function updateConfigStatus(connected) {
+        const configDiv = document.getElementById("github-config");
+        const statusBadge = document.getElementById("status-badge");
+        const saveBtn = document.getElementById("save-github-btn");
+        const instructions = document.getElementById("save-instructions");
+
+        if (connected) {
+          configDiv.classList.add("configured");
+          statusBadge.className = "status-badge connected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-check-circle"></i> Connecté';
+          saveBtn.disabled = false;
+          instructions.textContent =
+            "Vos modifications seront sauvegardées automatiquement sur GitHub.";
+        } else {
+          configDiv.classList.remove("configured");
+          statusBadge.className = "status-badge disconnected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-times-circle"></i> Non configuré';
+          saveBtn.disabled = true;
+          instructions.textContent =
+            "Connectez-vous à GitHub API pour sauvegarder automatiquement, ou téléchargez manuellement le fichier JSON.";
+        }
+      }
+
+      async function saveToGitHub() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert(
+            "Configuration GitHub manquante. Connectez-vous d'abord.",
+            "danger"
+          );
+          return;
+        }
+
+        const saveBtn = document.getElementById("save-github-btn");
+        saveBtn.disabled = true;
+        saveBtn.innerHTML =
+          '<i class="fas fa-spinner fa-spin"></i> Sauvegarde...';
+
+        try {
+          const filePath = "config/quizzes.json";
+          const apiUrl = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${filePath}`;
+
+          const getResponse = await fetch(
+            `${apiUrl}?ref=${githubConfig.branch}`,
+            {
+              headers: {
+                Authorization: `Bearer ${githubConfig.token}`,
+                Accept: "application/vnd.github.v3+json",
+              },
+            }
+          );
+
+          let sha = null;
+          if (getResponse.ok) {
+            const fileData = await getResponse.json();
+            sha = fileData.sha;
+          }
+
+          const content = JSON.stringify({ quizzes: quizzes }, null, 2);
+          const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
+          const commitData = {
+            message: `[Admin] Mise à jour des quiz (${new Date().toLocaleDateString(
+              "fr-FR"
+            )})`,
+            content: encodedContent,
+            branch: githubConfig.branch,
+          };
+
+          if (sha) {
+            commitData.sha = sha;
+          }
+
+          const putResponse = await fetch(apiUrl, {
+            method: "PUT",
+            headers: {
+              Authorization: `Bearer ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(commitData),
+          });
+
+          if (putResponse.ok) {
+            showAlert(
+              "✅ Quiz sauvegardés sur GitHub ! Déploiement en cours (~1 min)...",
+              "success"
+            );
+          } else {
+            const error = await putResponse.json();
+            throw new Error(error.message || `HTTP ${putResponse.status}`);
+          }
+        } catch (e) {
+          showAlert(`❌ Erreur lors de la sauvegarde: ${e.message}`, "danger");
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.innerHTML =
+            '<i class="fas fa-cloud-upload-alt"></i> Sauvegarder sur GitHub';
+        }
+      }
+
+      function exportQuizzes() {
+        const data = { quizzes: quizzes };
+        const blob = new Blob([JSON.stringify(data, null, 2)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "quizzes.json";
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showAlert(
+          "📥 Fichier JSON téléchargé ! Remplacez-le dans le projet.",
+          "success"
+        );
+      }
+
+      function showAlert(message, type) {
+        const alert = document.getElementById("alert");
+        alert.className = `alert ${type} visible`;
+        alert.innerHTML = `
+          <i class="fas fa-${
+            type === "success" ? "check-circle" : "exclamation-triangle"
+          }"></i>
+          <span>${message}</span>
+        `;
+        setTimeout(() => alert.classList.remove("visible"), 5000);
+      }
+
+      function restoreGitHubConfig() {
+        const saved = sessionStorage.getItem("githubConfig");
+        if (saved) {
+          try {
+            const config = JSON.parse(saved);
+            githubConfig = config;
+
+            document.getElementById("github-token").value = config.token || "";
+            document.getElementById("github-owner").value = config.owner || "";
+            document.getElementById("github-repo").value = config.repo || "";
+            document.getElementById("github-branch").value =
+              config.branch || "master";
+
+            if (config.token && config.owner && config.repo) {
+              testGitHubConnection();
+            }
+          } catch (e) {
+            console.warn("Erreur lors de la restauration de la config:", e);
+          }
+        }
+      }
+
+      // Initialisation
+      loadQuizzes();
+      restoreGitHubConfig();
+    </script>
+  </body>
+</html>
