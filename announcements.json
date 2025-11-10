@@ -26,24 +26,6 @@
       "active": true,
       "priority": true,
       "date": "2025-11-10"
-    },
-    {
-      "id": 4,
-      "title": "Gros test",
-      "message": "Ceci est un gros gros test! Il est vraiment trop gros!",
-      "type": "danger",
-      "active": false,
-      "priority": true,
-      "date": "2025-11-10"
-    },
-    {
-      "id": 5,
-      "title": "Message important !",
-      "message": "Message important",
-      "type": "warning",
-      "active": true,
-      "priority": true,
-      "date": "2025-11-10"
     }
   ]
 }
