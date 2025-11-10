@@ -212,7 +212,7 @@ Ce projet est sous licence **MIT** - voir le fichier [LICENSE](LICENSE) pour plu
 
 ## 📧 Contact
 
-**Enseignant** : Talel Zid  (zidtalel@gmail.com)
+**Enseignant** : Talel Zid  (zidtalel@gmail.com)  
 **Institution** : Collège de Bois de Boulogne  
 **Année académique** : 2025
 
