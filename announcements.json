@@ -17,15 +17,6 @@
       "active": true,
       "date": "2025-11-10",
       "priority": true
-    },
-    {
-      "id": 3,
-      "title": "Ceci est un test",
-      "message": "La page Environnement de test est en maintenance.",
-      "type": "danger",
-      "active": true,
-      "priority": true,
-      "date": "2025-11-10"
     }
   ]
 }
