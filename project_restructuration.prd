@@ -3,8 +3,9 @@
 ## 📋 Métadonnées du Document
 
 - **Titre** : Restructuration et Réorganisation de l'Architecture du Projet
-- **Version** : 1.0
+- **Version** : 1.1
 - **Date de création** : 9 novembre 2025
+- **Dernière mise à jour** : 10 novembre 2025
 - **Auteur** : GitHub Copilot
 - **Statut** : Proposition - En attente d'approbation
 
@@ -49,6 +50,7 @@ alfresco-project/
 ├── pages/                          # 📄 Toutes les pages HTML applicatives
 │   ├── admin/                      # Pages d'administration
 │   │   ├── admin-announcements.html
+│   │   ├── features.html
 │   │   └── admin-quiz.html
 │   │
 │   ├── guides/                     # Guides et documentation utilisateur
@@ -68,7 +70,6 @@ alfresco-project/
 │   │   └── exemple_us.html
 │   │
 │   ├── features/                   # Pages de gestion des features par équipe
-│   │   ├── features.html
 │   │   ├── features_2_equipes.html
 │   │   ├── features_3_equipes.html
 │   │   ├── features_4_equipes.html
@@ -122,9 +123,12 @@ alfresco-project/
 
 ### 1. Pages HTML → `pages/`
 
-#### `pages/admin/` (2 fichiers)
+#### `pages/admin/` (3 fichiers)
 - ✅ `admin-announcements.html` → Administration des annonces
 - ✅ `admin-quiz.html` → Administration des quiz
+- ✅ `features.html` → Gestion des features (page principale d'administration)
+  
+  **Note** : `features.html` est placé dans `admin/` car il s'agit de la page de gestion administrative des features. Les variantes par nombre d'équipes (`features_X_equipes.html`) restent dans le dossier `pages/features/`.
 
 #### `pages/guides/` (9 fichiers)
 - ✅ `guide_bdd.html`
@@ -142,12 +146,11 @@ alfresco-project/
 - ✅ `cheat_sheet_xpath.html`
 - ✅ `exemple_us.html`
 
-#### `pages/features/` (5 fichiers)
-- ✅ `features.html`
-- ✅ `features_2_equipes.html`
-- ✅ `features_3_equipes.html`
-- ✅ `features_4_equipes.html`
-- ✅ `features_5_equipes.html`
+#### `pages/features/` (4 fichiers)
+- ✅ `features_2_equipes.html` → Configuration pour 2 équipes
+- ✅ `features_3_equipes.html` → Configuration pour 3 équipes
+- ✅ `features_4_equipes.html` → Configuration pour 4 équipes
+- ✅ `features_5_equipes.html` → Configuration pour 5 équipes
 
 #### `pages/main/` (5 fichiers)
 - ✅ `index.html`
@@ -210,11 +213,13 @@ alfresco-project/
 <!-- Avant -->
 <a href="quiz.html">Quiz</a>
 <a href="admin-announcements.html">Admin Annonces</a>
+<a href="features.html">Features</a>
 <img src="images/logo.png">
 
 <!-- Après -->
 <a href="quiz.html">Quiz</a>  <!-- Reste identique (même dossier) -->
 <a href="../admin/admin-announcements.html">Admin Annonces</a>
+<a href="../admin/features.html">Features</a>
 <img src="../../assets/images/logo.png">
 ```
 
@@ -231,7 +236,7 @@ alfresco-project/
 
 #### B. Pages Admin (`pages/admin/`)
 
-**Fichiers : `admin-announcements.html`, `admin-quiz.html`**
+**Fichiers : `admin-announcements.html`, `admin-quiz.html`, `features.html`**
 ```html
 <!-- Avant -->
 <script src="js/auth-guard.js"></script>
@@ -243,6 +248,8 @@ alfresco-project/
 <script src="../../assets/js/admin-guard.js"></script>
 <a href="../main/menu.html">Retour</a>
 ```
+
+**Note** : `features.html` suit la même structure que les autres pages admin, car elle nécessite les mêmes permissions d'administration.
 
 #### C. Pages Guides (`pages/guides/`)
 
@@ -510,6 +517,7 @@ New-Item -ItemType Directory -Path "assets\downloads" -Force
 # Pages Admin
 Move-Item "admin-announcements.html" "pages\admin\"
 Move-Item "admin-quiz.html" "pages\admin\"
+Move-Item "features.html" "pages\admin\"
 
 # Pages Guides
 Move-Item "guide_*.html" "pages\guides\"
@@ -518,8 +526,11 @@ Move-Item "guide_*.html" "pages\guides\"
 Move-Item "cheat_sheet_*.html" "pages\tools\"
 Move-Item "exemple_us.html" "pages\tools\"
 
-# Pages Features
-Move-Item "features*.html" "pages\features\"
+# Pages Features (variantes par nombre d'équipes)
+Move-Item "features_2_equipes.html" "pages\features\"
+Move-Item "features_3_equipes.html" "pages\features\"
+Move-Item "features_4_equipes.html" "pages\features\"
+Move-Item "features_5_equipes.html" "pages\features\"
 
 # Pages Main
 Move-Item "index.html" "pages\main\"
@@ -689,6 +700,7 @@ Avec cette nouvelle structure, il sera facile d'ajouter :
 | Version | Date | Auteur | Modifications |
 |---------|------|--------|---------------|
 | 1.0 | 9 nov 2025 | GitHub Copilot | Création initiale du PRD |
+| 1.1 | 10 nov 2025 | GitHub Copilot | Déplacement de `features.html` vers `pages/admin/` |
 
 ---
 
