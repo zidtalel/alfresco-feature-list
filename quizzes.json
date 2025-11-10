@@ -1,0 +1,245 @@
+{
+  "quizzes": [
+    {
+      "id": "gherkin_basics",
+      "title": "Bases de Gherkin",
+      "category": "Gherkin",
+      "description": "Identifier Given/When/Then et bonnes pratiques.",
+      "difficulty": "facile",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quel mot-clé introduit le contexte initial ?",
+          "options": ["Given", "When", "Then"],
+          "answer": 0,
+          "explanation": "Le mot-clé Given décrit l'état initial avant l'action."
+        },
+        {
+          "type": "multiple_choice",
+          "question": "Quelles affirmations sont correctes ?",
+          "options": [
+            "Les scénarios doivent être concis",
+            "Gherkin est spécifique à un langage",
+            "Les Steps doivent parler métier"
+          ],
+          "answers": [0, 2],
+          "explanation": "Gherkin est indépendant du langage et orienté métier."
+        },
+        {
+          "type": "true_false",
+          "question": "Les scénarios doivent être écrits en langage impératif.",
+          "answer": false,
+          "explanation": "Ils doivent rester descriptifs et orientés métier."
+        },
+        {
+          "type": "match",
+          "question": "Associez le mot-clé à sa description",
+          "pairs": {
+            "Given": "Contexte initial",
+            "When": "Action",
+            "Then": "Résultat attendu"
+          },
+          "explanation": "Le triptyque Given/When/Then structure un scénario."
+        },
+        {
+          "type": "free_text",
+          "question": "Quel mot-clé est utilisé pour des variantes (paramétrage) ?",
+          "expected": "Examples",
+          "mode": "equals",
+          "explanation": "Le mot-clé 'Examples' accompagne 'Scenario Outline'."
+        }
+      ]
+    },
+    {
+      "id": "markdown_intro",
+      "title": "Markdown — Notions de base",
+      "category": "Markdown",
+      "description": "Syntaxe essentielle, titres, listes, code, liens.",
+      "difficulty": "facile",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quel symbole précède un titre de niveau 1 ?",
+          "options": ["#", "##", "*"],
+          "answer": 0,
+          "explanation": "# Titre H1"
+        },
+        {
+          "type": "multiple_choice",
+          "question": "Quels éléments créent une liste non ordonnée ?",
+          "options": ["-", "*", "+", "1."],
+          "answers": [0,1,2],
+          "explanation": "-, * ou + créent des puces ; 1. crée une liste ordonnée."
+        },
+        {
+          "type": "true_false",
+          "question": "```code``` est la bonne syntaxe pour du code en ligne.",
+          "answer": true,
+          "explanation": "Les backticks encadrent le code inline."
+        },
+        {
+          "type": "free_text",
+          "question": "Quel caractère entoure le texte pour le mettre en italique ?",
+          "expected": "*",
+          "mode": "contains",
+          "explanation": "*italique* (ou _italique_)."
+        }
+      ]
+    },
+    {
+      "id": "pict_pairwise_basics",
+      "title": "Pairwise / PICT — Fondamentaux",
+      "category": "PICT",
+      "description": "Principe pairwise et contraintes simples.",
+      "difficulty": "moyen",
+      "questions": [
+        {
+          "type": "true_false",
+          "question": "Le pairwise vise à couvrir toutes les combinaisons possibles.",
+          "answer": false,
+          "explanation": "Il couvre toutes les paires de valeurs, pas toutes les combinaisons."
+        },
+        {
+          "type": "single_choice",
+          "question": "Que génère PICT ?",
+          "options": ["Des scripts d'automatisation", "Des jeux de données de test", "Des rapports de performance"],
+          "answer": 1,
+          "explanation": "PICT calcule des sets de données minimaux couvrant les paires."
+        },
+        {
+          "type": "free_text",
+          "question": "Donnez le mot-clé permettant d'exclure une combinaison dans PICT (anglais).",
+          "expected": "IF",
+          "mode": "contains",
+          "explanation": "Les contraintes utilisent IF/THEN, etc."
+        }
+      ]
+    },
+    {
+      "id": "plan_test_iso29119",
+      "title": "Plan de test — ISO 29119-3",
+      "category": "Plan de test",
+      "description": "Structure et contenu attendus d'un plan de test.",
+      "difficulty": "moyen",
+      "questions": [
+        {
+          "type": "match",
+          "question": "Associez la section à son contenu",
+          "pairs": {
+            "Objectifs": "Finalités du test",
+            "Portée": "Périmètre couvert",
+            "Ressources": "Équipe et moyens"
+          },
+          "explanation": "Trois rubriques classiques du plan."
+        },
+        {
+          "type": "single_choice",
+          "question": "Quel artefact trace le lien exigences ↔ tests ?",
+          "options": ["Plan de test", "Matrice de traçabilité", "Stratégie de test"],
+          "answer": 1,
+          "explanation": "La matrice relie exigences, cas de test et défauts."
+        },
+        {
+          "type": "true_false",
+          "question": "Les risques et atténuations peuvent figurer dans le plan de test.",
+          "answer": true,
+          "explanation": "La gestion des risques est une section recommandée."
+        }
+      ]
+    },
+    {
+      "id": "rapport_test_intro",
+      "title": "Rapport de tests — Introduction",
+      "category": "Rapport de tests",
+      "description": "Métriques et synthèse d'exécution.",
+      "difficulty": "facile",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quelle métrique indique la couverture des cas exécutés ?",
+          "options": ["Taux de réussite", "Taux d'exécution", "Nombre de défauts"],
+          "answer": 1,
+          "explanation": "Taux d'exécution = exécutés / total planifié."
+        },
+        {
+          "type": "multiple_choice",
+          "question": "Quels éléments figurent typiquement dans un rapport ?",
+          "options": ["Synthèse des résultats", "Détails des environnements", "Roadmap produit"],
+          "answers": [0,1],
+          "explanation": "La roadmap produit n'est pas du périmètre du rapport de tests."
+        }
+      ]
+    },
+    {
+      "id": "automation_plan_basics",
+      "title": "Plan d'automatisation — Bases",
+      "category": "Automatisation",
+      "description": "Critères de sélection et stratégie de scripts.",
+      "difficulty": "moyen",
+      "questions": [
+        {
+          "type": "true_false",
+          "question": "On doit automatiser en priorité les cas peu réutilisés.",
+          "answer": false,
+          "explanation": "Priorité aux cas stables, répétitifs et à forte valeur."
+        },
+        {
+          "type": "single_choice",
+          "question": "Quel document définit le périmètre de l'automatisation ?",
+          "options": ["Plan de test", "Plan d'automatisation", "Rapport de tests"],
+          "answer": 1,
+          "explanation": "Le plan d'automatisation dérive de la stratégie et du plan."
+        }
+      ]
+    },
+    {
+      "id": "xpath_fundamentals",
+      "title": "XPath — Fondamentaux",
+      "category": "XPath",
+      "description": "Sélecteurs, axes et prédicats simples.",
+      "difficulty": "moyen",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quel sélecteur cible tous les nœuds quel que soit le niveau ?",
+          "options": ["//", "/", "@"],
+          "answer": 0,
+          "explanation": "// parcourt récursivement l'arbre."
+        },
+        {
+          "type": "free_text",
+          "question": "Quel préfixe sélectionne un attribut ?",
+          "expected": "@",
+          "mode": "equals",
+          "explanation": "Ex: //@id"
+        }
+      ]
+    },
+    {
+      "id": "user_stories_basics",
+      "title": "User Stories — Bases",
+      "category": "User Stories",
+      "description": "Structure et critères d'acceptation.",
+      "difficulty": "facile",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quelle est la bonne structure d'une User Story ?",
+          "options": [
+            "En tant que <qui>, je veux <quoi> afin de <pourquoi>",
+            "Je veux <quoi> pour <pourquoi>",
+            "En tant que <qui>, afin de <pourquoi>"
+          ],
+          "answer": 0,
+          "explanation": "La formulation standard inclut qui/quoi/pourquoi."
+        },
+        {
+          "type": "true_false",
+          "question": "Les critères d'acceptation doivent être testables.",
+          "answer": true,
+          "explanation": "Testables, mesurables et sans ambiguïté."
+        }
+      ]
+    }
+  ]
+}

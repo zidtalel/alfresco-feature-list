@@ -1,0 +1,306 @@
+# Produit / Fonction : Module Quiz & Évaluation
+# Version : 1.0
+# Date : 2025-11-09
+# Auteur : Spécification générée pour le portail Alfresco (Groupe 1292)
+
+## 1. Contexte & Objectif
+Le module Quiz a pour but d'offrir aux étudiants un moyen interactif d'évaluer et de consolider leurs connaissances sur les thématiques couvertes par le portail (Gherkin/BDD, Pairwise & PICT, Markdown, Plan de test ISO 29119, rapport de tests, automatisation). Il doit être entièrement **client-side** et compatible GitHub Pages (pas de serveur backend), tout en permettant une évolution future vers un système de suivi centralisé.
+
+Objectifs principaux :
+- Fournir une interface simple pour répondre à des questions multi-formats.
+- Donner un feedback immédiat (score, bonnes réponses, explications).
+- Stocker localement l'historique et les meilleurs scores (localStorage).
+- Permettre aux administrateurs de gérer les quiz via une interface dédiée.
+
+## 2. Portée Initiale (MVP)
+Le MVP couvre :
+- Chargement d'un fichier `quizzes.json` contenant la définition des quiz.
+- Lancement d'un quiz sélectionné dans une interface utilisateur.
+- Types de questions pris en charge : QCM (choix unique), multi-réponses, vrai/faux, association (simple), texte libre (auto-évaluation).
+- Calcul du score et feedback instantané en fin de quiz.
+- Stockage dans localStorage : tentatives, derniers scores, meilleur score.
+- Interface d'administration pour :
+  - Ajouter / modifier / supprimer des quiz et questions.
+  - Exporter le JSON mis à jour (manuellement ou via GitHub API – extension future).
+- Protection de l'accès à l'administration par le rôle `admin` déjà existant.
+
+## 3. Utilisateurs & Personas
+- Étudiant : consulte les quiz, répond aux questions, revoie ses résultats locaux, améliore sa progression.
+- Administrateur : crée et modifie les quiz, ajuste la difficulté, corrige/ajoute des explications.
+- (Futur) Enseignant : agrégation des scores (via passage à GitHub API ou backend).
+
+## 4. Hypothèses & Contraintes
+- Aucune donnée sensible : localStorage suffisant pour MVP.
+- JSON statique versionné via GitHub ; modifications possibles par commit via interface admin + GitHub token (pattern similaire à annonces).
+- Aucune authentification forte : rôle admin géré via sessionStorage actuel.
+- Pas de prévention anti-triche (rafraîchir la page réinitialise une session de quiz en cours).
+- Compatible desktop + mobile (responsive minimal basé sur flex/grid).
+
+## 5. Glossaire
+| Terme | Définition |
+|-------|-----------|
+| Quiz | Ensemble de questions sur un thème donné |
+| Question | Unité évaluative affichée à l'utilisateur |
+| Tentative | Une session complète du quiz terminée avec score calculé |
+| Score | Pourcentage ou valeur absolue des bonnes réponses |
+| Feedback | Résumé de fin de quiz (score + corrections) |
+| Explication | Texte facultatif associé à une question pour clarifier la réponse |
+
+## 6. Fonctionnalités Détaillées
+### 6.1 Catalogue des Quiz
+- Chargé depuis `quizzes.json` au chargement de la page des quiz.
+- Liste filtrable par catégorie (Ex: "Gherkin", "Pairwise", "Markdown", etc.).
+- Indicateurs : nombre de questions, difficulté, meilleur score local.
+
+### 6.2 Démarrage d'un Quiz
+- Sélection dans la liste -> affichage écran de lancement : titre, description, nombre de questions, durée estimée.
+- Bouton "Commencer" -> Passage en mode présentation question 1.
+
+### 6.3 Types de Questions
+| Type | Structure JSON | Validation |
+|------|----------------|-----------|
+| single_choice | `{"type":"single_choice","question":"...","options":["A","B"],"answer":1}` | Index correspond à bonne réponse |
+| multiple_choice | `{"type":"multiple_choice","question":"...","options":["A","B"],"answers":[0,2]}` | Tableau d'index, order-insensitive |
+| true_false | `{"type":"true_false","question":"...","answer":true}` | Booléen |
+| match | `{"type":"match","question":"...","pairs":{"clé":"valeur"}}` | L'utilisateur associe (UI drag & drop ou selects) |
+| free_text | `{"type":"free_text","question":"...","expected":"mot-clé","mode":"contains|equals"}` | Vérification simple (lowercase trim) |
+
+### 6.4 Navigation dans le Quiz
+- Boutons : Suivant / Précédent / Terminer.
+- Barre de progression (% = index courant / total).
+- Option "Marquer pour revoir" (flag) -> résumé final listant ces questions.
+
+### 6.5 Calcul du Score
+- single_choice / true_false : 1 point par bonne réponse.
+- multiple_choice : 1 point si ensemble exact (sinon 0). Extension future : scoring partiel.
+- match : 1 point si toutes les associations correctes (sinon 0). Extension future : scoring partiel.
+- free_text : 1 point si correspondance selon mode. (Auto-évaluation secondaire : l'utilisateur peut ajuster manuellement son résultat.)
+- Score final = (points obtenus / points possibles) * 100 (arrondi entier).
+
+### 6.6 Feedback Final
+- Affichage : Score %, barre visuelle, dépendant du seuil :
+  - >= 80% : Succès (vert)
+  - 50–79% : Amélioration (orange)
+  - < 50% : Révision (rouge)
+- Liste des questions : état (✔ / ✖), réponse correcte, réponse donnée, explication.
+- Boutons : Recommencer / Retour liste / Exporter résultats (JSON local).
+
+### 6.7 Persistance (localStorage)
+Clé racine : `quizProgress`.
+Structure :
+```json
+{
+  "attempts": [
+    {
+      "quizId": "gherkin_basics",
+      "timestamp": 1731110400,
+      "score": 76,
+      "details": {
+        "total": 15,
+        "correct": 11
+      }
+    }
+  ],
+  "bestScores": {
+    "gherkin_basics": 92,
+    "markdown_intro": 80
+  }
+}
+```
+Règles :
+- Ajouter une tentative à chaque fin de quiz.
+- Mettre à jour `bestScores[quizId]` si score supérieur.
+- Taille max historique : 50 tentatives par quiz (FIFO purge si dépassement).
+
+### 6.8 Administration des Quiz (admin)
+- Page : `admin-quiz.html` évoluée.
+- Actions : Ajouter quiz, modifier quiz (titre, description, difficulté, catégorie), supprimer quiz.
+- Gestion des questions : ajout/édition/suppression avec prévisualisation.
+- Validation JSON avant export.
+- Boutons :
+  - Sauvegarder sur GitHub (contenu Base64 via API – extension similaire annonces)
+  - Exporter fichier local
+  - Importer fichier (drag & drop JSON)
+- Protection : via `js/admin-guard.js`.
+
+### 6.9 Accessibilité & UX
+- Navigation clavier (Tab, Enter, Space) pour sélectionner réponses.
+- ARIA roles : list, listitem, button, progressbar.
+- Contraste suffisant pour états (success / warning / danger).
+
+### 6.10 Sécurité
+- Données manipulées côté client uniquement.
+- Aucune injection possible si JSON validé avant utilisation.
+- Décode et échappe toute entrée utilisateur libre pour free_text (éviter HTML injection).
+
+## 7. Données & Modèle JSON Global
+Exemple fichier `quizzes.json` :
+```json
+{
+  "quizzes": [
+    {
+      "id": "gherkin_basics",
+      "title": "Bases de Gherkin",
+      "category": "Gherkin",
+      "description": "Identifier Given/When/Then et bonnes pratiques.",
+      "difficulty": "facile",
+      "questions": [
+        {
+          "type": "single_choice",
+          "question": "Quel mot-clé introduit le contexte initial ?",
+          "options": ["Given", "When", "Then"],
+          "answer": 0,
+          "explanation": "Le mot-clé Given décrit l'état initial avant l'action."
+        },
+        {
+          "type": "true_false",
+          "question": "Les scénarios doivent être écrits en langage impératif.",
+          "answer": false,
+          "explanation": "Ils doivent rester descriptifs et orientés métier."
+        }
+      ]
+    }
+  ]
+}
+```
+
+## 8. Flux Principaux
+### 8.1 Flux Étudiant (Quiz)
+1. Ouvre la page Quiz -> Liste des quiz.
+2. Sélectionne un quiz -> Aperçu -> Commencer.
+3. Répond question par question, navigation et marquage.
+4. Termine -> Résumé + Score + Feedback.
+5. localStorage mis à jour.
+6. Peut relancer ou revenir à la liste.
+
+### 8.2 Flux Administration (Création)
+1. Accède à `admin-quiz.html` (rôle admin).
+2. Clique "Nouveau quiz" -> Formulaire (id, titre, catégorie...).
+3. Ajoute questions (UI dynamique selon type).
+4. Valide -> Aperçu global.
+5. Export JSON / commit GitHub.
+
+### 8.3 Flux Import / Export
+- Import : Drag & drop -> Validation syntaxe -> Confirmation -> Remplacement en mémoire.
+- Export : Génération Blob -> Téléchargement `quizzes.json`.
+
+## 9. Règles Métier
+| Règle | Description |
+|-------|-------------|
+| ID unique | Chaque quiz doit avoir un id non dupliqué (regex `[a-z0-9_]+`). |
+| Nb questions | Minimum 3 questions, maximum recommandé 50. |
+| Difficulté | Valeurs autorisées : `facile`, `moyen`, `difficile`. |
+| Category | Ensemble contrôlé (ex: Gherkin, Markdown, PICT, PlanTest, RapportTest, Automatisation). |
+| Types supportés | Ceux listés en section 6.3. |
+| Historique | 50 tentatives max / quiz (purge ancienne tentative). |
+| free_text mode | `equals` = correspondance exacte, `contains` = sous-chaîne incluse. |
+
+## 10. Performances
+- Chargement JSON initial < 200KB (rapidement sur GitHub Pages).
+- Aucune dépendance lourde (Vanilla JS + éventuellement petite lib utilitaire < 5KB si besoin).
+- Interaction immédiate (pas d'appel réseau après chargement).
+
+## 11. Non-Fonctionnel
+| Aspect | Exigence |
+|--------|----------|
+| Disponibilité | Fonctionne offline après premier chargement (cache navigateur). |
+| Sécurité | Pas de stockage serveur, pas de données sensibles. |
+| Maintenabilité | JSON structuré, fonctions modularisées (renderQuiz, evaluate, persistAttempt). |
+| Extensibilité | Ajout futur de nouveaux types (code en switch extensible). |
+| Internationalisation | Textes FR (prévoir objet messages pour futur EN). |
+
+## 12. Évolutions Futures (Backlog)
+| Priorité | Evolution | Description |
+|----------|----------|-------------|
+| Haute | Timer par question | Limiter temps de réponse + pénaliser délai. |
+| Haute | Randomisation ordre | Mélanger questions/options à chaque tentative. |
+| Moyenne | Catégories multiples | Un quiz appartenant à plusieurs tags. |
+| Moyenne | Export PDF résultats | Générer un récapitulatif imprimable. |
+| Moyenne | Scoring partiel multi-réponses | Attribution points proportionnels. |
+| Basse | Mode examen | Désactiver retour arrière + timer global. |
+| Basse | Classement anonymisé | Stockage côté serveur ou via GitHub API centralisé. |
+| Basse | Partage résultat | Génération lien hashé avec score. |
+
+## 13. Risques & Atténuations
+| Risque | Impact | Atténuation |
+|--------|--------|-------------|
+| Cheating (consultation réponses) | Score peu fiable | Limiter explications avant fin + randomisation future. |
+| Corruption localStorage | Perte historique | Ajouter bouton réinitialisation + sauvegarde export manuel. |
+| JSON mal formé | Quiz inutilisable | Validation stricte + message d'erreur clair. |
+| Trop de types tôt | Complexité UI | MVP restreint + architecture modulaire. |
+
+## 14. Interface Technique (Fonctions clés JS)
+Pseudo-contrat:
+```js
+loadQuizzes(): Promise<Array<Quiz>>
+renderQuizList(quizzes)
+startQuiz(quizId)
+renderQuestion(currentIndex)
+collectAnswer(currentIndex)
+nextQuestion()
+previousQuestion()
+finishQuiz(): { score, details }
+storeAttempt(quizId, result)
+getBestScore(quizId): number
+```
+Erreurs gérées :
+- JSON introuvable -> message "Quiz indisponibles".
+- Type question inconnu -> ignorer + logger warning.
+- localStorage inaccessible (privacy) -> fonctionnement sans persistance.
+
+## 15. Qualité & Tests
+Tests à prévoir (manuels + unitaires futurs) :
+- Chargement JSON valide / invalide.
+- Score calculé correctement pour chaque type.
+- Persistance tentative dans localStorage.
+- Limite historique respectée.
+- Navigation correcte (suivant / précédent / terminer).
+- free_text : modes `equals` et `contains`.
+- Résumé final : affichage explications.
+
+## 16. Critères d'Acceptation (MVP)
+| ID | Critère | Méthode de validation |
+|----|---------|-----------------------|
+| CA1 | Liste de quiz apparaît | Charger page quiz avec JSON de test |
+| CA2 | Lancement d'un quiz fonctionne | Sélection + affichage question 1 |
+| CA3 | Navigation complète | Aller / retour / terminer sans erreur |
+| CA4 | Score correct | Cas test avec réponses connues |
+| CA5 | Historique stocké | Vérifier localStorage après 2 tentatives |
+| CA6 | Meilleur score mis à jour | Faire une tentative supérieure |
+| CA7 | Feedback détaillé visible | Voir explications et états ✔/✖ |
+| CA8 | Admin peut ajouter quiz | Interface de création + export JSON |
+| CA9 | Protection admin | Accès refusé si rôle ≠ admin |
+| CA10 | Responsive basique | Affichage utilisable sur mobile |
+
+## 17. Exclusions (hors MVP)
+- Multi-joueurs / comparaison inter-étudiants.
+- Analytics avancées (taux réussite par question global).
+- Timer global / antifraude.
+- Synchronisation multi-appareils.
+
+## 18. Livraison & Fichiers Prévisionnels
+| Fichier | Description |
+|---------|------------|
+| `quizzes.json` | Source des quiz. |
+| `quiz.html` | Interface étudiante de sélection + passage. |
+| `admin-quiz.html` | Interface étendue d'administration. |
+| `js/quiz.js` | Logique principale (chargement, navigation, scoring). |
+| `js/quiz-admin.js` | CRUD quiz côté admin. |
+| `css/quiz.css` | Styles spécifiques (barre progression, feedback). |
+
+## 19. Style & UX
+- Couleurs alignées avec palette existante (accent cyan, boutons bleus).
+- Icônes FontAwesome : `fa-question-circle`, `fa-check`, `fa-times`, `fa-flag`, `fa-sync`.
+- Feedback visuel instantané après soumission finale uniquement.
+
+## 20. Maintenabilité & Extension
+Le code sera structuré en modules JavaScript (IIFE ou ES modules si support possible) pour séparer :
+- Gestion état quiz courant
+- Rendu UI
+- Persistance localStorage
+- Outils utilitaires (format, validations)
+
+Prévoir commentaires JSDoc pour fonctions publiques.
+
+---
+Fin du document.
