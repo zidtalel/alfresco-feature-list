@@ -402,8 +402,17 @@ Image           Archivé        Approuvé             LectureSeule
           <h2>Concepts Avancés PICT</h2>
           <ul class="list-unstyled" style="font-size: 14px; line-height: 1.6">
             <li>
-              <i class="fas fa-link" style="color: var(--accent)"></i>
-              **Contraintes (`IF` / `THEN`)**
+              <h3
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin: 20px 0 8px;
+                "
+              >
+                <i class="fas fa-link" style="color: var(--accent)"></i>
+                Contraintes (<code>IF</code> / <code>THEN</code>)
+              </h3>
               <p class="muted">
                 Définir des règles d'exclusion. Ex: Si le `Statut_Metadonnee`
                 est 'Final', alors `Droits_Acces` ne peut pas être 'Édition'.
@@ -421,14 +430,27 @@ IF [Statut_Metadonnee] = 'Final' THEN [Droits_Acces] &lt;&gt; 'Edition';
               "
             />
             <li>
-              <i class="fas fa-layer-group" style="color: var(--accent)"></i>
-              **Niveau de Couverture (N-Wise)**
+              <h3
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin: 20px 0 8px;
+                "
+              >
+                <i class="fas fa-layer-group" style="color: var(--accent)"></i>
+                Niveau de Couverture (N-Wise)
+              </h3>
               <p class="muted">
                 Par défaut, PICT utilise N=2 (pairwise). Vous pouvez augmenter à
                 N=3 ou N=4 pour tester toutes les combinaisons de 3 ou 4
                 paramètres à la fois, si vous suspectez des interactions plus
-                complexes (mais cela augmente le nombre de tests!).
+                complexes (mais cela augmente le nombre de tests!). Utilisez la
+                commande suivante :
               </p>
+              <pre style="padding: 8px; margin-top: 5px">
+pict.exe model.txt > resultat.txt /o:n</pre
+              >
             </li>
             <hr
               style="
@@ -438,16 +460,24 @@ IF [Statut_Metadonnee] = 'Final' THEN [Droits_Acces] &lt;&gt; 'Edition';
               "
             />
             <li>
-              <i class="fas fa-file-csv" style="color: var(--accent)"></i>
-              **Sortie CSV**
+              <h3
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  margin: 20px 0 8px;
+                "
+              >
+                <i class="fas fa-file-csv" style="color: var(--accent)"></i>
+                Sortie Excel
+              </h3>
               <p class="muted">
-                Utilisez l'option `/o:csv` dans la commande pour obtenir la
-                sortie au format CSV, ce qui facilite l'importation dans Excel
-                ou un outil de gestion des tests.
+                Utilisez l'option "> resultat.xls" dans la commande pour obtenir
+                la sortie au format Excel, ce qui facilite la manipulation des
+                données et l'ajout d'autres tests.
               </p>
               <pre style="padding: 8px; margin-top: 5px">
-				pict.exe model.txt /o:csv > tests.csv
-				</pre
+pict.exe model.txt > tests.xls</pre
               >
             </li>
           </ul>
