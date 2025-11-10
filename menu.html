@@ -55,6 +55,22 @@
         position: relative; /* Permet de positionner le bouton de déconnexion en haut à droite */
       }
 
+      /* Contrôles supérieurs (badge + roue + cloche) */
+      .top-controls {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 3;
+      }
+
+      .gear-wrap {
+        position: relative;
+        display: inline-block;
+      }
+
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -153,9 +169,9 @@
         opacity: 0.9;
       }
 
-      /* Badge utilisateur (en haut à gauche) */
+      /* Badge utilisateur */
       .user-badge {
-        position: absolute;
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
         top: 16px;
         left: 16px;
         background-color: #007bff;
@@ -170,6 +186,13 @@
         box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
         z-index: 2;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .user-badge {
+        position: static;
+        top: auto;
+        left: auto;
       }
 
       .user-badge.admin {
@@ -192,9 +215,9 @@
 
       /* Bouton d'administration (roue dentée) */
       .admin-gear-btn {
-        position: absolute;
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
         top: 16px;
-        left: 220px; /* Positionné après le badge utilisateur */
+        left: 220px; /* Ancien positionnement fixe */
         background: linear-gradient(135deg, #6c757d, #495057);
         color: #ffffff;
         width: 42px;
@@ -209,6 +232,87 @@
         transition: all 0.3s ease;
         z-index: 2;
         cursor: pointer;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .admin-gear-btn {
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+      /* Bouton de notification (cloche) */
+      .notification-btn {
+        position: absolute; /* par défaut (sera surchargé dans .top-controls) */
+        top: 16px;
+        left: 275px; /* Ancien positionnement fixe */
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        color: #ffffff;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2em;
+        box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+        transition: all 0.3s ease;
+        z-index: 2;
+        cursor: pointer;
+        position: relative;
+      }
+
+      /* Surcharge quand dans le conteneur .top-controls */
+      .top-controls .notification-btn {
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+      .notification-btn:hover {
+        background: linear-gradient(135deg, #f57c00, #e65100);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
+      }
+
+      .notification-btn i {
+        animation: bellRing 2s ease-in-out infinite;
+      }
+
+      @keyframes bellRing {
+        0%,
+        100% {
+          transform: rotate(0deg);
+        }
+        10%,
+        30% {
+          transform: rotate(-15deg);
+        }
+        20%,
+        40% {
+          transform: rotate(15deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* Badge numérique sur la cloche */
+      .notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background-color: #dc3545;
+        color: #ffffff;
+        font-size: 0.7em;
+        font-weight: 700;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(220, 53, 69, 0.5);
       }
 
       .admin-gear-btn.visible {
@@ -232,9 +336,9 @@
 
       /* Menu déroulant administration */
       .admin-dropdown {
-        position: absolute;
-        top: 65px;
-        left: 220px;
+        position: absolute; /* sera ancré à .gear-wrap */
+        top: 48px;
+        left: 0;
         background: #ffffff;
         border-radius: 8px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -290,27 +394,32 @@
         font-size: 1.1em;
       }
 
-      /* Bannière d'annonces */
-      .announcement-banner {
+      /* Carrousel d'annonces */
+      .carousel-container {
         margin: 20px 0;
+        position: relative;
+        height: 90px;
+        overflow: hidden;
+      }
+
+      .announcement-banner {
         padding: 14px 18px;
         border-radius: 8px;
         display: flex;
         align-items: flex-start;
         gap: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        animation: fadeIn 0.4s ease-in;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
       }
 
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .announcement-banner.active {
+        opacity: 1;
+        z-index: 1;
       }
 
       .announcement-banner.info {
@@ -356,6 +465,158 @@
         margin: 0;
         font-size: 0.9em;
         line-height: 1.5;
+      }
+
+      /* Indicateurs de navigation du carrousel */
+      .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #bdc3c7;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .carousel-dot.active {
+        background-color: #007bff;
+        transform: scale(1.3);
+      }
+
+      .carousel-dot:hover {
+        background-color: #7f8c8d;
+      }
+
+      /* Panneau latéral des annonces */
+      .announcements-panel {
+        position: fixed;
+        top: 0;
+        right: -400px;
+        width: 400px;
+        height: 100vh;
+        background-color: #ffffff;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.2);
+        transition: right 0.3s ease-in-out;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .announcements-panel.visible {
+        right: 0;
+      }
+
+      .panel-header {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: #ffffff;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .panel-header h3 {
+        margin: 0;
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .panel-close-btn {
+        background: none;
+        border: none;
+        color: #ffffff;
+        font-size: 1.5em;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+      }
+
+      .panel-close-btn:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .panel-content {
+        padding: 20px;
+      }
+
+      .panel-announcement {
+        margin-bottom: 16px;
+        padding: 14px;
+        border-radius: 8px;
+        border-left: 4px solid;
+      }
+
+      .panel-announcement.info {
+        background-color: #d1ecf1;
+        border-color: #17a2b8;
+        color: #0c5460;
+      }
+
+      .panel-announcement.warning {
+        background-color: #fff3cd;
+        border-color: #ffc107;
+        color: #856404;
+      }
+
+      .panel-announcement.success {
+        background-color: #d4edda;
+        border-color: #28a745;
+        color: #155724;
+      }
+
+      .panel-announcement.danger {
+        background-color: #f8d7da;
+        border-color: #dc3545;
+        color: #721c24;
+      }
+
+      .panel-announcement h4 {
+        margin: 0 0 8px 0;
+        font-size: 1em;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .panel-announcement p {
+        margin: 0 0 6px 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
+      .panel-announcement .date {
+        font-size: 0.75em;
+        opacity: 0.7;
+        font-style: italic;
+      }
+
+      .panel-empty {
+        text-align: center;
+        padding: 40px 20px;
+        color: #95a5a6;
+      }
+
+      .panel-empty i {
+        font-size: 3em;
+        margin-bottom: 10px;
+        opacity: 0.3;
       }
 
       /* Bouton de déconnexion (distinct en taille et position) */
@@ -426,6 +687,49 @@
           margin-bottom: 5px;
         }
 
+        /* Ajustements pour les boutons admin et notifications */
+        .user-badge {
+          font-size: 0.75em;
+          padding: 6px 12px;
+        }
+
+        .admin-gear-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1em;
+        }
+
+        .notification-btn {
+          width: 36px;
+          height: 36px;
+          font-size: 1em;
+        }
+
+        .logout-btn {
+          font-size: 0.8em;
+          padding: 6px 10px;
+        }
+
+        /* Panneau latéral pleine largeur sur mobile */
+        .announcements-panel {
+          width: 100%;
+          right: -100%;
+        }
+
+        /* Carrousel avec hauteur réduite */
+        .carousel-container {
+          height: auto;
+          min-height: 80px;
+        }
+
+        .announcement-banner .content h4 {
+          font-size: 0.95em;
+        }
+
+        .announcement-banner .content p {
+          font-size: 0.85em;
+        }
+
         .navigation-list {
           padding-top: 10px;
           margin-top: 10px;
@@ -455,42 +759,53 @@
   </head>
   <body>
     <div class="accueil-container">
-      <!-- Badge utilisateur (positionné en haut à gauche) -->
-      <div id="user-badge" class="user-badge" title="Utilisateur connecté">
-        <i class="fas fa-user" aria-hidden="true"></i>
-        <span id="user-info">Chargement...</span>
+      <!-- Contrôles supérieurs regroupés -->
+      <div class="top-controls">
+        <div id="user-badge" class="user-badge" title="Utilisateur connecté">
+          <i class="fas fa-user" aria-hidden="true"></i>
+          <span id="user-info">Chargement...</span>
+        </div>
+        <div class="gear-wrap">
+          <!-- Bouton Administration (roue dentée) - Visible uniquement pour admin -->
+          <div
+            id="admin-gear-btn"
+            class="admin-gear-btn"
+            title="Menu Administration"
+            aria-label="Menu administration"
+          >
+            <i class="fas fa-cog" aria-hidden="true"></i>
+          </div>
+          <!-- Menu déroulant administration -->
+          <div id="admin-dropdown" class="admin-dropdown">
+            <a href="admin-announcements.html">
+              <i class="fas fa-bullhorn"></i>
+              <span>Gestion des Annonces</span>
+            </a>
+            <a href="features.html">
+              <i class="fas fa-table"></i>
+              <span>Matrice des User Stories</span>
+            </a>
+            <a href="admin-quiz.html">
+              <i class="fas fa-question-circle"></i>
+              <span>Gestion des Quiz</span>
+            </a>
+            <a href="admin-settings.html">
+              <i class="fas fa-sliders-h"></i>
+              <span>Configuration</span>
+            </a>
+          </div>
+        </div>
+        <!-- Bouton Notifications (cloche) -->
+        <div
+          id="notification-btn"
+          class="notification-btn"
+          title="Voir toutes les annonces"
+          aria-label="Notifications"
+        >
+          <i class="fas fa-bell" aria-hidden="true"></i>
+          <span id="notification-badge" class="notification-badge">0</span>
+        </div>
       </div>
-
-      <!-- Bouton Administration (roue dentée) - Visible uniquement pour admin -->
-      <div
-        id="admin-gear-btn"
-        class="admin-gear-btn"
-        title="Menu Administration"
-        aria-label="Menu administration"
-      >
-        <i class="fas fa-cog" aria-hidden="true"></i>
-      </div>
-
-      <!-- Menu déroulant administration -->
-      <div id="admin-dropdown" class="admin-dropdown">
-        <a href="admin-announcements.html">
-          <i class="fas fa-bullhorn"></i>
-          <span>Gestion des Annonces</span>
-        </a>
-        <a href="features.html">
-          <i class="fas fa-table"></i>
-          <span>Matrice des User Stories</span>
-        </a>
-        <a href="admin-quiz.html">
-          <i class="fas fa-question-circle"></i>
-          <span>Gestion des Quiz</span>
-        </a>
-        <a href="admin-settings.html">
-          <i class="fas fa-sliders-h"></i>
-          <span>Configuration</span>
-        </a>
-      </div>
-
       <!-- Bouton de déconnexion distinct (positionné en haut à droite) -->
       <a
         href="#"
@@ -509,8 +824,37 @@
       <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
       <h2>CMS Alfresco</h2>
 
-      <!-- Conteneur des annonces (chargées dynamiquement) -->
-      <div id="announcements-container"></div>
+      <!-- Carrousel des annonces prioritaires -->
+      <div
+        id="carousel-container"
+        class="carousel-container"
+        style="display: none"
+      >
+        <!-- Les annonces seront insérées ici dynamiquement -->
+      </div>
+      <div id="carousel-dots" class="carousel-dots" style="display: none">
+        <!-- Les points de navigation seront insérés ici -->
+      </div>
+
+      <!-- Panneau latéral des annonces -->
+      <div id="announcements-panel" class="announcements-panel">
+        <div class="panel-header">
+          <h3>
+            <i class="fas fa-bell"></i>
+            Toutes les annonces
+          </h3>
+          <button
+            id="panel-close-btn"
+            class="panel-close-btn"
+            aria-label="Fermer"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="panel-content" class="panel-content">
+          <!-- Les annonces seront insérées ici dynamiquement -->
+        </div>
+      </div>
 
       <div class="nav-grid" role="navigation" aria-label="Liens du portail">
         <a
@@ -725,18 +1069,26 @@
       (function setupAdminDropdown() {
         const gearBtn = document.getElementById("admin-gear-btn");
         const dropdown = document.getElementById("admin-dropdown");
+        const gearWrap = gearBtn ? gearBtn.parentElement : null;
 
-        if (gearBtn && dropdown) {
-          // Toggle du menu au clic sur la roue dentée
+        if (gearBtn && dropdown && gearWrap) {
+          // Assure que le conteneur est positionné pour l'ancrage
+          gearWrap.style.position = "relative";
+
+          // Toggle du menu au clic sur la roue dentée avec positionnement dynamique
           gearBtn.addEventListener("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
-            dropdown.classList.toggle("visible");
+            const isVisible = dropdown.classList.toggle("visible");
+            if (isVisible) {
+              // Ajuste largeur min selon contenu
+              dropdown.style.minWidth = "240px";
+            }
           });
 
           // Fermer le menu si on clique ailleurs
           document.addEventListener("click", function (e) {
-            if (!gearBtn.contains(e.target) && !dropdown.contains(e.target)) {
+            if (!gearWrap.contains(e.target) && !dropdown.contains(e.target)) {
               dropdown.classList.remove("visible");
             }
           });
@@ -748,7 +1100,7 @@
         }
       })();
 
-      // Chargement et affichage des annonces
+      // Chargement et affichage des annonces (Carrousel + Panneau latéral)
       (async function loadAnnouncements() {
         try {
           const response = await fetch("announcements.json");
@@ -758,9 +1110,6 @@
           }
 
           const data = await response.json();
-          const container = document.getElementById("announcements-container");
-
-          if (!container) return;
 
           // Filtrer les annonces actives
           const activeAnnouncements = data.announcements.filter(
@@ -769,28 +1118,151 @@
 
           if (activeAnnouncements.length === 0) return;
 
-          // Créer les bannières
-          activeAnnouncements.forEach((announcement) => {
-            const banner = document.createElement("div");
-            banner.className = `announcement-banner ${announcement.type}`;
+          // Icônes selon le type
+          const icons = {
+            info: "fa-info-circle",
+            warning: "fa-exclamation-triangle",
+            success: "fa-check-circle",
+            danger: "fa-exclamation-circle",
+          };
 
-            // Icône selon le type
-            const icons = {
-              info: "fa-info-circle",
-              warning: "fa-exclamation-triangle",
-              success: "fa-check-circle",
-              danger: "fa-exclamation-circle",
-            };
+          // ===== CARROUSEL : Annonces prioritaires (max 3) =====
+          const priorityAnnouncements = activeAnnouncements
+            .filter((ann) => ann.priority)
+            .slice(0, 3);
 
-            banner.innerHTML = `
-              <i class="fas ${icons[announcement.type] || icons.info}"></i>
-              <div class="content">
-                <h4>${announcement.title}</h4>
-                <p>${announcement.message}</p>
+          if (priorityAnnouncements.length > 0) {
+            const carouselContainer =
+              document.getElementById("carousel-container");
+            const dotsContainer = document.getElementById("carousel-dots");
+
+            carouselContainer.style.display = "block";
+            dotsContainer.style.display = "flex";
+
+            // Créer les bannières du carrousel
+            priorityAnnouncements.forEach((announcement, index) => {
+              const banner = document.createElement("div");
+              banner.className = `announcement-banner ${announcement.type}`;
+              if (index === 0) banner.classList.add("active");
+
+              banner.innerHTML = `
+                <i class="fas ${icons[announcement.type] || icons.info}"></i>
+                <div class="content">
+                  <h4>${announcement.title}</h4>
+                  <p>${announcement.message}</p>
+                </div>
+              `;
+
+              carouselContainer.appendChild(banner);
+            });
+
+            // Créer les points de navigation
+            priorityAnnouncements.forEach((_, index) => {
+              const dot = document.createElement("div");
+              dot.className = "carousel-dot";
+              if (index === 0) dot.classList.add("active");
+              dot.dataset.index = index;
+              dotsContainer.appendChild(dot);
+            });
+
+            // Rotation automatique du carrousel
+            let currentIndex = 0;
+            const banners = carouselContainer.querySelectorAll(
+              ".announcement-banner"
+            );
+            const dots = dotsContainer.querySelectorAll(".carousel-dot");
+
+            function showSlide(index) {
+              banners.forEach((banner, i) => {
+                banner.classList.toggle("active", i === index);
+              });
+              dots.forEach((dot, i) => {
+                dot.classList.toggle("active", i === index);
+              });
+            }
+
+            // Auto-rotation toutes les 5 secondes
+            setInterval(() => {
+              currentIndex = (currentIndex + 1) % priorityAnnouncements.length;
+              showSlide(currentIndex);
+            }, 5000);
+
+            // Navigation manuelle par clic sur les points
+            dots.forEach((dot) => {
+              dot.addEventListener("click", () => {
+                currentIndex = parseInt(dot.dataset.index);
+                showSlide(currentIndex);
+              });
+            });
+          }
+
+          // ===== PANNEAU LATÉRAL : Toutes les annonces =====
+          const panelContent = document.getElementById("panel-content");
+          const notificationBadge =
+            document.getElementById("notification-badge");
+          const notificationBtn = document.getElementById("notification-btn");
+          const panel = document.getElementById("announcements-panel");
+          const closeBtn = document.getElementById("panel-close-btn");
+
+          // Mise à jour du badge avec le nombre total d'annonces actives
+          notificationBadge.textContent = activeAnnouncements.length;
+
+          // Afficher toutes les annonces dans le panneau
+          if (activeAnnouncements.length === 0) {
+            panelContent.innerHTML = `
+              <div class="panel-empty">
+                <i class="fas fa-inbox"></i>
+                <p>Aucune annonce pour le moment</p>
               </div>
             `;
+          } else {
+            activeAnnouncements.forEach((announcement) => {
+              const panelAnn = document.createElement("div");
+              panelAnn.className = `panel-announcement ${announcement.type}`;
 
-            container.appendChild(banner);
+              panelAnn.innerHTML = `
+                <h4>
+                  <i class="fas ${icons[announcement.type] || icons.info}"></i>
+                  ${announcement.title}
+                </h4>
+                <p>${announcement.message}</p>
+                <div class="date">${new Date(
+                  announcement.date
+                ).toLocaleDateString("fr-FR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}</div>
+              `;
+
+              panelContent.appendChild(panelAnn);
+            });
+          }
+
+          // Ouvrir le panneau au clic sur la cloche
+          notificationBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            panel.classList.add("visible");
+          });
+
+          // Fermer le panneau
+          closeBtn.addEventListener("click", () => {
+            panel.classList.remove("visible");
+          });
+
+          // Fermer le panneau si on clique en dehors
+          document.addEventListener("click", (e) => {
+            if (
+              !panel.contains(e.target) &&
+              !notificationBtn.contains(e.target)
+            ) {
+              panel.classList.remove("visible");
+            }
+          });
+
+          // Empêcher la fermeture si on clique dans le panneau
+          panel.addEventListener("click", (e) => {
+            e.stopPropagation();
           });
         } catch (e) {
           console.warn("Erreur lors du chargement des annonces:", e);

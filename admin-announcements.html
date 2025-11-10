@@ -495,6 +495,18 @@
             </select>
           </div>
 
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="priority" name="priority" />
+              <strong>Annonce prioritaire</strong> (affichée dans le carrousel)
+            </label>
+            <div class="help-text" style="margin-top: 5px">
+              <i class="fas fa-info-circle"></i>
+              Maximum 3 annonces prioritaires sont affichées dans le carrousel
+              rotatif.
+            </div>
+          </div>
+
           <div class="form-actions">
             <button type="submit" class="btn btn-primary">
               <i class="fas fa-plus"></i>
@@ -607,6 +619,11 @@
               <div class="announcement-header">
                 <span class="announcement-type ${ann.type}">${ann.type}</span>
                 <span class="announcement-title">${ann.title}</span>
+                ${
+                  ann.priority
+                    ? '<span style="background: #ff9800; color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7em; margin-left: 8px;"><i class="fas fa-star"></i> PRIORITAIRE</span>'
+                    : ""
+                }
               </div>
               <div class="announcement-message">${ann.message}</div>
               <div class="announcement-meta">
@@ -614,6 +631,11 @@
                 <span><i class="fas fa-${
                   ann.active ? "eye" : "eye-slash"
                 }"></i> ${ann.active ? "Visible" : "Masquée"}</span>
+                ${
+                  ann.priority
+                    ? '<span><i class="fas fa-star"></i> Carrousel</span>'
+                    : ""
+                }
               </div>
             </div>
             <div class="announcement-actions">
@@ -643,6 +665,7 @@
           const title = document.getElementById("title").value.trim();
           const message = document.getElementById("message").value.trim();
           const type = document.getElementById("type").value;
+          const priority = document.getElementById("priority").checked;
 
           if (!title || !message) {
             showAlert("Veuillez remplir tous les champs.", "danger");
@@ -655,6 +678,7 @@
             message,
             type,
             active: true,
+            priority: priority,
             date: new Date().toISOString().split("T")[0],
           };
 
