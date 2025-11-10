@@ -230,6 +230,134 @@
         transform: scale(1.15);
       }
 
+      /* Menu déroulant administration */
+      .admin-dropdown {
+        position: absolute;
+        top: 65px;
+        left: 220px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        min-width: 240px;
+        display: none;
+        flex-direction: column;
+        z-index: 10;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+      }
+
+      .admin-dropdown.visible {
+        display: flex;
+        animation: slideDown 0.2s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .admin-dropdown a {
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #495057;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.9em;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .admin-dropdown a:last-child {
+        border-bottom: none;
+      }
+
+      .admin-dropdown a:hover {
+        background-color: #f8f9fa;
+        color: #007bff;
+      }
+
+      .admin-dropdown a i {
+        width: 20px;
+        text-align: center;
+        font-size: 1.1em;
+      }
+
+      /* Bannière d'annonces */
+      .announcement-banner {
+        margin: 20px 0;
+        padding: 14px 18px;
+        border-radius: 8px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.4s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .announcement-banner.info {
+        background-color: #d1ecf1;
+        border-left: 4px solid #17a2b8;
+        color: #0c5460;
+      }
+
+      .announcement-banner.warning {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        color: #856404;
+      }
+
+      .announcement-banner.success {
+        background-color: #d4edda;
+        border-left: 4px solid #28a745;
+        color: #155724;
+      }
+
+      .announcement-banner.danger {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+      }
+
+      .announcement-banner i {
+        font-size: 1.3em;
+        margin-top: 2px;
+      }
+
+      .announcement-banner .content {
+        flex: 1;
+      }
+
+      .announcement-banner .content h4 {
+        margin: 0 0 6px 0;
+        font-size: 1em;
+        font-weight: 600;
+      }
+
+      .announcement-banner .content p {
+        margin: 0;
+        font-size: 0.9em;
+        line-height: 1.5;
+      }
+
       /* Bouton de déconnexion (distinct en taille et position) */
       .logout-btn {
         position: absolute;
@@ -334,15 +462,34 @@
       </div>
 
       <!-- Bouton Administration (roue dentée) - Visible uniquement pour admin -->
-      <a
-        href="features.html"
+      <div
         id="admin-gear-btn"
         class="admin-gear-btn"
-        title="Administration - Matrice des User Stories"
-        aria-label="Accès administration"
+        title="Menu Administration"
+        aria-label="Menu administration"
       >
         <i class="fas fa-cog" aria-hidden="true"></i>
-      </a>
+      </div>
+
+      <!-- Menu déroulant administration -->
+      <div id="admin-dropdown" class="admin-dropdown">
+        <a href="admin-announcements.html">
+          <i class="fas fa-bullhorn"></i>
+          <span>Gestion des Annonces</span>
+        </a>
+        <a href="features.html">
+          <i class="fas fa-table"></i>
+          <span>Matrice des User Stories</span>
+        </a>
+        <a href="admin-quiz.html">
+          <i class="fas fa-question-circle"></i>
+          <span>Gestion des Quiz</span>
+        </a>
+        <a href="admin-settings.html">
+          <i class="fas fa-sliders-h"></i>
+          <span>Configuration</span>
+        </a>
+      </div>
 
       <!-- Bouton de déconnexion distinct (positionné en haut à droite) -->
       <a
@@ -361,6 +508,9 @@
 
       <h1>Portail de Documentation du Projet de Test - Groupe 1292</h1>
       <h2>CMS Alfresco</h2>
+
+      <!-- Conteneur des annonces (chargées dynamiquement) -->
+      <div id="announcements-container"></div>
 
       <div class="nav-grid" role="navigation" aria-label="Liens du portail">
         <a
@@ -568,6 +718,82 @@
           }
         } catch (e) {
           console.warn("Erreur lors de l'affichage du bouton admin:", e);
+        }
+      })();
+
+      // Gestion du menu déroulant administration
+      (function setupAdminDropdown() {
+        const gearBtn = document.getElementById("admin-gear-btn");
+        const dropdown = document.getElementById("admin-dropdown");
+
+        if (gearBtn && dropdown) {
+          // Toggle du menu au clic sur la roue dentée
+          gearBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            dropdown.classList.toggle("visible");
+          });
+
+          // Fermer le menu si on clique ailleurs
+          document.addEventListener("click", function (e) {
+            if (!gearBtn.contains(e.target) && !dropdown.contains(e.target)) {
+              dropdown.classList.remove("visible");
+            }
+          });
+
+          // Empêcher la fermeture si on clique dans le menu
+          dropdown.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        }
+      })();
+
+      // Chargement et affichage des annonces
+      (async function loadAnnouncements() {
+        try {
+          const response = await fetch("announcements.json");
+          if (!response.ok) {
+            console.warn("Fichier announcements.json introuvable");
+            return;
+          }
+
+          const data = await response.json();
+          const container = document.getElementById("announcements-container");
+
+          if (!container) return;
+
+          // Filtrer les annonces actives
+          const activeAnnouncements = data.announcements.filter(
+            (ann) => ann.active
+          );
+
+          if (activeAnnouncements.length === 0) return;
+
+          // Créer les bannières
+          activeAnnouncements.forEach((announcement) => {
+            const banner = document.createElement("div");
+            banner.className = `announcement-banner ${announcement.type}`;
+
+            // Icône selon le type
+            const icons = {
+              info: "fa-info-circle",
+              warning: "fa-exclamation-triangle",
+              success: "fa-check-circle",
+              danger: "fa-exclamation-circle",
+            };
+
+            banner.innerHTML = `
+              <i class="fas ${icons[announcement.type] || icons.info}"></i>
+              <div class="content">
+                <h4>${announcement.title}</h4>
+                <p>${announcement.message}</p>
+              </div>
+            `;
+
+            container.appendChild(banner);
+          });
+        } catch (e) {
+          console.warn("Erreur lors du chargement des annonces:", e);
         }
       })();
     </script>
