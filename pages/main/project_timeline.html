@@ -6,7 +6,11 @@
     <title>
       Plan de Projet de Test - CMS Alfresco (Timeline V2 - Responsive)
     </title>
-    <link rel="icon" type="image/png" href="images/alfresco_icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
 
     <!-- Script de protection d'accès - Vérification de l'authentification -->
     <script src="../../assets/js/auth-guard.js"></script>
@@ -305,7 +309,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 1</div>
-              <div class="sprint-date">Semaine du 3 novembre</div>
+              <div class="sprint-date" data-sprint-id="1">
+                Semaine du 3 novembre
+              </div>
             </div>
 
             <h4 class="phase-title">Interpréter et comprendre</h4>
@@ -335,7 +341,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 2</div>
-              <div class="sprint-date">Semaine du 10 novembre</div>
+              <div class="sprint-date" data-sprint-id="2">
+                Semaine du 10 novembre
+              </div>
             </div>
 
             <h4 class="phase-title">Élaborer les cas de tests</h4>
@@ -360,7 +368,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 3</div>
-              <div class="sprint-date">Semaine du 17 novembre</div>
+              <div class="sprint-date" data-sprint-id="3">
+                Semaine du 17 novembre
+              </div>
             </div>
 
             <h4 class="phase-title">Réaliser les cas de tests</h4>
@@ -388,7 +398,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 4</div>
-              <div class="sprint-date">Semaine du 24 novembre</div>
+              <div class="sprint-date" data-sprint-id="4">
+                Semaine du 24 novembre
+              </div>
             </div>
             <ul class="task-list">
               <li>Rédiger le rapport de tests manuels.</li>
@@ -416,7 +428,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 5</div>
-              <div class="sprint-date">Semaine du 1er décembre</div>
+              <div class="sprint-date" data-sprint-id="5">
+                Semaine du 1er décembre
+              </div>
             </div>
 
             <h4 class="phase-title">Analyser et préparer l'automatisation</h4>
@@ -436,7 +450,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 6</div>
-              <div class="sprint-date">Semaine du 8 décembre au 23 janvier</div>
+              <div class="sprint-date" data-sprint-id="6">
+                Semaine du 8 décembre au 23 janvier
+              </div>
             </div>
 
             <h4 class="phase-title">Automatiser les tests</h4>
@@ -457,7 +473,9 @@
           <div class="sprint-content">
             <div class="sprint-header">
               <div class="sprint-title">Sprint 7</div>
-              <div class="sprint-date">Semaine du 26 janvier</div>
+              <div class="sprint-date" data-sprint-id="7">
+                Semaine du 26 janvier
+              </div>
             </div>
 
             <h4 class="phase-title">Rédiger le rapport de tests automatisés</h4>
@@ -479,7 +497,9 @@
           <div class="sprint-content" style="border-top: 5px solid #1e3a8a">
             <div class="sprint-header">
               <div class="sprint-title">Présenter les résultats</div>
-              <div class="sprint-date">Semaine du 2 février</div>
+              <div class="sprint-date" data-sprint-id="8">
+                Semaine du 2 février
+              </div>
             </div>
 
             <h4 class="phase-title">Présenter le rapport de tests</h4>
@@ -498,3 +518,25 @@
     </footer>
   </body>
 </html>
+<script>
+  // Injection dynamique des dates depuis config/timeline.json
+  (async function loadTimelineDates() {
+    try {
+      const response = await fetch("../../config/timeline.json");
+      if (!response.ok) {
+        console.warn("timeline.json non trouvé, dates par défaut conservées");
+        return;
+      }
+      const data = await response.json();
+      if (!data || !Array.isArray(data.sprints)) return;
+      data.sprints.forEach((sprint) => {
+        const el = document.querySelector(`[data-sprint-id="${sprint.id}"]`);
+        if (el && sprint.date) {
+          el.textContent = `Semaine du ${sprint.date}`;
+        }
+      });
+    } catch (e) {
+      console.warn("Erreur chargement timeline.json:", e);
+    }
+  })();
+</script>
