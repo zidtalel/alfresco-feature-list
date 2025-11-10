@@ -6,15 +6,17 @@
       "message": "Consultez régulièrement les guides et ressources disponibles pour réussir votre projet.",
       "type": "info",
       "active": true,
-      "date": "2025-11-09"
+      "date": "2025-11-09",
+      "priority": false
     },
     {
       "id": 2,
       "title": "Date de livraison imminente",
-      "message": "Attention ! la date de livraison du livrable Plan de test est proche : 13 novembre\nN'oubliez pas de finaliser votre plan et de le soumettre.",
+      "message": "Attention ! la date de livraison du livrable Plan de test est proche : 13 novembre. N'oubliez pas de finaliser votre plan et de le soumettre.",
       "type": "warning",
       "active": true,
-      "date": "2025-11-10"
+      "date": "2025-11-10",
+      "priority": true
     }
   ]
 }
