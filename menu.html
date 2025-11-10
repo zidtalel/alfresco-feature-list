@@ -856,7 +856,11 @@
       </div>
 
       <!-- Panneau latéral des annonces -->
-      <div id="announcements-panel" class="announcements-panel">
+      <div
+        id="announcements-panel"
+        class="announcements-panel"
+        style="display: none"
+      >
         <div class="panel-header">
           <h3>
             <i class="fas fa-bell"></i>
@@ -1274,12 +1278,20 @@
           // Ouvrir le panneau au clic sur la cloche
           notificationBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            panel.classList.add("visible");
+            panel.style.display = "block";
+            // Petit délai pour permettre la transition CSS
+            setTimeout(() => {
+              panel.classList.add("visible");
+            }, 10);
           });
 
           // Fermer le panneau
           closeBtn.addEventListener("click", () => {
             panel.classList.remove("visible");
+            // Masquer après la transition
+            setTimeout(() => {
+              panel.style.display = "none";
+            }, 300);
           });
 
           // Fermer le panneau si on clique en dehors
@@ -1289,6 +1301,10 @@
               !notificationBtn.contains(e.target)
             ) {
               panel.classList.remove("visible");
+              // Masquer après la transition
+              setTimeout(() => {
+                panel.style.display = "none";
+              }, 300);
             }
           });
 
