@@ -242,8 +242,8 @@
         const eyeOpen = document.getElementById("eye-open");
         const eyeClosed = document.getElementById("eye-closed");
 
-        // Variable pour stocker les identifiants chargés et déchiffrés
-        let VALID_CREDENTIALS = null;
+        // Tableau des comptes (décodés) chargé depuis credentials.json
+        let ACCOUNTS = [];
 
         // --- FICHIER ET PAGE DE REDIRECTION MIS À JOUR ---
         const CREDENTIALS_FILE = "credentials.json";
@@ -284,18 +284,26 @@
 
             const data = await response.json();
 
-            // 1. Décodage et stockage des identifiants
-            VALID_CREDENTIALS = {
-              username: decodeBase64(data.username),
-              password: decodeBase64(data.password),
-            };
-
-            if (
-              VALID_CREDENTIALS.username === "" ||
-              VALID_CREDENTIALS.password === ""
-            ) {
+            // Nouvelle structure : data.accounts[]
+            if (!Array.isArray(data.accounts) || data.accounts.length === 0) {
               throw new Error(
-                "Échec du décodage Base64. Les valeurs dans le JSON sont invalides."
+                "Structure JSON invalide : 'accounts' manquant ou vide."
+              );
+            }
+
+            ACCOUNTS = data.accounts
+              .map((acc) => ({
+                username: decodeBase64(acc.username),
+                password: decodeBase64(acc.password),
+                role: acc.role || "student",
+              }))
+              .filter(
+                (acc) => acc.username !== "" && acc.password !== "" && acc.role
+              );
+
+            if (ACCOUNTS.length === 0) {
+              throw new Error(
+                "Aucun compte valide après décodage. Vérifiez le fichier credentials.json."
               );
             }
 
@@ -309,7 +317,13 @@
             );
             buttonText.textContent = "Se Connecter";
 
-            console.log("Identifiants chargés et bouton activé.");
+            console.log(
+              `Comptes chargés (${
+                ACCOUNTS.length
+              }) et bouton activé. Rôles détectés: ${[
+                ...new Set(ACCOUNTS.map((a) => a.role)),
+              ].join(", ")}`
+            );
           } catch (error) {
             console.error(
               "Échec du chargement critique des identifiants:",
@@ -352,7 +366,7 @@
           event.preventDefault();
 
           // Vérification de la disponibilité des identifiants (devrait être chargé si le bouton est actif)
-          if (!VALID_CREDENTIALS || loginButton.disabled) {
+          if (ACCOUNTS.length === 0 || loginButton.disabled) {
             console.warn(
               "Connexion impossible : identifiants non chargés ou erreur de configuration."
             );
@@ -373,16 +387,19 @@
             .getElementById("password")
             .value.trim();
 
-          // Vérification des identifiants
-          if (
-            usernameInput === VALID_CREDENTIALS.username &&
-            passwordInput === VALID_CREDENTIALS.password
-          ) {
+          // Recherche du compte correspondant
+          const matchedAccount = ACCOUNTS.find(
+            (acc) =>
+              acc.username === usernameInput && acc.password === passwordInput
+          );
+
+          if (matchedAccount) {
             // --- CONNEXION RÉUSSIE ---
             console.log("Connexion réussie. Redirection en cours...");
-
-            // 1. Définir l'indicateur de session
-            sessionStorage.setItem("isAuthenticated", "true"); // <-- AJOUT DE LA SÉCURITÉ
+            // 1. Définir l'indicateur de session + rôle + username
+            sessionStorage.setItem("isAuthenticated", "true");
+            sessionStorage.setItem("userRole", matchedAccount.role);
+            sessionStorage.setItem("username", matchedAccount.username);
 
             // Redirection vers la page principale
             setTimeout(() => {
@@ -391,7 +408,9 @@
             }, 500);
           } else {
             // --- CONNEXION ÉCHOUÉE ---
-            console.log("Échec de la connexion.");
+            console.log(
+              "Échec de la connexion (identifiants ou rôle inexistant)."
+            );
 
             // 1. Masquer le message de chargement
             loadingMessage.style.display = "none";
