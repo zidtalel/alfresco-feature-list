@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion de la FAQ - Administration</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../../assets/images/alfresco_icon.png"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- Scripts de protection -->
+    <script src="../../assets/js/auth-guard.js"></script>
+    <script src="../../assets/js/admin-guard.js"></script>
+
+    <style>
+      :root {
+        --primary-color: #007bff;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+        --info-color: #17a2b8;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #e9ecef;
+      }
+
+      h1 {
+        margin: 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      h1 i {
+        color: var(--primary-color);
+      }
+
+      .back-btn {
+        padding: 10px 20px;
+        background: #6c757d;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .back-btn:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+      }
+
+      /* Formulaire d'ajout */
+      .add-form {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #495057;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.95em;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+
+      .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+      }
+
+      .btn-success {
+        background: var(--success-color);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #218838;
+      }
+
+      .btn-danger {
+        background: var(--danger-color);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #c82333;
+      }
+
+      .btn-warning {
+        background: var(--warning-color);
+        color: #212529;
+      }
+
+      .btn-warning:hover {
+        background: #e0a800;
+      }
+
+      /* Liste des FAQ */
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .faq-item {
+        background: white;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 18px;
+        transition: all 0.2s;
+      }
+
+      .faq-item:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+      }
+
+      .faq-item.inactive {
+        opacity: 0.6;
+        background: #f8f9fa;
+      }
+
+      .faq-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+
+      .faq-category-badge {
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75em;
+        font-weight: 700;
+        text-transform: uppercase;
+        background: #e7f3ff;
+        color: #004085;
+        display: inline-block;
+        margin-bottom: 8px;
+      }
+
+      .faq-question-text {
+        font-weight: 700;
+        font-size: 1.05em;
+        color: #2c3e50;
+        margin-bottom: 8px;
+      }
+
+      .faq-answer-text {
+        color: #6c757d;
+        line-height: 1.6;
+        margin: 8px 0;
+        font-size: 0.95em;
+      }
+
+      .faq-meta {
+        font-size: 0.85em;
+        color: #adb5bd;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+      }
+
+      .faq-actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.85em;
+      }
+
+      .alert {
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        display: none;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .alert.visible {
+        display: flex;
+      }
+
+      .alert.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert.danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .alert.info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      /* Section catégories */
+      .categories-section {
+        background: #fff3cd;
+        border: 2px dashed #ffc107;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .categories-section h3 {
+        margin: 0 0 15px 0;
+        color: #856404;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .category-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .category-tag {
+        padding: 8px 16px;
+        background: white;
+        border: 2px solid #ffc107;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #856404;
+      }
+
+      .category-tag button {
+        background: none;
+        border: none;
+        color: #dc3545;
+        cursor: pointer;
+        padding: 0;
+        font-size: 1.1em;
+        line-height: 1;
+      }
+
+      .category-tag button:hover {
+        color: #a71d2a;
+      }
+
+      .new-category-form {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+      }
+
+      .new-category-form input {
+        flex: 1;
+        min-width: 200px;
+      }
+
+      /* Export section */
+      .export-section {
+        background: #d1ecf1;
+        border: 2px dashed #17a2b8;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 30px;
+        text-align: center;
+      }
+
+      .export-section h3 {
+        margin: 0 0 10px 0;
+        color: #0c5460;
+      }
+
+      .export-section p {
+        margin: 0 0 15px 0;
+        color: #0c5460;
+        font-size: 0.9em;
+      }
+
+      /* Configuration GitHub */
+      .github-config {
+        background: #e7f3ff;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .github-config.configured {
+        background: #d4edda;
+        border-color: #28a745;
+      }
+
+      .github-config h3 {
+        margin: 0 0 15px 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .config-form {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .config-form .form-group {
+        flex: 1;
+        min-width: 200px;
+        margin: 0;
+      }
+
+      .config-form input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .help-text {
+        font-size: 0.85em;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+
+      .help-text a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .help-text a:hover {
+        text-decoration: underline;
+      }
+
+      .stats {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 15px 25px;
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-card .number {
+        font-size: 2em;
+        font-weight: 700;
+        color: var(--primary-color);
+        display: block;
+      }
+
+      .stat-card .label {
+        font-size: 0.9em;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+
+      /* Configuration GitHub */
+      .github-config {
+        background: #e7f3ff;
+        border: 2px solid #007bff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+
+      .github-config.configured {
+        background: #d4edda;
+        border-color: #28a745;
+      }
+
+      .github-config h3 {
+        margin: 0 0 15px 0;
+        color: #2c3e50;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .config-form {
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .config-form .form-group {
+        flex: 1;
+        min-width: 200px;
+        margin: 0;
+      }
+
+      .config-form input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .status-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .status-badge.connected {
+        background: #28a745;
+        color: white;
+      }
+
+      .status-badge.disconnected {
+        background: #6c757d;
+        color: white;
+      }
+
+      .help-text {
+        font-size: 0.85em;
+        color: #6c757d;
+        margin-top: 5px;
+      }
+
+      .help-text a {
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .filter-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .filter-bar select,
+      .filter-bar input {
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.9em;
+      }
+
+      .filter-bar input[type="search"] {
+        flex: 1;
+        min-width: 250px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>
+          <i class="fas fa-question-circle"></i>
+          Gestion de la FAQ
+        </h1>
+        <a href="../main/menu.html" class="back-btn">
+          <i class="fas fa-arrow-left"></i>
+          Retour au menu
+        </a>
+      </header>
+
+      <!-- Configuration GitHub -->
+      <div id="github-config" class="github-config">
+        <h3>
+          <i class="fas fa-github"></i>
+          Configuration GitHub API
+          <span id="status-badge" class="status-badge disconnected">
+            <i class="fas fa-times-circle"></i>
+            Non configuré
+          </span>
+        </h3>
+        <form id="config-form" class="config-form">
+          <div class="form-group">
+            <label for="github-token">Personal Access Token *</label>
+            <input
+              type="password"
+              id="github-token"
+              placeholder="ghp_xxxxxxxxxxxx"
+              required
+            />
+            <div class="help-text">
+              <a
+                href="https://github.com/settings/tokens/new?scopes=repo"
+                target="_blank"
+              >
+                Créer un token
+              </a>
+              avec le scope <code>repo</code>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="github-owner">Owner *</label>
+            <input
+              type="text"
+              id="github-owner"
+              placeholder="zidtalel"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-repo">Repository *</label>
+            <input
+              type="text"
+              id="github-repo"
+              placeholder="alfresco-project"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="github-branch">Branch</label>
+            <input
+              type="text"
+              id="github-branch"
+              value="master"
+              placeholder="master"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-plug"></i>
+            Connecter
+          </button>
+        </form>
+      </div>
+
+      <!-- Message de succès/erreur -->
+      <div id="alert" class="alert"></div>
+
+      <!-- Statistiques -->
+      <div class="stats">
+        <div class="stat-card">
+          <span class="number" id="total-questions">0</span>
+          <span class="label">Questions totales</span>
+        </div>
+        <div class="stat-card">
+          <span class="number" id="total-categories">0</span>
+          <span class="label">Catégories</span>
+        </div>
+        <div class="stat-card">
+          <span class="number" id="active-questions">0</span>
+          <span class="label">Questions actives</span>
+        </div>
+      </div>
+
+      <!-- Gestion des catégories -->
+      <div class="categories-section">
+        <h3>
+          <i class="fas fa-tags"></i>
+          Catégories disponibles
+        </h3>
+        <div id="category-list" class="category-list">
+          <!-- Les catégories seront insérées ici -->
+        </div>
+        <div class="new-category-form">
+          <div class="form-group" style="flex: 1; margin: 0">
+            <label for="new-category-name">Nouvelle catégorie</label>
+            <input
+              type="text"
+              id="new-category-name"
+              placeholder="Ex: Connexion & Réseau"
+            />
+          </div>
+          <button type="button" class="btn btn-warning" id="add-category-btn">
+            <i class="fas fa-plus"></i>
+            Ajouter
+          </button>
+        </div>
+      </div>
+
+      <!-- Formulaire d'ajout -->
+      <div class="add-form">
+        <h2 style="margin-top: 0">
+          <i class="fas fa-plus-circle"></i> Nouvelle Question FAQ
+        </h2>
+        <form id="faq-form">
+          <div class="form-group">
+            <label for="category">Catégorie *</label>
+            <select id="category" name="category" required>
+              <option value="">-- Sélectionner une catégorie --</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="question">Question *</label>
+            <input
+              type="text"
+              id="question"
+              name="question"
+              required
+              placeholder="Ex: Comment créer une session SSH avec PuTTY ?"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="answer">Réponse (HTML supporté) *</label>
+            <textarea
+              id="answer"
+              name="answer"
+              required
+              placeholder="Ex: <p>Configurer PuTTY en trois étapes...</p><ol><li>Ouvre PuTTY...</li></ol>"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="order">Ordre d'affichage</label>
+            <input
+              type="number"
+              id="order"
+              name="order"
+              value="1"
+              min="1"
+              placeholder="1"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="active" name="active" checked />
+              Question active (visible sur la FAQ publique)
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              Enregistrer
+            </button>
+            <button
+              type="reset"
+              class="btn"
+              style="background: #6c757d; color: white"
+            >
+              <i class="fas fa-redo"></i>
+              Réinitialiser
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Filtres -->
+      <div class="filter-bar">
+        <input
+          type="search"
+          id="search-faq"
+          placeholder="Rechercher une question ou une réponse..."
+        />
+        <select id="filter-category">
+          <option value="">Toutes les catégories</option>
+        </select>
+        <select id="filter-status">
+          <option value="all">Toutes les questions</option>
+          <option value="active">Actives uniquement</option>
+          <option value="inactive">Inactives uniquement</option>
+        </select>
+      </div>
+
+      <!-- Liste des FAQ -->
+      <h2>
+        <i class="fas fa-list"></i>
+        Questions existantes (<span id="faq-count">0</span>)
+      </h2>
+      <div id="faq-list" class="faq-list">
+        <!-- Les FAQ seront insérées ici dynamiquement -->
+      </div>
+
+      <!-- Section Sauvegarde -->
+      <div class="export-section">
+        <h3><i class="fas fa-save"></i> Sauvegarder les modifications</h3>
+        <p id="save-instructions">
+          Connectez-vous à GitHub API pour sauvegarder automatiquement, ou
+          téléchargez manuellement le fichier JSON.
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+          "
+        >
+          <button id="save-github-btn" class="btn btn-success" disabled>
+            <i class="fas fa-cloud-upload-alt"></i>
+            Sauvegarder sur GitHub
+          </button>
+          <button
+            id="download-json-btn"
+            class="btn"
+            style="background: #6c757d; color: white"
+          >
+            <i class="fas fa-download"></i>
+            Télécharger JSON
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Structure de données pour la FAQ
+      let faqData = {
+        categories: [],
+        questions: [],
+      };
+
+      // Configuration GitHub
+      let githubConfig = {
+        token: "",
+        owner: "",
+        repo: "",
+        branch: "master",
+        filePath: "config/faq.json",
+      };
+
+      // Charger la config GitHub depuis localStorage
+      function loadGithubConfig() {
+        const stored = localStorage.getItem("githubConfig");
+        if (stored) {
+          githubConfig = JSON.parse(stored);
+          updateGithubUI();
+          return true;
+        }
+        return false;
+      }
+
+      // Sauvegarder la config GitHub
+      function saveGithubConfig() {
+        localStorage.setItem("githubConfig", JSON.stringify(githubConfig));
+        updateGithubUI();
+      }
+
+      // Mettre à jour l'UI de la configuration GitHub
+      function updateGithubUI() {
+        const isConfigured =
+          githubConfig.token && githubConfig.owner && githubConfig.repo;
+        const configDiv = document.getElementById("github-config");
+        const statusBadge = document.getElementById("status-badge");
+        const saveGithubBtn = document.getElementById("save-github-btn");
+
+        // Remplir les champs avec la config enregistrée
+        if (githubConfig.token) {
+          document.getElementById("github-token").value = githubConfig.token;
+        }
+        if (githubConfig.owner) {
+          document.getElementById("github-owner").value = githubConfig.owner;
+        }
+        if (githubConfig.repo) {
+          document.getElementById("github-repo").value = githubConfig.repo;
+        }
+        if (githubConfig.branch) {
+          document.getElementById("github-branch").value = githubConfig.branch;
+        }
+
+        // Mettre à jour le statut visuel
+        if (isConfigured) {
+          configDiv.classList.add("configured");
+          statusBadge.className = "status-badge connected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-check-circle"></i> Connecté';
+          saveGithubBtn.disabled = false;
+        } else {
+          configDiv.classList.remove("configured");
+          statusBadge.className = "status-badge disconnected";
+          statusBadge.innerHTML =
+            '<i class="fas fa-times-circle"></i> Non configuré';
+          saveGithubBtn.disabled = true;
+        }
+      }
+
+      // Charger les données depuis GitHub
+      async function loadFaqDataFromGithub() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert(
+            "Configuration GitHub manquante. Veuillez configurer l'API GitHub.",
+            "danger"
+          );
+          return false;
+        }
+
+        try {
+          const url = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.filePath}?ref=${githubConfig.branch}`;
+          const response = await fetch(url, {
+            headers: {
+              Authorization: `token ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erreur GitHub API: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const content = atob(data.content);
+          faqData = JSON.parse(content);
+
+          // Convertir l'ancien format si nécessaire
+          if (
+            !Array.isArray(faqData.categories) ||
+            faqData.categories.length === 0 ||
+            typeof faqData.categories[0] === "string"
+          ) {
+            faqData = convertOldFormat(faqData);
+          }
+
+          updateUI();
+          showAlert("Données chargées depuis GitHub avec succès !", "success");
+          return true;
+        } catch (error) {
+          console.error("Erreur lors du chargement:", error);
+          showAlert(`Erreur lors du chargement: ${error.message}`, "danger");
+          return false;
+        }
+      }
+
+      // Sauvegarder les données sur GitHub
+      async function saveFaqDataToGithub() {
+        if (!githubConfig.token || !githubConfig.owner || !githubConfig.repo) {
+          showAlert(
+            "Configuration GitHub manquante. Données sauvegardées localement uniquement.",
+            "warning"
+          );
+          return false;
+        }
+
+        try {
+          // Récupérer le SHA du fichier actuel
+          const getUrl = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.filePath}?ref=${githubConfig.branch}`;
+          const getResponse = await fetch(getUrl, {
+            headers: {
+              Authorization: `token ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+            },
+          });
+
+          let sha = null;
+          if (getResponse.ok) {
+            const fileData = await getResponse.json();
+            sha = fileData.sha;
+          }
+
+          // Préparer le contenu
+          const content = btoa(
+            unescape(encodeURIComponent(JSON.stringify(faqData, null, 2)))
+          );
+
+          // Mettre à jour ou créer le fichier
+          const putUrl = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.filePath}`;
+          const putResponse = await fetch(putUrl, {
+            method: "PUT",
+            headers: {
+              Authorization: `token ${githubConfig.token}`,
+              Accept: "application/vnd.github.v3+json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              message: `Mise à jour FAQ - ${new Date().toLocaleString(
+                "fr-FR"
+              )}`,
+              content: content,
+              branch: githubConfig.branch,
+              sha: sha,
+            }),
+          });
+
+          if (!putResponse.ok) {
+            throw new Error(`Erreur GitHub API: ${putResponse.status}`);
+          }
+
+          showAlert(
+            "Modifications enregistrées sur GitHub avec succès !",
+            "success"
+          );
+          return true;
+        } catch (error) {
+          console.error("Erreur lors de la sauvegarde:", error);
+          showAlert(
+            `Erreur lors de la sauvegarde sur GitHub: ${error.message}`,
+            "danger"
+          );
+          return false;
+        }
+      }
+
+      // Convertir l'ancien format (tableau de strings) vers le nouveau format (objets)
+      function convertOldFormat(data) {
+        if (!data.categories || !Array.isArray(data.categories)) {
+          return data;
+        }
+
+        const icons = {
+          "Connexion & Réseau": "fa-network-wired",
+          "Automatisation & Robot Framework": "fa-robot",
+          "Gestion de Projet": "fa-project-diagram",
+          Documentation: "fa-book",
+          "Bonnes Pratiques": "fa-star",
+          "Outils de développement": "fa-code",
+          "Automatisation & Tests": "fa-robot",
+          "Gestion de projet & Documentation": "fa-project-diagram",
+          "Problèmes courants & Astuces": "fa-life-ring",
+          "Bonus & Optimisation": "fa-lightbulb",
+        };
+
+        if (typeof data.categories[0] === "string") {
+          data.categories = data.categories.map((cat, index) => ({
+            id: cat.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+            name: cat,
+            icon: icons[cat] || "fa-tag",
+            order: index + 1,
+          }));
+        }
+
+        return data;
+      }
+
+      // Mettre à jour toute l'interface
+      function updateUI() {
+        updateStats();
+        renderCategories();
+        renderFaqList();
+        populateCategorySelects();
+      }
+
+      // Mettre à jour les statistiques
+      function updateStats() {
+        document.getElementById("total-questions").textContent =
+          faqData.questions.length;
+        document.getElementById("total-categories").textContent =
+          faqData.categories.length;
+        document.getElementById("active-questions").textContent =
+          faqData.questions.filter((q) => q.active).length;
+        document.getElementById("faq-count").textContent =
+          getFilteredQuestions().length;
+      }
+
+      // Afficher les catégories
+      function renderCategories() {
+        const categoryList = document.getElementById("category-list");
+        const sortedCategories = [...faqData.categories].sort(
+          (a, b) => a.order - b.order
+        );
+        categoryList.innerHTML = sortedCategories
+          .map(
+            (cat) => `
+          <div class="category-tag">
+            <i class="fas ${cat.icon}"></i>
+            ${cat.name}
+            <button type="button" onclick="deleteCategory('${cat.id}')" title="Supprimer la catégorie">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // Remplir les sélecteurs de catégories
+      function populateCategorySelects() {
+        const categorySelect = document.getElementById("category");
+        const filterCategorySelect = document.getElementById("filter-category");
+
+        const sortedCategories = [...faqData.categories].sort(
+          (a, b) => a.order - b.order
+        );
+        const options = sortedCategories
+          .map((cat) => `<option value="${cat.id}">${cat.name}</option>`)
+          .join("");
+
+        categorySelect.innerHTML =
+          '<option value="">-- Sélectionner une catégorie --</option>' +
+          options;
+        filterCategorySelect.innerHTML =
+          '<option value="">Toutes les catégories</option>' + options;
+      }
+
+      // Ajouter une catégorie
+      document
+        .getElementById("add-category-btn")
+        .addEventListener("click", () => {
+          const input = document.getElementById("new-category-name");
+          const name = input.value.trim();
+
+          if (!name) {
+            showAlert("Veuillez saisir un nom de catégorie.", "danger");
+            return;
+          }
+
+          const id = name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+          if (faqData.categories.find((c) => c.id === id)) {
+            showAlert("Cette catégorie existe déjà.", "danger");
+            return;
+          }
+
+          const newCategory = {
+            id: id,
+            name: name,
+            icon: "fa-tag",
+            order: faqData.categories.length + 1,
+          };
+
+          faqData.categories.push(newCategory);
+          saveFaqDataToGithub();
+          input.value = "";
+          showAlert(`Catégorie "${name}" ajoutée avec succès.`, "success");
+        });
+
+      // Supprimer une catégorie
+      function deleteCategory(id) {
+        const category = faqData.categories.find((c) => c.id === id);
+        if (!category) return;
+
+        if (
+          !confirm(
+            `Supprimer la catégorie "${category.name}" ?\n\nLes questions associées ne seront pas supprimées mais devront être recatégorisées.`
+          )
+        ) {
+          return;
+        }
+
+        faqData.categories = faqData.categories.filter((c) => c.id !== id);
+        saveFaqDataToGithub();
+        showAlert(`Catégorie "${category.name}" supprimée.`, "info");
+      }
+
+      // Afficher la liste des FAQ
+      function renderFaqList() {
+        const faqList = document.getElementById("faq-list");
+        const questions = getFilteredQuestions();
+
+        if (questions.length === 0) {
+          faqList.innerHTML = `
+            <div style="text-align: center; padding: 40px; color: #6c757d;">
+              <i class="fas fa-inbox" style="font-size: 3em; opacity: 0.3; margin-bottom: 10px;"></i>
+              <p>Aucune question pour le moment.</p>
+            </div>
+          `;
+          return;
+        }
+
+        faqList.innerHTML = questions
+          .map((q) => {
+            const category = faqData.categories.find(
+              (c) => c.id === q.categoryId
+            );
+            const categoryName = category ? category.name : "Sans catégorie";
+
+            return `
+            <div class="faq-item ${q.active ? "" : "inactive"}">
+              <div class="faq-header">
+                <div style="flex: 1;">
+                  <div class="faq-category-badge">
+                    <i class="fas ${
+                      category ? category.icon : "fa-tag"
+                    }"></i> ${categoryName}
+                  </div>
+                  <div class="faq-question-text">
+                    ${
+                      q.active
+                        ? ""
+                        : '<i class="fas fa-eye-slash" style="color: #dc3545; margin-right: 8px;"></i>'
+                    }
+                    ${q.question}
+                  </div>
+                  <div class="faq-answer-text">
+                    ${stripHtml(q.answer).substring(0, 150)}${
+              stripHtml(q.answer).length > 150 ? "..." : ""
+            }
+                  </div>
+                  <div class="faq-meta">
+                    <span><i class="fas fa-sort-numeric-down"></i> Ordre: ${
+                      q.order
+                    }</span>
+                    <span><i class="fas fa-hashtag"></i> ID: ${q.id}</span>
+                    <span><i class="fas fa-eye"></i> ${
+                      q.active ? "Active" : "Inactive"
+                    }</span>
+                  </div>
+                </div>
+                <div class="faq-actions">
+                  <button class="btn btn-sm btn-primary" onclick="editFaq(${
+                    q.id
+                  })" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm ${
+                    q.active ? "btn-warning" : "btn-success"
+                  }" 
+                          onclick="toggleActive(${q.id})" 
+                          title="${q.active ? "Désactiver" : "Activer"}">
+                    <i class="fas fa-${q.active ? "eye-slash" : "eye"}"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteFaq(${
+                    q.id
+                  })" title="Supprimer">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      // Filtrer les questions
+      function getFilteredQuestions() {
+        let filtered = [...faqData.questions];
+
+        // Filtre par recherche
+        const searchTerm = document
+          .getElementById("search-faq")
+          .value.toLowerCase();
+        if (searchTerm) {
+          filtered = filtered.filter(
+            (q) =>
+              q.question.toLowerCase().includes(searchTerm) ||
+              q.answer.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        // Filtre par catégorie
+        const categoryFilter = document.getElementById("filter-category").value;
+        if (categoryFilter) {
+          filtered = filtered.filter((q) => q.categoryId === categoryFilter);
+        }
+
+        // Filtre par statut
+        const statusFilter = document.getElementById("filter-status").value;
+        if (statusFilter === "active") {
+          filtered = filtered.filter((q) => q.active);
+        } else if (statusFilter === "inactive") {
+          filtered = filtered.filter((q) => !q.active);
+        }
+
+        // Tri par catégorie et ordre
+        filtered.sort((a, b) => {
+          const catA = faqData.categories.find((c) => c.id === a.categoryId);
+          const catB = faqData.categories.find((c) => c.id === b.categoryId);
+          const orderA = catA ? catA.order : 999;
+          const orderB = catB ? catB.order : 999;
+
+          if (orderA !== orderB) return orderA - orderB;
+          return a.order - b.order;
+        });
+
+        return filtered;
+      }
+
+      // Ajouter une FAQ
+      document
+        .getElementById("faq-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const categoryId = document.getElementById("category").value;
+
+          if (!categoryId) {
+            showAlert("Veuillez sélectionner une catégorie.", "danger");
+            return;
+          }
+
+          // Trouver le prochain ID disponible
+          const maxId =
+            faqData.questions.length > 0
+              ? Math.max(...faqData.questions.map((q) => q.id))
+              : 0;
+
+          const formData = {
+            id: maxId + 1,
+            categoryId: categoryId,
+            question: document.getElementById("question").value.trim(),
+            answer: document.getElementById("answer").value.trim(),
+            order: parseInt(document.getElementById("order").value) || 1,
+            active: document.getElementById("active").checked,
+          };
+
+          faqData.questions.push(formData);
+
+          const saved = await saveFaqDataToGithub();
+
+          if (saved) {
+            e.target.reset();
+            document.getElementById("active").checked = true;
+            showAlert(
+              "Question ajoutée et enregistrée sur GitHub !",
+              "success"
+            );
+          } else {
+            showAlert(
+              "Question ajoutée localement. Erreur lors de l'enregistrement sur GitHub.",
+              "warning"
+            );
+          }
+        });
+
+      // Modifier une FAQ
+      function editFaq(id) {
+        const faq = faqData.questions.find((q) => q.id === id);
+        if (!faq) return;
+
+        document.getElementById("category").value = faq.categoryId;
+        document.getElementById("question").value = faq.question;
+        document.getElementById("answer").value = faq.answer;
+        document.getElementById("order").value = faq.order;
+        document.getElementById("active").checked = faq.active;
+
+        // Supprimer l'ancienne version
+        deleteFaq(id, true);
+
+        // Scroll vers le formulaire
+        document
+          .querySelector(".add-form")
+          .scrollIntoView({ behavior: "smooth" });
+        showAlert(
+          "Question chargée pour modification. Enregistrez vos changements.",
+          "info"
+        );
+      }
+
+      // Activer/Désactiver une FAQ
+      async function toggleActive(id) {
+        const faq = faqData.questions.find((q) => q.id === id);
+        if (faq) {
+          faq.active = !faq.active;
+          const saved = await saveFaqDataToGithub();
+          if (saved) {
+            showAlert(
+              `Question ${faq.active ? "activée" : "désactivée"}.`,
+              "success"
+            );
+          }
+        }
+      }
+
+      // Supprimer une FAQ
+      async function deleteFaq(id, silent = false) {
+        if (
+          !silent &&
+          !confirm("Supprimer cette question de façon permanente ?")
+        ) {
+          return;
+        }
+
+        faqData.questions = faqData.questions.filter((q) => q.id !== id);
+
+        if (!silent) {
+          const saved = await saveFaqDataToGithub();
+          if (saved) {
+            showAlert("Question supprimée.", "info");
+          }
+        }
+      }
+
+      // Gestionnaire du bouton "Sauvegarder sur GitHub"
+      document
+        .getElementById("save-github-btn")
+        .addEventListener("click", async () => {
+          if (
+            !githubConfig.token ||
+            !githubConfig.owner ||
+            !githubConfig.repo
+          ) {
+            showAlert("Veuillez d'abord configurer GitHub API.", "warning");
+            return;
+          }
+
+          const success = await saveFaqDataToGithub();
+          if (success) {
+            showAlert(
+              "Données sauvegardées sur GitHub avec succès !",
+              "success"
+            );
+          }
+        });
+
+      // Gestionnaire du bouton "Télécharger JSON"
+      document
+        .getElementById("download-json-btn")
+        .addEventListener("click", () => {
+          const dataStr = JSON.stringify(faqData, null, 2);
+          const dataBlob = new Blob([dataStr], { type: "application/json" });
+          const url = URL.createObjectURL(dataBlob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `faq-${new Date().toISOString().split("T")[0]}.json`;
+          link.click();
+          URL.revokeObjectURL(url);
+          showAlert("Fichier JSON téléchargé avec succès !", "success");
+        });
+
+      // Filtres en temps réel
+      document
+        .getElementById("search-faq")
+        .addEventListener("input", renderFaqList);
+      document
+        .getElementById("filter-category")
+        .addEventListener("change", renderFaqList);
+      document
+        .getElementById("filter-status")
+        .addEventListener("change", renderFaqList);
+
+      // Utilitaires
+      function stripHtml(html) {
+        const tmp = document.createElement("div");
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || "";
+      }
+
+      function showAlert(message, type = "info") {
+        const alert = document.getElementById("alert");
+        alert.className = `alert ${type} visible`;
+        alert.innerHTML = `
+          <i class="fas fa-${
+            type === "success"
+              ? "check-circle"
+              : type === "danger"
+              ? "exclamation-circle"
+              : "info-circle"
+          }"></i>
+          ${message}
+        `;
+        setTimeout(() => {
+          alert.classList.remove("visible");
+        }, 5000);
+      }
+
+      // Gestionnaire du formulaire de configuration GitHub
+      document
+        .getElementById("config-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          githubConfig.token = document
+            .getElementById("github-token")
+            .value.trim();
+          githubConfig.owner = document
+            .getElementById("github-owner")
+            .value.trim();
+          githubConfig.repo = document
+            .getElementById("github-repo")
+            .value.trim();
+          githubConfig.branch =
+            document.getElementById("github-branch").value.trim() || "master";
+
+          saveGithubConfig();
+
+          // Charger immédiatement les données depuis GitHub
+          const loaded = await loadFaqDataFromGithub();
+          if (loaded) {
+            showAlert(
+              "Configuration GitHub enregistrée et données chargées !",
+              "success"
+            );
+          }
+        });
+
+      // Charger depuis le fichier local JSON en fallback
+      async function loadFaqDataFromLocal() {
+        try {
+          const response = await fetch("../../config/faq.json");
+          if (!response.ok) {
+            throw new Error("Fichier faq.json introuvable");
+          }
+          faqData = await response.json();
+
+          // Convertir l'ancien format si nécessaire
+          if (
+            !Array.isArray(faqData.categories) ||
+            faqData.categories.length === 0 ||
+            typeof faqData.categories[0] === "string"
+          ) {
+            faqData = convertOldFormat(faqData);
+          }
+
+          updateUI();
+          showAlert(
+            "Données chargées depuis le fichier local. Configurez GitHub API pour sauvegarder les modifications.",
+            "info"
+          );
+          return true;
+        } catch (error) {
+          console.error("Erreur lors du chargement local:", error);
+          showAlert(
+            "Impossible de charger les données FAQ. Veuillez vérifier le fichier config/faq.json.",
+            "danger"
+          );
+          updateUI(); // Afficher l'interface vide
+          return false;
+        }
+      }
+
+      // Initialisation
+      async function init() {
+        loadGithubConfig();
+
+        if (githubConfig.token && githubConfig.owner && githubConfig.repo) {
+          // Essayer de charger depuis GitHub
+          const loaded = await loadFaqDataFromGithub();
+          if (!loaded) {
+            // Si échec, charger depuis le fichier local
+            await loadFaqDataFromLocal();
+          }
+        } else {
+          // Pas de config GitHub, charger depuis le fichier local
+          await loadFaqDataFromLocal();
+        }
+      }
+
+      // Lancer l'initialisation
+      init();
+    </script>
+  </body>
+</html>

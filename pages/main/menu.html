@@ -644,9 +644,6 @@
 
       /* Bouton de déconnexion (distinct en taille et position) */
       .logout-btn {
-        position: absolute;
-        top: 16px;
-        right: 16px;
         background-color: #e74c3c;
         color: #ffffff;
         padding: 8px 12px;
@@ -661,6 +658,49 @@
         transition: transform 0.2s ease, box-shadow 0.2s ease,
           background-color 0.2s ease;
         z-index: 2;
+      }
+
+      .top-actions {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 3;
+      }
+
+      .top-actions .logout-btn,
+      .top-actions .faq-fab {
+        position: static;
+      }
+
+      .faq-fab {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: none;
+        background: linear-gradient(135deg, #6ec1ff, #3b82f6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        z-index: 3;
+        flex-shrink: 0;
+      }
+
+      .faq-fab:hover,
+      .faq-fab:focus-visible {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 8px 18px rgba(59, 130, 246, 0.35);
+        outline: none;
+      }
+
+      .faq-fab i {
+        font-size: 1.4em;
+        color: #ffffff;
       }
 
       .logout-btn i {
@@ -731,6 +771,17 @@
         .logout-btn {
           font-size: 0.8em;
           padding: 6px 10px;
+        }
+
+        .top-actions {
+          top: 12px;
+          right: 12px;
+          gap: 10px;
+        }
+
+        .faq-fab {
+          width: 38px;
+          height: 38px;
         }
 
         /* Panneau latéral pleine largeur sur mobile */
@@ -816,6 +867,10 @@
               <i class="fas fa-question-circle"></i>
               <span>Gestion des Quiz</span>
             </a>
+            <a href="../admin/admin-faq.html">
+              <i class="fas fa-life-ring"></i>
+              <span>Gestion de la FAQ</span>
+            </a>
             <a href="../admin/admin-settings.html">
               <i class="fas fa-sliders-h"></i>
               <span>Configuration</span>
@@ -833,17 +888,28 @@
           <span id="notification-badge" class="notification-badge">0</span>
         </div>
       </div>
-      <!-- Bouton de déconnexion distinct (positionné en haut à droite) -->
-      <a
-        href="#"
-        id="logout-btn"
-        class="logout-btn"
-        title="Se déconnecter et revenir à la page de connexion"
-        aria-label="Se déconnecter"
-      >
-        <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-        <span>Déconnexion</span>
-      </a>
+      <div class="top-actions">
+        <button
+          id="faq-fab"
+          class="faq-fab"
+          type="button"
+          title="FAQ / Aide"
+          aria-label="FAQ et aide"
+          onclick="window.location.href='faq.html'"
+        >
+          <i class="fas fa-circle-question" aria-hidden="true"></i>
+        </button>
+        <a
+          href="#"
+          id="logout-btn"
+          class="logout-btn"
+          title="Se déconnecter et revenir à la page de connexion"
+          aria-label="Se déconnecter"
+        >
+          <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+          <span>Déconnexion</span>
+        </a>
+      </div>
       <div class="project-icon">
         <i class="fas fa-project-diagram"></i>
       </div>
