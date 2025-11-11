@@ -1,0 +1,8 @@
+# GitHub Pages configuration
+encoding: utf-8
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - .gitattributes
+  - .gitignore

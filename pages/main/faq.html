@@ -916,11 +916,17 @@ Vérifier la page d'accueil
       // Charger les données FAQ depuis le fichier JSON
       async function loadFaqData() {
         try {
-          const response = await fetch('../../config/faq.json');
+          const response = await fetch('../../config/faq.json', {
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8'
+            }
+          });
           if (!response.ok) {
             throw new Error('Erreur lors du chargement de la FAQ');
           }
-          faqData = await response.json();
+          // Forcer le décodage UTF-8
+          const text = await response.text();
+          faqData = JSON.parse(text);
           renderFaq();
         } catch (error) {
           console.error('Erreur:', error);

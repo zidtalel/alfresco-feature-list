@@ -1,0 +1,17 @@
+# Ensure all text files use LF line endings
+* text=auto
+
+# Force UTF-8 encoding for JSON files
+*.json text eol=lf encoding=UTF-8
+
+# Force UTF-8 encoding for HTML files
+*.html text eol=lf encoding=UTF-8
+
+# Force UTF-8 encoding for JavaScript files
+*.js text eol=lf encoding=UTF-8
+
+# Force UTF-8 encoding for CSS files
+*.css text eol=lf encoding=UTF-8
+
+# Force UTF-8 encoding for Markdown files
+*.md text eol=lf encoding=UTF-8
