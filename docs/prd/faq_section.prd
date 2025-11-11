@@ -1,0 +1,241 @@
+# PRD — Section FAQ / Aide Étudiants
+
+**Version** : 1.1  
+**Auteur** : Équipe pédagogique  
+**Date** : 10 novembre 2025  
+**Statut** : En validation
+
+---
+
+## 1. Objectif
+
+Créer une page FAQ/Aide dédiée aux questions fréquentes des étudiants sur l'environnement technique, l'utilisation des outils, et les bonnes pratiques du projet. Cette page vise à :
+
+- Centraliser les réponses aux problèmes récurrents
+- Faciliter l'autonomie des étudiants
+- Réduire les demandes de support répétitives
+- Améliorer l'expérience utilisateur du portail
+
+---
+
+## 2. Contexte & Justification
+
+Les étudiants rencontrent régulièrement des difficultés techniques (SSH, VM, DevTools, Robot Framework) qui ralentissent leur progression. Une FAQ bien structurée permettra de :
+
+- Répondre instantanément aux questions courantes
+- Offrir des tutoriels visuels (captures d'écran, vidéos)
+- Réduire la charge de support de l'enseignant
+- Créer une base de connaissances évolutive
+
+---
+
+## 3. Accès & UX
+
+### 3.1 Accès discret
+- **Bouton d'accès** : 
+  - Icône de bouée (SVG élégant) au même format que les boutons cloche et roue dentée
+  - Placé en haut à droite du portail (`menu.html`), à côté du bouton déconnexion
+  - Visible pour tous les utilisateurs (étudiants et admins)
+  - Tooltip : "FAQ / Aide"
+- **Navigation** :
+  - Pas de carte dédiée dans le menu principal
+  - Accès direct via le bouton discret uniquement
+
+### 3.2 Affichage
+- **Page dédiée** (`pages/main/faq.html`)
+- **Design élégant** :
+  - Cohérent avec les pages d'administration
+  - Navigation par catégories avec accordéons
+  - Recherche rapide (barre élégante, filtre en temps réel)
+  - Responsive (mobile, tablette, desktop)
+- **Ergonomie** :
+  - Questions cliquables (accordéons)
+  - Réponses détaillées avec tutoriels visuels
+  - Icônes thématiques par catégorie
+  - Indicateurs visuels (expand/collapse)
+
+---
+
+## 4. Contenu initial (thématiques et exemples)
+
+### 4.1 Connexion & Réseau
+- Comment créer une session SSH avec Putty
+- Comment ajouter un tunnel à une session SSH sur Putty
+- Comment importer une machine virtuelle à partir d'un fichier .OVA
+- Comment configurer le réseau d'une VM (NAT, Bridge, Host-only)
+- Problèmes courants de connexion (firewall, mot de passe, timeout)
+
+### 4.2 Outils de développement
+- Comment utiliser DevTools pour valider des localisateurs (Xpath, CSS, Id, Name, ...)
+- Comment installer et configurer VS Code pour le projet
+- Comment utiliser GitHub Desktop pour cloner et synchroniser le dépôt
+- Comment générer une clé SSH et l'ajouter à GitHub
+- Comment utiliser Postman pour tester des API
+
+### 4.3 Automatisation & Tests
+- Comment écrire un test Robot Framework simple
+- Comment exécuter un script Robot Framework en local
+- Comment interpréter les logs d'exécution Robot
+- Comment utiliser Selenium IDE pour enregistrer un scénario
+- Bonnes pratiques pour nommer les localisateurs
+
+### 4.4 Gestion de projet & Documentation
+- Comment rédiger une user story efficace
+- Comment structurer un plan de test (ISO 29119-3)
+- Comment utiliser Markdown pour la documentation
+- Comment exporter/importer des quiz ou des annonces
+- Comment accéder à la timeline des sprints
+
+### 4.5 Problèmes courants & Astuces
+- Mot de passe oublié : procédure de réinitialisation
+- Problèmes d'accès aux ressources (annonces, quiz, timeline)
+- Astuces pour organiser son travail (ToDo, Kanban, calendrier)
+- Où trouver les podcasts et ressources audio
+- Comment contacter l'enseignant ou demander de l'aide
+
+---
+
+## 5. Fonctionnement technique
+
+### 5.1 Structure des questions
+Chaque question est cliquable et se déploie au clic pour afficher la réponse détaillée :
+
+- **Format accordéon** : question visible, réponse masquée par défaut
+- **Transition fluide** : animation d'ouverture/fermeture
+- **Contenu riche** :
+  - Texte structuré (titres, listes, étapes)
+  - Captures d'écran (avec légendes)
+  - Vidéos courtes (si applicable)
+  - Liens vers ressources externes
+
+### 5.2 Recherche dynamique
+- Barre de recherche en haut de page
+- Filtre en temps réel (texte des questions + réponses)
+- Mise en évidence des résultats
+- Message "Aucun résultat" si recherche infructueuse
+
+### 5.3 Catégorisation
+- 5 catégories thématiques
+- Icônes distinctives par catégorie
+- Compteur de questions par catégorie
+- Possibilité d'ajouter de nouvelles catégories
+
+---
+
+## 6. Livrables
+
+### Phase 1 (Immédiate)
+- Page HTML statique avec contenu initial
+- Bouton discret dans `menu.html`
+- Recherche client-side (JavaScript)
+- Design responsive
+- Interface admin pour ajouter/modifier des questions
+- Stockage des questions dans `config/faq.json`
+- Export/import JSON
+- Analytics (questions les plus consultées)
+
+### Phase 2 (Future)
+- Système de votes (question utile/pas utile)
+- Suggestions de questions par les étudiants
+- Intégration de vidéos tutorielles
+- Traduction multilingue (FR/EN)
+
+---
+
+## 7. Contraintes
+
+### Techniques
+- Contenu accessible sans authentification renforcée
+- Pas d'informations sensibles (mots de passe, clés)
+- Design cohérent avec le portail (couleurs, typographie)
+- Compatible tous navigateurs modernes
+- Performance optimale (temps de chargement < 2s)
+
+### Éditoriales
+- Réponses claires et concises
+- Tutoriels pas à pas avec captures d'écran
+- Ton pédagogique et bienveillant
+- Mise à jour régulière du contenu
+
+---
+
+## 8. Livrables
+
+### 8.1 Développement
+- `pages/main/faq.html` : page FAQ complète
+- Bouton d'accès dans `menu.html` (icône bouée SVG)
+- CSS responsive et élégant
+- JavaScript pour accordéons et recherche
+
+### 8.2 Contenu
+- 25+ questions initiales (5 catégories × 5 questions minimum)
+- Réponses détaillées avec captures d'écran
+- Tutoriels visuels pour questions complexes
+
+### 8.3 Documentation
+- Guide d'ajout de nouvelles questions (pour enseignants)
+- Template de question/réponse
+- Bonnes pratiques éditoriales
+
+### 8.4 Future évolution
+- Interface admin (`pages/admin/admin-faq.html`)
+- Configuration JSON (`config/faq.json`)
+- Système de gestion de contenu FAQ
+
+---
+
+## 9. Critères de validation
+
+### Fonctionnels
+- ✅ Bouton discret accessible depuis `menu.html`
+- ✅ Page FAQ responsive (mobile, tablette, desktop)
+- ✅ Accordéons fonctionnels (expand/collapse)
+- ✅ Recherche en temps réel opérationnelle
+- ✅ 25+ questions avec réponses détaillées
+- ✅ Captures d'écran intégrées
+
+### Non-fonctionnels
+- ✅ Temps de chargement < 2s
+- ✅ Design cohérent avec le portail
+- ✅ Accessibilité (ARIA, navigation clavier)
+- ✅ Compatibilité navigateurs (Chrome, Firefox, Edge, Safari)
+
+---
+
+## 10. Planning
+
+| Phase | Tâches | Durée estimée | Statut |
+|-------|--------|---------------|--------|
+| Phase 1 | Rédaction du PRD | 1h | ✅ Complété |
+| Phase 2 | Design & Maquette | 2h | ⏳ En attente |
+| Phase 3 | Développement HTML/CSS/JS | 4h | ⏳ En attente |
+| Phase 4 | Rédaction du contenu (25 questions) | 6h | ⏳ En attente |
+| Phase 5 | Intégration captures d'écran | 3h | ⏳ En attente |
+| Phase 6 | Tests & Validation | 2h | ⏳ En attente |
+| Phase 7 | Déploiement | 1h | ⏳ En attente |
+
+**Durée totale estimée** : 19h
+
+---
+
+## 11. Validation
+
+- ✅ PRD à valider par l'enseignant avant implémentation
+- ✅ Ajustements possibles selon les retours
+- ✅ Validation du design avant développement
+- ✅ Validation du contenu avant publication
+- ✅ Tests utilisateurs avec un groupe d'étudiants
+
+---
+
+## 12. Références
+
+- Portail principal : `pages/main/menu.html`
+- Pages d'administration : `pages/admin/`
+- Configuration JSON : `config/`
+- Documentation projet : `docs/prd/`
+
+---
+
+**Dernière mise à jour** : 10 novembre 2025  
+**Prochaine révision** : Après validation enseignant
