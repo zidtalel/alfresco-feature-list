@@ -1,296 +1,49 @@
 {
   "categories": [
-    {
-      "id": "connexion-reseau",
-      "name": "Connexion & Réseau",
-      "icon": "fa-network-wired",
-      "order": 1
-    },
-    {
-      "id": "outils-developpement",
-      "name": "Outils de développement",
-      "icon": "fa-code",
-      "order": 2
-    },
-    {
-      "id": "automatisation-tests",
-      "name": "Automatisation & Tests",
-      "icon": "fa-robot",
-      "order": 3
-    },
-    {
-      "id": "gestion-projet",
-      "name": "Gestion de projet & Documentation",
-      "icon": "fa-project-diagram",
-      "order": 4
-    },
-    {
-      "id": "problemes-astuces",
-      "name": "Problèmes courants & Astuces",
-      "icon": "fa-life-ring",
-      "order": 5
-    },
-    {
-      "id": "bonus-optimisation",
-      "name": "Bonus & Optimisation",
-      "icon": "fa-lightbulb",
-      "order": 6
-    },
-    {
-      "id": "github",
-      "name": "Github",
-      "icon": "fa-tag",
-      "order": 7
-    }
+    { "id": "connexion-reseau", "name": "Connexion & Réseau", "icon": "fa-network-wired", "order": 1 },
+    { "id": "outils-developpement", "name": "Outils de développement", "icon": "fa-code", "order": 2 },
+    { "id": "automatisation-tests", "name": "Automatisation & Tests", "icon": "fa-robot", "order": 3 },
+    { "id": "gestion-projet", "name": "Gestion de projet & Documentation", "icon": "fa-project-diagram", "order": 4 },
+    { "id": "problemes-astuces", "name": "Problèmes courants & Astuces", "icon": "fa-life-ring", "order": 5 },
+    { "id": "bonus-optimisation", "name": "Bonus & Optimisation", "icon": "fa-lightbulb", "order": 6 },
+    { "id": "github", "name": "Github", "icon": "fa-tag", "order": 7 }
   ],
   "questions": [
-    {
-      "id": 1,
-      "categoryId": "connexion-reseau",
-      "question": "Comment créer une session SSH avec PuTTY ?",
-      "answer": "<p>Configurer PuTTY en quelques étapes :</p><ol><li>Ouvre PuTTY, renseigne le <strong>Host Name</strong> (IP ou domaine) et assure-toi que le port est <code>22</code>.</li><li>Dans <strong>Saved Sessions</strong> renseigne le nom de la session SSH et valide avec le bouton <strong>Save</strong>.</li><li>Optionnel : Dans <em>Connection &gt; Data</em>, indique ton nom d'utilisateur pour éviter la saisie répétée.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li><li>Pour te connecter, clique sur le bouton <strong>Open</strong>.</li></ol><p>Astuce : active <em>Connection &gt; SSH &gt; Auth</em> pour charger une clé privée si tu utilises l'authentification par clé.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 2,
-      "categoryId": "connexion-reseau",
-      "question": "Comment ajouter un tunnel SSH (port forwarding) dans PuTTY ?",
-      "answer": "<ol><li>Dans ta session sauvegardée, ouvre <em>Connection &gt; SSH &gt; Tunnels</em>.</li><li>Renseigne <strong>Source port</strong> avec le port local (ex. <code>8081</code>) et <strong>Destination</strong> avec l'adresse IP ou l'URL destination.</li><li>Choisis <strong>Local</strong> ou <strong>Dynamic</strong> selon le besoin puis clique sur le bouton <strong>Add</strong>.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li></ol><p>Vérifie ensuite que ton application s'affiche sur <code>localhost:8081</code> (8081 étant le port local).</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 3,
-      "categoryId": "connexion-reseau",
-      "question": "Comment importer un fichier .OVA dans VirtualBox ?",
-      "answer": "<p>Procédure :</p><ol><li>Dans VirtualBox, va dans <em>Fichier &gt; Importer un appareil virtuel</em>.</li><li>Sélectionne ton fichier <code>.OVA</code> et vérifie la configuration proposée (CPU, RAM, réseau).</li><li>Clique sur <strong>Terminer</strong> pour lancer l'import. Ajuste ensuite les paramètres matériels si nécessaire.</li></ol><p>Pense à activer la virtualisation dans le BIOS si l'import échoue.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 4,
-      "categoryId": "connexion-reseau",
-      "question": "Comment choisir le mode réseau adéquat pour ma VM ?",
-      "answer": "<ul><li><strong>NAT</strong> : accès Internet via l'hôte, simple à configurer.</li><li><strong>Bridge</strong> : la VM est visible sur le réseau comme une machine physique.</li><li><strong>Host-only</strong> : communication limitée entre l'hôte et la VM (idéal pour les tests isolés).</li></ul><p>Change de mode dans <em>Paramètres &gt; Réseau</em> selon le scénario projet.</p>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 5,
-      "categoryId": "connexion-reseau",
-      "question": "Comment résoudre les erreurs de connexion fréquentes ?",
-      "answer": "<ul><li><strong>Timeout</strong> : vérifie l'IP, le port et les règles firewall.</li><li><strong>Access denied</strong> : contrôle le mot de passe ou la clé SSH.</li><li><strong>Network unreachable</strong> : teste ta connexion locale (ping) et l'état du VPN.</li></ul><p>Documente tes investigations dans le canal d'équipe avant d'escalader.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 6,
-      "categoryId": "outils-developpement",
-      "question": "Comment utiliser Chrome DevTools pour valider un sélecteur ?",
-      "answer": "<ol><li>Ouvre DevTools (<kbd>F12</kbd> ou <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>).</li><li>Dans l'onglet <strong>Elements</strong>, presse <kbd>Ctrl</kbd>+<kbd>F</kbd> et colle ton XPath / CSS.</li><li>Les correspondances sont surlignées en jaune. Ajuste jusqu'à obtenir un résultat unique.</li></ol><p>Pense à tester plusieurs types de sélecteurs pour fiabiliser tes scripts.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 7,
-      "categoryId": "outils-developpement",
-      "question": "Comment configurer VS Code pour le projet ?",
-      "answer": "<ul><li>Installe les extensions <em>Python</em>, <em>YAML</em>, <em>ESLint</em> et <em>GitHub Pull Requests</em>.</li><li>Active la synchronisation de paramètres (Settings Sync) pour retrouver ta configuration.</li><li>Utilise <code>.vscode/settings.json</code> pour définir l'indentation à 2 espaces et la sauvegarde auto.</li></ul><p>Ajoute le dossier du projet via <em>Fichier &gt; Ouvrir un dossier</em> pour bénéficier de l'analyse contextuelle.</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 8,
-      "categoryId": "outils-developpement",
-      "question": "Comment cloner le dépôt avec GitHub Desktop ?",
-      "answer": "<ol><li>Connecte-toi à GitHub Desktop, clique sur <em>File &gt; Clone repository</em>.</li><li>Sélectionne le dépôt <strong>alfresco-project</strong> puis choisis un dossier local.</li><li>Utilise <em>Fetch origin</em> chaque jour et <em>Pull</em> avant de commencer à coder.</li></ol><p>Décris tes commits clairement pour faciliter la revue de code.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 9,
-      "categoryId": "outils-developpement",
-      "question": "Comment générer et enregistrer une clé SSH sur GitHub ?",
-      "answer": "<ol><li>Lance <code>ssh-keygen -t ed25519 -C \"prenom.nom@college.ca\"</code>.</li><li>Copie la clé publique (fichier <code>id_ed25519.pub</code>).</li><li>Dans GitHub, va dans <em>Settings &gt; SSH and GPG keys</em> et ajoute la clé.</li></ol><p>Teste la connexion avec <code>ssh -T git@github.com</code> pour t'assurer que tout fonctionne.</p>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 10,
-      "categoryId": "outils-developpement",
-      "question": "Comment tester une API rapidement avec Postman ?",
-      "answer": "<ol><li>Crée une nouvelle requête, choisis GET/POST/PUT selon ton besoin.</li><li>Ajoute l'URL, les headers (ex. <code>Content-Type: application/json</code>) et le corps si nécessaire.</li><li>Lance la requête et analyse l'onglet <em>Body</em> pour valider la réponse.</li></ol><p>Utilise l'onglet <em>Tests</em> pour automatiser des assertions simples.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 11,
-      "categoryId": "automatisation-tests",
-      "question": "Comment écrire un premier test Robot Framework ?",
-      "answer": "<p>Structure minimale :</p><pre><code>*** Settings ***\nLibrary    SeleniumLibrary\n\n*** Test Cases ***\nVérifier la page d'accueil\n    Open Browser    ${LOGIN_URL}    chrome\n    Title Should Be    Portail de Test\n    [Teardown]    Close Browser\n</code></pre><p>Enregistre le fichier en <code>.robot</code> puis exécute <code>robot ton_test.robot</code>.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 12,
-      "categoryId": "automatisation-tests",
-      "question": "Comment lancer un script Robot Framework en local ?",
-      "answer": "<ol><li>Installe les dépendances : <code>pip install robotframework seleniumlibrary</code>.</li><li>Installe le driver (ChromeDriver ou GeckoDriver) compatible avec ton navigateur.</li><li>Dans un terminal, exécute <code>robot chemin/vers/test.robot</code>.</li></ol><p>Consulte les rapports générés (<code>log.html</code>, <code>report.html</code>) pour analyser les résultats.</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 13,
-      "categoryId": "automatisation-tests",
-      "question": "Comment interpréter les rapports Robot Framework ?",
-      "answer": "<ul><li><strong>report.html</strong> : synthèse (succès, échecs, durée).</li><li><strong>log.html</strong> : détails étape par étape (keywords exécutés, captures).</li><li>Utilise la recherche pour filtrer une suite ou un mot-clé spécifique.</li></ul><p>Archive les rapports après chaque sprint pour conserver l'historique.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 14,
-      "categoryId": "automatisation-tests",
-      "question": "Comment enregistrer un scénario avec Selenium IDE ?",
-      "answer": "<ol><li>Installe l'extension Selenium IDE sur Chrome ou Firefox.</li><li>Crée un nouveau projet, clique sur <em>Record</em> et navigue sur ton application.</li><li>Stoppe l'enregistrement, puis édite/commente les étapes avant export.</li></ol><p>Pense à nettoyer les sélecteurs pour les rendre robustes.</p>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 15,
-      "categoryId": "automatisation-tests",
-      "question": "Quelles sont les bonnes pratiques de nommage des localisateurs ?",
-      "answer": "<ul><li>Préférez les attributs stables (<code>data-testid</code>, <code>aria-label</code>).</li><li>Évitez les indices (<code>div[3]</code>) et les chemins absolus.</li><li>Centralisez vos sélecteurs dans des mots-clés réutilisables.</li></ul><p>Documente chaque sélecteur dans le repo pour faciliter la maintenance.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 16,
-      "categoryId": "gestion-projet",
-      "question": "Comment rédiger une user story efficace ?",
-      "answer": "<p>Utilise le modèle :</p><blockquote>En tant que <em>personna</em>, je veux <em>objectif</em> afin de <em>bénéfice</em>.</blockquote><p>Ajoute 3 à 5 critères d'acceptation formulés en Gherkin et vérifie l'alignement avec l'épopée.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 17,
-      "categoryId": "gestion-projet",
-      "question": "Comment structurer un plan de test conforme ISO 29119-3 ?",
-      "answer": "<ol><li>Définis le contexte et les objectifs.</li><li>Documente la stratégie (types de tests, niveaux, outils).</li><li>Planifie les ressources, le calendrier et les risques.</li><li>Ajoute les critères d'entrée/sortie et les livrables attendus.</li></ol><p>Utilise le template fourni dans le portail pour gagner du temps.</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 18,
-      "categoryId": "gestion-projet",
-      "question": "Comment tirer parti de Markdown pour la documentation ?",
-      "answer": "<ul><li>Structure avec des titres (<code>###</code>), des listes et des tableaux.</li><li>Incorpore des captures (<code>![alt](path)</code>) et des blocs de code.</li><li>Prévisualise dans VS Code (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>).</li></ul><p>Ajoute une table des matières automatique avec <code>[TOC]</code> si nécessaire.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 19,
-      "categoryId": "gestion-projet",
-      "question": "Comment exporter ou importer les quiz et annonces ?",
-      "answer": "<ol><li>Ouvre la page admin concernée (Quiz ou Annonces).</li><li>Clique sur <em>Exporter</em> pour télécharger le JSON ou <em>Importer</em> pour charger un nouveau fichier.</li><li>Vérifie la confirmation GitHub API avant de fermer la fenêtre.</li></ol><p>Conserve une copie datée des fichiers exportés pour versionner les contenus.</p>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 20,
-      "categoryId": "gestion-projet",
-      "question": "Comment accéder rapidement à la timeline des sprints ?",
-      "answer": "<p>Depuis le menu principal, clique sur la carte <strong>Planification et Chronologie</strong> puis navigue avec le sommaire. Les dates sont mises à jour depuis <code>config/timeline.json</code>.</p><p>Astuce : exporte la timeline au format PDF pour l'intégrer à ton plan de sprint.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 21,
-      "categoryId": "problemes-astuces",
-      "question": "Que faire en cas de mot de passe oublié ?",
-      "answer": "<p>Contacte l'enseignant par email (<a href=\"mailto:zidtalel@gmail.com\">zidtalel@gmail.com</a>) avec ton matricule et décris la situation. Une réinitialisation manuelle te sera envoyée.</p><p>Change ton mot de passe dès la première connexion.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 22,
-      "categoryId": "problemes-astuces",
-      "question": "Comment réagir si je ne vois pas les annonces ou les quiz ?",
-      "answer": "<ul><li>Assure-toi d'être bien connecté (rôle étudiant).</li><li>Vérifie que ton navigateur n'a pas bloqué les scripts.</li><li>Vide le cache ou teste dans une fenêtre privée.</li></ul><p>Si le problème persiste, captures une vidéo et remonte-la sur Teams.</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 23,
-      "categoryId": "problemes-astuces",
-      "question": "Quelles astuces pour organiser mon travail ?",
-      "answer": "<ul><li>Utilise un Kanban (Trello, Jira) pour suivre les tâches.</li><li>Bloque des créneaux fixes pour automatiser tes tests.</li><li>Synchronise ton calendrier avec la timeline du projet.</li></ul><p>Partage ton plan hebdomadaire avec ton binôme pour rester alignés.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 24,
-      "categoryId": "problemes-astuces",
-      "question": "Où retrouver les podcasts et ressources audio ?",
-      "answer": "<p>Consulte le dossier <code>ressources/podcasts</code> ou la carte <strong>Guides</strong> &gt; <em>PICT/Pairwise</em> pour accéder aux fichiers audio (FR/EN).</p><p>Télécharge les épisodes pour une écoute hors-ligne avant les ateliers.</p>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 25,
-      "categoryId": "problemes-astuces",
-      "question": "Comment contacter rapidement l'enseignant ?",
-      "answer": "<p>Utilise la page <strong>Contact</strong> ou envoie un message sur Teams (canal <em>#support-technique</em>). Mentionne ton équipe et le contexte du blocage.</p><p>Pour les urgences, un email direct est recommandé.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 26,
-      "categoryId": "bonus-optimisation",
-      "question": "Comment mesurer la couverture de mes tests automatisés ?",
-      "answer": "<p>Utilise des outils comme <strong>Robotmetrics</strong> ou exporte les résultats dans un tableau de suivi (features vs scénarios). Compare avec le backlog Jira pour repérer les gaps.</p>",
-      "order": 1,
-      "active": true
-    },
-    {
-      "id": 27,
-      "categoryId": "bonus-optimisation",
-      "question": "Comment partager efficacement des tutoriels avec mon équipe ?",
-      "answer": "<p>Crée un mini-guide Markdown dans <code>docs/markdown</code> avec captures d'écran. Héberge les médias dans <code>assets/images</code> et ajoute un lien depuis la FAQ.</p>",
-      "order": 2,
-      "active": true
-    },
-    {
-      "id": 28,
-      "categoryId": "bonus-optimisation",
-      "question": "Quels outils utiliser pour l'analyse de logs applicatifs ?",
-      "answer": "<ul><li><strong>Visual Studio Code</strong> (extension <em>Log File Highlighter</em>).</li><li><strong>lnav</strong> pour filtrer en ligne de commande.</li><li>Utilise des filtres <code>grep</code> pour isoler les erreurs critiques.</li></ul><p>Documente les patterns récurrents dans la FAQ pour enrichir la base.</p>",
-      "order": 3,
-      "active": true
-    },
-    {
-      "id": 29,
-      "categoryId": "bonus-optimisation",
-      "question": "Comment créer un sprint review percutant ?",
-      "answer": "<ol><li>Rappelle le périmètre et les objectifs atteints.</li><li>Montre une démo live (ou vidéo) des automatisations.</li><li>Partage les métriques clés (tests passés, bugs détectés).</li><li>Collecte les feedbacks et liste les actions à suivre.</li></ol>",
-      "order": 4,
-      "active": true
-    },
-    {
-      "id": 30,
-      "categoryId": "bonus-optimisation",
-      "question": "Comment préparer une démonstration automatisée stable ?",
-      "answer": "<p>Gèle les données de test, exécute un dry-run 30 minutes avant la démo et prévois un plan B (vidéo enregistrée). Documente le script dans la FAQ pour capitaliser.</p>",
-      "order": 5,
-      "active": true
-    },
-    {
-      "id": 31,
-      "categoryId": "github",
-      "question": "Comment faire un commit et un push proprement ?",
-      "answer": "Étape 1",
-      "order": 1,
-      "active": true
-    }
+    { "id": 1, "categoryId": "connexion-reseau", "question": "Comment créer une session SSH avec PuTTY ?", "answer": "<p>Configurer PuTTY en quelques étapes :</p><ol><li>Ouvre PuTTY, renseigne le <strong>Host Name</strong> (IP ou domaine) et assure-toi que le port est <code>22</code>.</li><li>Dans <strong>Saved Sessions</strong> renseigne le nom de la session SSH et valide avec le bouton <strong>Save</strong>.</li><li>Optionnel : Dans <em>Connection &gt; Data</em>, indique ton nom d'utilisateur pour éviter la saisie répétée.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li><li>Pour te connecter, clique sur le bouton <strong>Open</strong>.</li></ol><p>Astuce : active <em>Connection &gt; SSH &gt; Auth</em> pour charger une clé privée si tu utilises l'authentification par clé.</p>", "order": 1, "active": true },
+    { "id": 2, "categoryId": "connexion-reseau", "question": "Comment ajouter un tunnel SSH (port forwarding) dans PuTTY ?", "answer": "<ol><li>Dans ta session sauvegardée, ouvre <em>Connection &gt; SSH &gt; Tunnels</em>.</li><li>Renseigne <strong>Source port</strong> avec le port local (ex. <code>8081</code>) et <strong>Destination</strong> avec l'adresse IP ou l'URL destination.</li><li>Choisis <strong>Local</strong> ou <strong>Dynamic</strong> selon le besoin puis clique sur le bouton <strong>Add</strong>.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li></ol><p>Vérifie ensuite que ton application s'affiche sur <code>localhost:8081</code> (8081 étant le port local).</p>", "order": 2, "active": true },
+    { "id": 3, "categoryId": "connexion-reseau", "question": "Comment importer un fichier .OVA dans VirtualBox ?", "answer": "<p>Procédure :</p><ol><li>Dans VirtualBox, va dans <em>Fichier &gt; Importer un appareil virtuel</em>.</li><li>Sélectionne ton fichier <code>.OVA</code> et vérifie la configuration proposée (CPU, RAM, réseau).</li><li>Clique sur <strong>Terminer</strong> pour lancer l'import. Ajuste ensuite les paramètres matériels si nécessaire.</li></ol><p>Pense à activer la virtualisation dans le BIOS si l'import échoue.</p>", "order": 3, "active": true },
+    { "id": 4, "categoryId": "connexion-reseau", "question": "Comment choisir le mode réseau adéquat pour ma VM ?", "answer": "<ul><li><strong>NAT</strong> : accès Internet via l'hôte, simple à configurer.</li><li><strong>Bridge</strong> : la VM est visible sur le réseau comme une machine physique.</li><li><strong>Host-only</strong> : communication limitée entre l'hôte et la VM (idéal pour les tests isolés).</li></ul><p>Change de mode dans <em>Paramètres &gt; Réseau</em> selon le scénario projet.</p>", "order": 4, "active": true },
+    { "id": 5, "categoryId": "connexion-reseau", "question": "Comment résoudre les erreurs de connexion fréquentes ?", "answer": "<ul><li><strong>Timeout</strong> : vérifie l'IP, le port et les règles firewall.</li><li><strong>Access denied</strong> : contrôle le mot de passe ou la clé SSH.</li><li><strong>Network unreachable</strong> : teste ta connexion locale (ping) et l'état du VPN.</li></ul><p>Documente tes investigations dans le canal d'équipe avant d'escalader.</p>", "order": 5, "active": true },
+
+    { "id": 7, "categoryId": "automatisation-tests", "question": "Comment installer Robot Framework/VS Code ?", "answer": "<p><strong>Installation sous Windows (Python, Robot Framework, Selenium, VS&nbsp;Code)</strong></p><ol><li>Installe Python depuis <a href=\"https://www.python.org/downloads/\" target=\"_blank\">python.org</a> (coche \u00AB Add Python to PATH \u00BB).</li><li>Ouvre un terminal (PowerShell) et v\u00e9rifie les versions : <code>python -V</code> et <code>pip -V</code>.</li><li>Installe Robot Framework : <code>pip install robotframework</code>.</li><li>Installe SeleniumLibrary : <code>pip install robotframework-seleniumlibrary</code>.</li><li>Installe Visual Studio Code puis l’extension <em>Robot Framework Language Server</em>.</li><li>Installe les drivers des navigateurs :<ul><li>Chrome : <a href=\"https://googlechromelabs.github.io/chrome-for-testing/\" target=\"_blank\">Chrome for Testing</a></li><li>Firefox : <a href=\"https://github.com/mozilla/geckodriver/releases\" target=\"_blank\">Geckodriver</a></li><li>Edge : <a href=\"https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver?form=MA13LH#downloads\" target=\"_blank\">Edge WebDriver</a></li></ul>\nD\u00e9compresse les fichiers et copie les ex\u00e9cutables dans <code>C:\\Program Files\\Python313\\Scripts</code> (adapte <code>Python313</code> \u00e0 ta version).</li><li>Teste l’installation : cr\u00e9e un fichier <code>hello.robot</code> et ex\u00e9cute <code>robot hello.robot</code>.</li></ol><p><em>Astuce</em>&nbsp;: si <code>robot</code> n’est pas reconnu, ajoute <code>C:\\Program Files\\Python313\\Scripts</code> au PATH utilisateur, puis relance le terminal.</p>", "order": 1, "active": true },
+    { "id": 11, "categoryId": "automatisation-tests", "question": "Comment écrire un premier test Robot Framework ?", "answer": "<p>Structure minimale :</p><pre><code>*** Settings ***\nLibrary    SeleniumLibrary\n\n*** Variables ***\n${LOGIN_URL}    https://alfresco.example.com/login\n\n*** Test Cases ***\nVérifier la page d'accueil\n    Open Browser    ${LOGIN_URL}    chrome\n    Title Should Be    Portail de Test\n    [Teardown]    Close Browser\n</code></pre><p>Enregistre le fichier en <code>.robot</code> puis exécute <code>robot ton_test.robot</code>.</p>", "order": 2, "active": true },
+    { "id": 12, "categoryId": "automatisation-tests", "question": "Comment lancer un script Robot Framework en local ?", "answer": "<ol><li>Installe les dépendances : <code>pip install robotframework seleniumlibrary</code>.</li><li>Installe le driver (ChromeDriver ou GeckoDriver) compatible avec ton navigateur.</li><li>Dans un terminal, exécute <code>robot chemin/vers/test.robot</code>.</li></ol><p>Consulte les rapports générés (<code>log.html</code>, <code>report.html</code>) pour analyser les résultats.</p><p><em>Astuce</em> : si la commande <code>robot</code> n’est pas reconnue, ajoute le dossier des scripts Python à la variable d’environnement <strong>PATH</strong> (ex. <code>C:\\Program Files\\Python313\\Scripts</code>), puis redémarre le terminal/IDE. C’est là que se trouve <code>robot.exe</code>.</p>", "order": 3, "active": true },
+    { "id": 13, "categoryId": "automatisation-tests", "question": "Comment lire les résultats des tests sur Robot Framework ?", "answer": "<ul><li><strong>report.html</strong> : synthèse (succès, échecs, durée).</li><li><strong>log.html</strong> : détails étape par étape (keywords exécutés, captures).</li><li>Utilise la recherche pour filtrer une suite ou un mot-clé spécifique.</li></ul><p>Archive les rapports après chaque sprint pour conserver l'historique.</p>", "order": 4, "active": true },
+    { "id": 14, "categoryId": "automatisation-tests", "question": "Comment enregistrer un scénario avec Selenium IDE ?", "answer": "<ol><li>Installe l'extension Selenium IDE sur Chrome ou Firefox.</li><li>Crée un nouveau projet, clique sur <em>Record</em> et navigue sur ton application.</li><li>Stoppe l'enregistrement, puis édite/commente les étapes avant export.</li></ol><p>Pense à améliorer les sélecteurs pour les rendre robustes.</p>", "order": 5, "active": true },
+    { "id": 6, "categoryId": "automatisation-tests", "question": "Comment utiliser Chrome DevTools pour valider un sélecteur ?", "answer": "<ol><li>Ouvre DevTools (<kbd>F12</kbd> ou <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>).</li><li>Dans l'onglet <strong>Elements</strong>, presse <kbd>Ctrl</kbd>+<kbd>F</kbd> et colle ton XPath / CSS.</li><li>Les correspondances sont surlignées en jaune. Ajuste jusqu'à obtenir un résultat unique.</li></ol><p>Pense à tester plusieurs types de sélecteurs pour fiabiliser tes scripts.</p>", "order": 6, "active": true },
+    { "id": 15, "categoryId": "automatisation-tests", "question": "Quelles sont les bonnes pratiques de définition des localisateurs ?", "answer": "<ul><li><strong>Attributs stables (ordre recommandé)</strong> : <code>id</code> → <code>name</code> → <code>data-testid</code>.</li><li><strong>Sélecteurs CSS</strong> : créez des classes à <em>usage unique</em> dédiées aux tests (ex. <code>.qa-login-btn</code>), évitez les classes dynamiques (hash, timestamps), limitez la profondeur des chaînes (<code>.header .menu .item</code> fragile), préférez <code>[data-testid='login']</code> quand c’est possible.</li><li><strong>XPath robuste</strong> : évitez les chemins absolus (<code>/html/body/…</code>), ancrez-vous sur un parent stable et utilisez les axes : <code>//form[@id='login']//button[normalize-space()='Se connecter']</code>, <code>//label[.='Email']/following-sibling::input</code>, <code>starts-with()</code>/<code>contains()</code>.</li><li><strong>Centralisation</strong> : centralisez vos sélecteurs dans des <em>fichiers de variables</em> réutilisables (ex. <code>resources/locators.robot</code>) et importez-les dans vos suites.</li></ul><p>Documente chaque sélecteur et révise-les à chaque évolution de l’UI.</p>", "order": 7, "active": true },
+    { "id": 8, "categoryId": "automatisation-tests", "question": "Comment régler un problème de version entre le navigateur utilisé dans un test Robot Framework et son driver ?", "answer": "<p>Il arrive que les tests échouent à cause d’une incompatibilité entre la version du navigateur et celle du driver (ChromeDriver, GeckoDriver, EdgeDriver).</p><p><strong>Exemple d’erreur (SeleniumLibrary)</strong> :</p><pre><code>WebDriverException: Message: session not created: This version of ChromeDriver only supports Chrome version 126\nCurrent browser version is 128.0.6613.85 with binary path C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe</code></pre><p>Cela signifie que la version du driver ne correspond pas à celle du navigateur installé.</p><h4>Solution : Mettre à jour le driver du navigateur</h4><ol><li>Télécharge la version <strong>correspondante</strong> à ton navigateur :<ul><li>Google Chrome : <a href=\"https://googlechromelabs.github.io/chrome-for-testing/\" target=\"_blank\">Chrome for Testing</a></li><li>Mozilla Firefox : <a href=\"https://github.com/mozilla/geckodriver/releases\" target=\"_blank\">GeckoDriver</a></li><li>Microsoft Edge : <a href=\"https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver?form=MA13LH#downloads\" target=\"_blank\">Edge WebDriver</a></li></ul></li><li>Décompresse le fichier téléchargé et copie l’exécutable (<code>chromedriver.exe</code>, <code>geckodriver.exe</code> ou <code>msedgedriver.exe</code>) dans :<br/><code>C:\\Program Files\\Python313\\Scripts</code> <em>(adapte \"Python313\" à ta version)</em>.</li><li>Redémarre ton terminal ou ton IDE (VS Code, PyCharm, etc.).</li></ol><p><strong>Astuce vérification</strong> : assure-toi que les <em>versions majeures</em> correspondent (ex. Chrome 128 ↔ ChromeDriver 128). Tu peux vérifier : <code>chrome --version</code> et <code>chromedriver --version</code>.</p>", "order": 8, "active": true },
+    { "id": 33, "categoryId": "automatisation-tests", "question": "Quelles sont les bibliothèques Robot Framework les plus utiles ?", "answer": "<p>Robot Framework dispose d'un écosystème riche de bibliothèques pour automatiser tous types de tests. Voici les plus essentielles :</p><h4>Automatisation Web & UI</h4><ul><li><strong><a href=\"https://robotframework.org/SeleniumLibrary/SeleniumLibrary.html\" target=\"_blank\">SeleniumLibrary</a></strong> : Automatisation de navigateurs web (Chrome, Firefox, Edge). Gestion des éléments, clics, saisies, attentes.</li></ul><h4>Bibliothèques standards (BuiltIn)</h4><ul><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/BuiltIn.html\" target=\"_blank\">BuiltIn</a></strong> : Mots-clés de base (conditions, boucles, logs, variables). Toujours disponible sans import.</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/String.html\" target=\"_blank\">String</a></strong> : Manipulation de chaînes (recherche, remplacement, conversion, expressions régulières).</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/Collections.html\" target=\"_blank\">Collections</a></strong> : Gestion de listes et dictionnaires (tri, recherche, itération).</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/DateTime.html\" target=\"_blank\">DateTime</a></strong> : Manipulation de dates et heures (calculs, conversions, formats).</li></ul><h4>Système & Processus</h4><ul><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/OperatingSystem.html\" target=\"_blank\">OperatingSystem</a></strong> : Interactions avec le système de fichiers (lecture/écriture, navigation, variables d'environnement).</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/Process.html\" target=\"_blank\">Process</a></strong> : Exécution et gestion de processus système (démarrage, arrêt, capture de sortie).</li></ul><h4>Interface & Données</h4><ul><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/Dialogs.html\" target=\"_blank\">Dialogs</a></strong> : Affichage de boîtes de dialogue (saisie utilisateur, pause manuelle).</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/Screenshot.html\" target=\"_blank\">Screenshot</a></strong> : Capture d'écran du bureau (utile pour debugging).</li><li><strong><a href=\"http://robotframework.org/robotframework/latest/libraries/XML.html\" target=\"_blank\">XML</a></strong> : Parsing et manipulation de fichiers XML (XPath, modifications).</li></ul><h4>Génération de données</h4><ul><li><strong><a href=\"https://marketsquare.github.io/robotframework-faker/\" target=\"_blank\">FakerLibrary</a></strong> : Génération de données de test aléatoires (noms, emails, adresses, numéros). Installation : <code>pip install robotframework-faker</code>.</li></ul><p><strong>Conseil</strong> : Consulte la documentation officielle de chaque bibliothèque pour découvrir tous les mots-clés disponibles. Combine plusieurs bibliothèques pour couvrir des scénarios complexes.</p>", "order": 9, "active": true },
+
+    { "id": 16, "categoryId": "gestion-projet", "question": "Comment rédiger une user story efficace ?", "answer": "<p>Modèle recommandé :</p><blockquote>En tant que <em>personna</em>, je veux <em>objectif</em> afin de <em>bénéfice</em>.</blockquote><h4>Bonne user story (exemple)</h4><blockquote>En tant qu’étudiant ayant oublié son mot de passe, je veux pouvoir demander un lien de réinitialisation par email afin de récupérer l’accès rapidement sans intervention du support.</blockquote><p>Pourquoi c’est bien : personna clair, objectif unique et concret, bénéfice métier explicite, vocabulaire côté utilisateur.</p><h4>Mauvaise user story (exemples)</h4><ul><li>« Permettre la réinitialisation des mots de passe. » — Pas de personna, pas de bénéfice, formulation vague.</li><li>« En tant que développeur, je veux implémenter OAuth 2.0 pour sécuriser l’authentification. » — Orientée solution technique, pas un besoin utilisateur.</li><li>« En tant qu’utilisateur, je veux gérer mon compte, mes préférences, mes messages et mes paiements. » — Trop large (épique), plusieurs objectifs mélangés.</li></ul><h4>Erreurs fréquentes à éviter</h4><ul><li>Absence de bénéfice (« afin de … »).</li><li>Story trop grosse ou contenant plusieurs objectifs.</li><li>Formulation technique au lieu d’un besoin utilisateur.</li><li>Contexte implicite non précisé (ambiguïté).</li></ul><h4>Conseils</h4><ul><li>Utiliser un langage simple, centré sur l’utilisateur.</li><li>Découper en petites stories à valeur autonome.</li><li>Vérifier qu’elle apporte une valeur observable pour le métier.</li></ul>", "order": 1, "active": true },
+    { "id": 32, "categoryId": "gestion-projet", "question": "Comment rédiger des critères d’acceptation efficaces ?", "answer": "<p>Les critères d’acceptation définissent les conditions vérifiables pour considérer une user story comme accomplie. Ils doivent être <strong>clairs</strong>, <strong>testables</strong>, <strong>sans ambiguïté</strong> et <strong>indépendants de l’implémentation</strong>.</p><h4>Formats courants</h4><ul><li><strong>Gherkin (Given/When/Then)</strong> — recommandé pour des critères testables et automatisables.</li><li><strong>Checklist</strong> — utile pour des règles simples ou non procédurales.</li></ul><h4>Exemple (même US : réinitialisation de mot de passe)</h4><p><em>Format Gherkin</em></p><pre><code>Scénario: Demande de réinitialisation réussie\n  Étant donné un utilisateur enregistré avec l'email alice@example.com\n  Et que je suis sur la page \"Mot de passe oublié\"\n  Quand je saisis \"alice@example.com\" et que je valide\n  Alors j'affiche un message confirmant l'envoi d'un email de réinitialisation\n  Et un email est envoyé à alice@example.com avec un lien valable 24h\n\nScénario: Email invalide\n  Étant donné que je suis sur la page \"Mot de passe oublié\"\n  Quand je saisis \"alice@\" et que je valide\n  Alors j'affiche un message d'erreur indiquant un format d'email invalide\n\nScénario: Email non enregistré\n  Étant donné que je suis sur la page \"Mot de passe oublié\"\n  Quand je saisis \"bob@example.com\" et que je valide\n  Alors j'affiche un message indiquant qu'un email a été envoyé si le compte existe\n</code></pre><p><em>Format Checklist</em></p><ul><li>Un message de confirmation est affiché après soumission valide.</li><li>Un email de réinitialisation est envoyé à l’adresse fournie (si le compte existe).</li><li>Le lien de réinitialisation est utilisable une seule fois et expire en 24h.</li><li>Un message d’erreur s’affiche si le format d’email est invalide.</li></ul><h4>Mauvais critères (à éviter)</h4><ul><li>« Implémenter la table reset_tokens » — détail d’implémentation, non testable côté métier.</li><li>« Ça doit être rapide » — non mesurable, ambigu.</li><li>« Envoyer un email » — trop vague (quand, à qui, quel contenu, quelles conditions ?).</li></ul><h4>Erreurs fréquentes</h4><ul><li>Critères non vérifiables objectivement.</li><li>Mélanger plusieurs fonctionnalités dans une seule story.</li><li>Laisser des cas négatifs/erreurs non couverts.</li><li>Utiliser des termes ambigus (\"rapide\", \"simple\").</li></ul><h4>Conseils</h4><ul><li>Privilégier Given/When/Then pour faciliter l’automatisation des tests.</li><li>Exprimer le <em>qu’est-ce qui est vrai</em> en fin de scénario, pas <em>comment</em> c’est fait.</li><li>Couvrir au moins un cas heureux et 1–2 cas d’erreur pertinents.</li><li>Garder les critères concis, lisibles, et référençables.</li></ul>", "order": 2, "active": true },
+    { "id": 17, "categoryId": "gestion-projet", "question": "Comment structurer un plan de test conforme ISO 29119-3 ?", "answer": "<p>Un plan de test ISO 29119-3 structure la stratégie et l'organisation des activités de test. Voici les sections principales :</p><ol><li><strong>Identifiants et références</strong> : Nom du plan, version, auteur, références aux documents projet.</li><li><strong>Introduction</strong> : Contexte, objectifs, portée du plan de test.</li><li><strong>Objets de test</strong> : Éléments logiciels ou matériels à tester (modules, API, interfaces).</li><li><strong>Éléments à tester</strong> : Fonctionnalités, exigences ou scénarios couverts par les tests.</li><li><strong>Éléments non testés</strong> : Composants exclus (justification) pour clarifier le périmètre.</li><li><strong>Approche de test</strong> : Types de tests (fonctionnels, non-fonctionnels, régression), niveaux (unitaire, intégration, système), techniques (boîte noire/blanche).</li><li><strong>Critères d'entrée / sortie / suspension / reprise</strong> : Conditions pour démarrer, terminer, suspendre ou reprendre les tests.</li><li><strong>Livrables de test</strong> : Rapports, logs, jeux de données, scripts produits.</li><li><strong>Tâches de test</strong> : Activités (conception, exécution, analyse des résultats) et leur séquencement.</li><li><strong>Environnement de test</strong> : Configuration matérielle, logicielle, réseau, données de test.</li><li><strong>Ressources et responsabilités</strong> : Équipe, rôles (testeur, chef de projet), outils.</li><li><strong>Planning</strong> : Calendrier, jalons, estimations de charge.</li><li><strong>Risques et contingences</strong> : Risques identifiés (technique, planning) et plans d'atténuation.</li><li><strong>Besoins en formation</strong> : Formations nécessaires pour l'équipe (outils, technologies).</li><li><strong>Approbations</strong> : Signatures ou validations des parties prenantes.</li></ol><p>Utilise le template fourni dans le portail pour gagner du temps et assurer la conformité.</p>", "order": 3, "active": true },
+    { "id": 18, "categoryId": "gestion-projet", "question": "Comment tirer parti de Markdown pour la documentation ?", "answer": "<p>Markdown permet d\u2019\u00e9crire une documentation claire, versionn\u00e9e et lisible sur le web. Voici l\u2019essentiel pour produire des documents pros et homog\u00e8nes.</p><h4>Structure de base</h4><ul><li><strong>Titres</strong> : <code>#</code> \u00e0 <code>######</code> pour <code>H1</code> \u00e0 <code>H6</code>.</li><li><strong>Emphase</strong> : <code>*italique*</code>, <code>**gras**</code>, <code>`code`</code>.</li><li><strong>Listes</strong> : <code>-</code> ou <code>*</code> (puces), <code>1.</code> (num\u00e9rot\u00e9es).</li></ul><pre><code># Guide projet\n## Installation\n- Pr\u00e9requis\n1. T\u00e9l\u00e9charger\n2. Installer\n</code></pre><h4>Liens, images et ressources</h4><ul><li><strong>Lien</strong> : <code>[texte](https://exemple.com)</code></li><li><strong>Image</strong> : <code>![alt](images/capture.png)</code> (utiliser des <em>chemins relatifs</em>)</li><li><strong>R\u00e9f\u00e9rences</strong> : centraliser dans une section \"Ressources\" en bas de page.</li></ul><h4>Blocs de code</h4><p>Utiliser les balises de code avec langue pour la coloration :</p><pre><code>```bash\nrobot tests/mon_test.robot\n```\n\n```python\ndef addition(a, b):\n    return a + b\n```\n</code></pre><h4>Tableaux</h4><pre><code>| \u00c9tape | Action                | R\u00e9sultat attendu |\n|------:|-----------------------|------------------|\n|    1  | Ouvrir la page login | Le formulaire    |\n|    2  | Saisir identifiants  | Connexion OK     |\n</code></pre><h4>Citations, TODO, alertes</h4><pre><code>> Astuce : Pr\u00e9visualise dans VS Code avec Ctrl+Shift+V.\n- [x] Pr\u00e9parer les donn\u00e9es\n- [ ] Ajouter des captures\n</code></pre><h4>Diagrammes (optionnel)</h4><p>Support possible via <code>mermaid</code> si activ\u00e9 :</p><pre><code>```mermaid\nsequenceDiagram\n  participant U as Utilisateur\n  participant S as Syst\u00e8me\n  U->>S: Se connecter\n  S-->>U: Jeton OK\n```\n</code></pre><h4>Bonnes pratiques</h4><ul><li>Un seul <code># H1</code> par document, puis <code>##</code>, <code>###</code>\u2026</li><li>Pr\u00e9f\u00e9rer des <strong>liens relatifs</strong> au repo (ex. <code>../images/</code>).</li><li>Nommer les fichiers sans espaces : <code>guide_installation.md</code>.</li><li>Ajouter une <strong>table des mati\u00e8res</strong> si le document est long (extension VS Code <em>Markdown All in One</em> aide).</li><li>Valider avec <em>markdownlint</em> (coh\u00e9rence style, titres, espaces).</li></ul><h4>Dans VS Code</h4><ul><li><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> : pr\u00e9visualisation</li><li><kbd>Ctrl</kbd>+<kbd>K</kbd> puis <kbd>V</kbd> : pr\u00e9visualisation c\u00f4te \u00e0 c\u00f4t\u00e9</li><li>Extensions utiles : <em>Markdown All in One</em>, <em>markdownlint</em></li></ul>", "order": 4, "active": true },
+    { "id": 19, "categoryId": "gestion-projet", "question": "Comment exporter ou importer les quiz et annonces ?", "answer": "<ol><li>Ouvre la page admin concernée (Quiz ou Annonces).</li><li>Clique sur <em>Exporter</em> pour télécharger le JSON ou <em>Importer</em> pour charger un nouveau fichier.</li><li>Vérifie la confirmation GitHub API avant de fermer la fenêtre.</li></ol><p>Conserve une copie datée des fichiers exportés pour versionner les contenus.</p>", "order": 5, "active": true },
+    { "id": 20, "categoryId": "gestion-projet", "question": "Comment accéder rapidement à la timeline des sprints ?", "answer": "<p>Depuis le menu principal, clique sur la carte <strong>Planification et Chronologie</strong> puis navigue avec le sommaire. Les dates sont mises à jour depuis <code>config/timeline.json</code>.</p><p>Astuce : exporte la timeline au format PDF pour l'intégrer à ton plan de sprint.</p>", "order": 6, "active": true },
+
+    { "id": 21, "categoryId": "problemes-astuces", "question": "Que faire en cas de mot de passe oublié ?", "answer": "<p>Contacte l'enseignant par email (<a href=\"mailto:zidtalel@gmail.com\">zidtalel@gmail.com</a>) avec ton matricule et décris la situation. Une réinitialisation manuelle te sera envoyée.</p><p>Change ton mot de passe dès la première connexion.</p>", "order": 1, "active": true },
+    { "id": 22, "categoryId": "problemes-astuces", "question": "Comment réagir si je ne vois pas les annonces ou les quiz ?", "answer": "<ul><li>Assure-toi d'être bien connecté (rôle étudiant).</li><li>Vérifie que ton navigateur n'a pas bloqué les scripts.</li><li>Vide le cache ou teste dans une fenêtre privée.</li></ul><p>Si le problème persiste, captures une vidéo et remonte-la sur Teams.</p>", "order": 2, "active": true },
+    { "id": 23, "categoryId": "problemes-astuces", "question": "Quelles astuces pour organiser mon travail ?", "answer": "<ul><li>Utilise un Kanban (Trello, Jira) pour suivre les tâches.</li><li>Bloque des créneaux fixes pour automatiser tes tests.</li><li>Synchronise ton calendrier avec la timeline du projet.</li></ul><p>Partage ton plan hebdomadaire avec ton binôme pour rester alignés.</p>", "order": 3, "active": true },
+    { "id": 24, "categoryId": "problemes-astuces", "question": "Où retrouver les podcasts et ressources audio ?", "answer": "<p>Consulte le dossier <code>ressources/podcasts</code> ou la carte <strong>Guides</strong> &gt; <em>PICT/Pairwise</em> pour accéder aux fichiers audio (FR/EN).</p><p>Télécharge les épisodes pour une écoute hors-ligne avant les ateliers.</p>", "order": 4, "active": true },
+    { "id": 25, "categoryId": "problemes-astuces", "question": "Comment contacter rapidement l'enseignant ?", "answer": "<p>Utilise la page <strong>Contact</strong> ou envoie un message sur Teams (canal <em>#support-technique</em>). Mentionne ton équipe et le contexte du blocage.</p><p>Pour les urgences, un email direct est recommandé.</p>", "order": 5, "active": true },
+
+    { "id": 26, "categoryId": "bonus-optimisation", "question": "Comment mesurer la couverture de mes tests automatisés ?", "answer": "<p>Utilise des outils comme <strong>Robotmetrics</strong> ou exporte les résultats dans un tableau de suivi (features vs scénarios). Compare avec le backlog Jira pour repérer les gaps.</p>", "order": 1, "active": true },
+    { "id": 27, "categoryId": "bonus-optimisation", "question": "Comment partager efficacement des tutoriels avec mon équipe ?", "answer": "<p>Crée un mini-guide Markdown dans <code>docs/markdown</code> avec captures d'écran. Héberge les médias dans <code>assets/images</code> et ajoute un lien depuis la FAQ.</p>", "order": 2, "active": true },
+    { "id": 28, "categoryId": "bonus-optimisation", "question": "Quels outils utiliser pour l'analyse de logs applicatifs ?", "answer": "<ul><li><strong>Visual Studio Code</strong> (extension <em>Log File Highlighter</em>).</li><li><strong>lnav</strong> pour filtrer en ligne de commande.</li><li>Utilise des filtres <code>grep</code> pour isoler les erreurs critiques.</li></ul><p>Documente les patterns récurrents dans la FAQ pour enrichir la base.</p>", "order": 3, "active": true },
+    { "id": 29, "categoryId": "bonus-optimisation", "question": "Comment créer un sprint review percutant ?", "answer": "<ol><li>Rappelle le périmètre et les objectifs atteints.</li><li>Montre une démo live (ou vidéo) des automatisations.</li><li>Partage les métriques clés (tests passés, bugs détectés).</li><li>Collecte les feedbacks et liste les actions à suivre.</li></ol>", "order": 4, "active": true },
+    { "id": 30, "categoryId": "bonus-optimisation", "question": "Comment préparer une démonstration automatisée stable ?", "answer": "<p>Gèle les données de test, exécute un dry-run 30 minutes avant la démo et prévois un plan B (vidéo enregistrée). Documente le script dans la FAQ pour capitaliser.</p>", "order": 5, "active": true },
+
+    { "id": 31, "categoryId": "github", "question": "Comment faire un commit et un push proprement ?", "answer": "Étape 1", "order": 1, "active": true }
   ]
 }
