@@ -35,12 +35,6 @@
       "name": "Bonus & Optimisation",
       "icon": "fa-lightbulb",
       "order": 6
-    },
-    {
-      "id": "test",
-      "name": "Test",
-      "icon": "fa-tag",
-      "order": 7
     }
   ],
   "questions": [
