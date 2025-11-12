@@ -48,7 +48,7 @@
       "id": 1,
       "categoryId": "connexion-reseau",
       "question": "Comment créer une session SSH avec PuTTY ?",
-      "answer": "<p>Configurer PuTTY en trois étapes :</p><ol><li>Ouvre PuTTY, renseigne le <strong>Host Name</strong> (IP ou domaine) et assure-toi que le port est <code>22</code>.</li><li>Dans <em>Connection &gt; Data</em>, indique ton nom d'utilisateur pour éviter la saisie répétée.</li><li>Sauvegarde la session via <em>Saved Sessions</em> puis clique sur <em>Open</em>.</li></ol><p>Astuce : active <em>Connection &gt; SSH &gt; Auth</em> pour charger une clé privée si tu utilises l'authentification par clé.</p>",
+      "answer": "<p>Configurer PuTTY en quelques étapes :</p><ol><li>Ouvre PuTTY, renseigne le <strong>Host Name</strong> (IP ou domaine) et assure-toi que le port est <code>22</code>.</li><li>Dans <strong>Saved Sessions</strong> renseigne le nom de la session SSH et valide avec le bouton <strong>Save</strong>.</li><li>Optionnel : Dans <em>Connection &gt; Data</em>, indique ton nom d'utilisateur pour éviter la saisie répétée.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li><li>Pour te connecter, clique sur le bouton <strong>Open</strong>.</li></ol><p>Astuce : active <em>Connection &gt; SSH &gt; Auth</em> pour charger une clé privée si tu utilises l'authentification par clé.</p>",
       "order": 1,
       "active": true
     },
@@ -56,7 +56,7 @@
       "id": 2,
       "categoryId": "connexion-reseau",
       "question": "Comment ajouter un tunnel SSH (port forwarding) dans PuTTY ?",
-      "answer": "<ol><li>Dans ta session sauvegardée, ouvre <em>Connection &gt; SSH &gt; Tunnels</em>.</li><li>Renseigne le port local (ex. <code>8080</code>) et <code>Destination</code> (ex. <code>localhost:8080</code>).</li><li>Choisis <strong>Local</strong> ou <strong>Dynamic</strong> selon le besoin puis clique sur <em>Add</em> avant de te connecter.</li></ol><p>Vérifie ensuite que tes applications pointent vers <code>127.0.0.1</code> sur le port configuré.</p>",
+      "answer": "<ol><li>Dans ta session sauvegardée, ouvre <em>Connection &gt; SSH &gt; Tunnels</em>.</li><li>Renseigne <strong>Source port</strong> avec le port local (ex. <code>8081</code>) et <strong>Destination</strong> avec l'adresse IP ou l'URL destination.</li><li>Choisis <strong>Local</strong> ou <strong>Dynamic</strong> selon le besoin puis clique sur le bouton <strong>Add</strong>.</li><li>Reviens sur <strong>Session</strong> puis clique sur <strong>Save</strong>.</li></ol><p>Vérifie ensuite que ton application s'affiche sur <code>localhost:8081</code> (8081 étant le port local).</p>",
       "order": 2,
       "active": true
     },
@@ -64,7 +64,7 @@
       "id": 3,
       "categoryId": "connexion-reseau",
       "question": "Comment importer un fichier .OVA dans VirtualBox ?",
-      "answer": "<p>Procédure :</p><ol><li>Dans VirtualBox, va dans <em>Fichier &gt; Importer une appliance</em>.</li><li>Sélectionne ton fichier <code>.OVA</code> et vérifie la configuration proposée (CPU, RAM, réseau).</li><li>Clique sur <em>Terminer</em> pour lancer l'import. Ajuste ensuite les paramètres matériels si nécessaire.</li></ol><p>Pense à activer la virtualisation dans le BIOS si l'import échoue.</p>",
+      "answer": "<p>Procédure :</p><ol><li>Dans VirtualBox, va dans <em>Fichier &gt; Importer un appareil virtuel</em>.</li><li>Sélectionne ton fichier <code>.OVA</code> et vérifie la configuration proposée (CPU, RAM, réseau).</li><li>Clique sur <strong>Terminer</strong> pour lancer l'import. Ajuste ensuite les paramètres matériels si nécessaire.</li></ol><p>Pense à activer la virtualisation dans le BIOS si l'import échoue.</p>",
       "order": 3,
       "active": true
     },
