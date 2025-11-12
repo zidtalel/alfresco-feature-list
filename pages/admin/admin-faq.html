@@ -932,10 +932,11 @@
             sha = fileData.sha;
           }
 
-          // Préparer le contenu
-          const content = btoa(
-            unescape(encodeURIComponent(JSON.stringify(faqData, null, 2)))
-          );
+          // Préparer le contenu en UTF-8
+          const jsonString = JSON.stringify(faqData, null, 2);
+          // Encoder en UTF-8 puis en base64
+          const utf8Bytes = new TextEncoder().encode(jsonString);
+          const content = btoa(String.fromCharCode(...utf8Bytes));
 
           // Mettre à jour ou créer le fichier
           const putUrl = `https://api.github.com/repos/${githubConfig.owner}/${githubConfig.repo}/contents/${githubConfig.filePath}`;
