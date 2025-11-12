@@ -153,6 +153,36 @@
         z-index: 1;
       }
 
+      /* Badge Podcast */
+      .nav-card .podcast-badge {
+        position: absolute;
+        bottom: 8px;
+        right: 8px;
+        background: linear-gradient(135deg, #ff9800, #f57c00);
+        color: white;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        box-shadow: 0 2px 6px rgba(255, 152, 0, 0.4);
+        z-index: 2;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-card:hover .podcast-badge {
+        transform: scale(1.05);
+      }
+
+      .podcast-badge i {
+        font-size: 1em;
+        color: white;
+        width: auto;
+        margin: 0;
+      }
+
       .nav-card:hover {
         background-color: var(--accent-color);
         color: #ffffff;
@@ -1005,8 +1035,11 @@
         <a
           class="nav-card"
           href="../tools/exemple_us.html"
-          title="Exemple de User Story et Critères d'acceptation"
+          title="Exemple de User Story et Critères d'acceptation (avec Podcast audio)"
         >
+          <span class="podcast-badge"
+            ><i class="fas fa-podcast" aria-hidden="true"></i> Podcast</span
+          >
           <i class="fas fa-file-alt" aria-hidden="true"></i>
           <div class="meta">
             <div class="title">Exemple de User Story</div>
@@ -1079,6 +1112,9 @@
           href="../guides/guide_pict.html"
           title="Guide pairwise : utiliser PICT pour générer des données de tests (avec Podcast audio)"
         >
+          <span class="podcast-badge"
+            ><i class="fas fa-podcast" aria-hidden="true"></i> Podcast</span
+          >
           <i class="fas fa-file-code" aria-hidden="true"></i>
           <div class="meta">
             <div class="title">Guide pairwise / PICT</div>
