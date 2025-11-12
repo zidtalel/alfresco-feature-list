@@ -224,7 +224,11 @@
     </style>
   </head>
   <body>
-    <a href="../main/menu.html" class="home-link" title="Retour à la page d'accueil">
+    <a
+      href="../main/menu.html"
+      class="home-link"
+      title="Retour à la page d'accueil"
+    >
       🏠 Accueil
     </a>
     <div class="container">
@@ -465,6 +469,60 @@
                 toutes les adresses email actives du compte
               </li>
             </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Podcast -->
+      <div
+        style="
+          background: #fff8e1;
+          border: 1px solid #ffe082;
+          border-radius: 8px;
+          padding: 20px;
+          margin-top: 30px;
+        "
+      >
+        <h4 style="color: #333; margin-top: 0">
+          <i class="fas fa-podcast"></i> Podcast Audio : User Stories et
+          Critères d'Acceptation
+        </h4>
+        <p style="color: #555; font-size: 0.95em">
+          Écoutez le podcast complet sur la rédaction des User Stories et
+          critères d'acceptation dans la langue de votre choix :
+        </p>
+
+        <div style="margin-top: 15px">
+          <div style="margin-bottom: 15px">
+            <label
+              for="audio-fr"
+              style="display: block; font-weight: 600; color: #123d57"
+            >
+              <i class="fas fa-headset" style="color: #216ba5"></i> 🇫🇷 Français
+            </label>
+            <audio id="audio-fr" controls style="width: 100%; margin-top: 5px">
+              <source
+                src="../../ressources/podcast_us_fr.mp3"
+                type="audio/mp3"
+              />
+              Votre navigateur ne supporte pas le lecteur audio.
+            </audio>
+          </div>
+
+          <div>
+            <label
+              for="audio-en"
+              style="display: block; font-weight: 600; color: #123d57"
+            >
+              <i class="fas fa-headset" style="color: #216ba5"></i> 🇬🇧 English
+            </label>
+            <audio id="audio-en" controls style="width: 100%; margin-top: 5px">
+              <source
+                src="../../ressources/podcast_us_en.mp3"
+                type="audio/mp3"
+              />
+              Your browser does not support the audio element.
+            </audio>
           </div>
         </div>
       </div>
