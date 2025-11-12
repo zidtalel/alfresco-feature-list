@@ -262,7 +262,11 @@
         font-size: 0.97rem;
         line-height: 1.6;
         color: #334155;
-        background: linear-gradient(180deg, rgba(37, 99, 235, 0.06), rgba(37, 99, 235, 0.0));
+        background: linear-gradient(
+          180deg,
+          rgba(37, 99, 235, 0.06),
+          rgba(37, 99, 235, 0)
+        );
       }
 
       .faq-item.open .faq-answer {
@@ -352,7 +356,9 @@
         <header class="faq-header">
           <div class="faq-header-top">
             <div class="faq-heading">
-              <h1 id="faq-title" class="faq-title">FAQ &amp; Centre d'Aide Étudiants</h1>
+              <h1 id="faq-title" class="faq-title">
+                FAQ &amp; Centre d'Aide Étudiants
+              </h1>
             </div>
             <a class="back-btn" href="menu.html">
               <i class="fas fa-arrow-left" aria-hidden="true"></i>
@@ -360,8 +366,9 @@
             </a>
           </div>
           <p class="faq-subtitle">
-            Retrouve des réponses illustrées pour t'aider à maîtriser l'environnement technique,
-            automatiser tes tests et adopter les meilleures pratiques projet.
+            Retrouve des réponses illustrées pour t'aider à maîtriser
+            l'environnement technique, automatiser tes tests et adopter les
+            meilleures pratiques projet.
           </p>
           <div class="faq-search-box">
             <i class="fas fa-search faq-search-icon" aria-hidden="true"></i>
@@ -372,7 +379,12 @@
               placeholder="Rechercher une question, un outil ou une thématique..."
               aria-label="Rechercher dans la FAQ"
             />
-            <button id="faq-clear" class="faq-search-clear" type="button" aria-label="Effacer la recherche">
+            <button
+              id="faq-clear"
+              class="faq-search-clear"
+              type="button"
+              aria-label="Effacer la recherche"
+            >
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -385,521 +397,28 @@
 
         <div id="faq-categories" class="faq-categories">
           <!-- Les catégories et questions seront chargées dynamiquement depuis config/faq.json -->
-          <div style="text-align: center; padding: 40px;">
-            <i class="fas fa-spinner fa-spin" style="font-size: 2em; color: var(--primary);"></i>
-            <p style="margin-top: 15px; color: var(--muted);">Chargement de la FAQ...</p>
+          <div style="text-align: center; padding: 40px">
+            <i
+              class="fas fa-spinner fa-spin"
+              style="font-size: 2em; color: var(--primary)"
+            ></i>
+            <p style="margin-top: 15px; color: var(--muted)">
+              Chargement de la FAQ...
+            </p>
           </div>
         </div>
 
-        <!-- ANCIEN CONTENU STATIQUE - Conservé en commentaire pour référence
-        <div style="display: none;">
-          <section class="faq-category" data-category="Connexion & Réseau">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-network-wired"></i>
-                1. Connexion &amp; Réseau
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Comment créer une session SSH avec PuTTY ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Configurer PuTTY en trois étapes :</p>
-                  <ol>
-                    <li>Ouvre PuTTY, renseigne le <strong>Host Name</strong> (IP ou domaine) et assure-toi que le port est <code>22</code>.</li>
-                    <li>Dans <em>Connection &gt; Data</em>, indique ton nom d'utilisateur pour éviter la saisie répétée.</li>
-                    <li>Sauvegarde la session via <em>Saved Sessions</em> puis clique sur <em>Open</em>.</li>
-                  </ol>
-                  <p>Astuce : active <em>Connection &gt; SSH &gt; Auth</em> pour charger une clé privée si tu utilises l'authentification par clé.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment ajouter un tunnel SSH (port forwarding) dans PuTTY ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Dans ta session sauvegardée, ouvre <em>Connection &gt; SSH &gt; Tunnels</em>.</li>
-                    <li>Renseigne le port local (ex. <code>8080</code>) et  <code>Destination</code> (ex. <code>localhost:8080</code>).</li>
-                    <li>Choisis <strong>Local</strong> ou <strong>Dynamic</strong> selon le besoin puis clique sur <em>Add</em> avant de te connecter.</li>
-                  </ol>
-                  <p>Vérifie ensuite que tes applications pointent vers <code>127.0.0.1</code> sur le port configuré.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Comment importer un fichier .OVA dans VirtualBox ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Procédure :</p>
-                  <ol>
-                    <li>Dans VirtualBox, va dans <em>Fichier &gt; Importer une appliance</em>.</li>
-                    <li>Sélectionne ton fichier <code>.OVA</code> et vérifie la configuration proposée (CPU, RAM, réseau).</li>
-                    <li>Clique sur <em>Terminer</em> pour lancer l'import. Ajuste ensuite les paramètres matériels si nécessaire.</li>
-                  </ol>
-                  <p>Pense à activer la virtualisation dans le BIOS si l'import échoue.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Comment choisir le mode réseau adéquat pour ma VM ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li><strong>NAT</strong> : accès Internet via l'hôte, simple à configurer.</li>
-                    <li><strong>Bridge</strong> : la VM est visible sur le réseau comme une machine physique.</li>
-                    <li><strong>Host-only</strong> : communication limitée entre l'hôte et la VM (idéal pour les tests isolés).</li>
-                  </ul>
-                  <p>Change de mode dans <em>Paramètres &gt; Réseau</em> selon le scénario projet.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Comment résoudre les erreurs de connexion fréquentes ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li><strong>Timeout</strong> : vérifie l'IP, le port et les règles firewall.</li>
-                    <li><strong>Access denied</strong> : contrôle le mot de passe ou la clé SSH.</li>
-                    <li><strong>Network unreachable</strong> : teste ta connexion locale (ping) et l'état du VPN.</li>
-                  </ul>
-                  <p>Documente tes investigations dans le canal d'équipe avant d'escalader.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!-- Catégorie 2 -->
-          <section class="faq-category" data-category="Outils de développement">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-code"></i>
-                2. Outils de développement
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Comment utiliser Chrome DevTools pour valider un sélecteur ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Ouvre DevTools (<kbd>F12</kbd> ou <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd>).</li>
-                    <li>Dans l'onglet <strong>Elements</strong>, presse <kbd>Ctrl</kbd>+<kbd>F</kbd> et colle ton XPath / CSS.</li>
-                    <li>Les correspondances sont surlignées en jaune. Ajuste jusqu'à obtenir un résultat unique.</li>
-                  </ol>
-                  <p>Pense à tester plusieurs types de sélecteurs pour fiabiliser tes scripts.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment configurer VS Code pour le projet ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li>Installe les extensions <em>Python</em>, <em>YAML</em>, <em>ESLint</em> et <em>GitHub Pull Requests</em>.</li>
-                    <li>Active la synchronisation de paramètres (Settings Sync) pour retrouver ta configuration.</li>
-                    <li>Utilise <code>.vscode/settings.json</code> pour définir l'indentation à 2 espaces et la sauvegarde auto.</li>
-                  </ul>
-                  <p>Ajoute le dossier du projet via <em>Fichier &gt; Ouvrir un dossier</em> pour bénéficier de l'analyse contextuelle.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Comment cloner le dépôt avec GitHub Desktop ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Connecte-toi à GitHub Desktop, clique sur <em>File &gt; Clone repository</em>.</li>
-                    <li>Sélectionne le dépôt <strong>alfresco-project</strong> puis choisis un dossier local.</li>
-                    <li>Utilise <em>Fetch origin</em> chaque jour et <em>Pull</em> avant de commencer à coder.</li>
-                  </ol>
-                  <p>Décris tes commits clairement pour faciliter la revue de code.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Comment générer et enregistrer une clé SSH sur GitHub ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Lance <code>ssh-keygen -t ed25519 -C "prenom.nom@college.ca"</code>.</li>
-                    <li>Copie la clé publique (fichier <code>id_ed25519.pub</code>).</li>
-                    <li>Dans GitHub, va dans <em>Settings &gt; SSH and GPG keys</em> et ajoute la clé.</li>
-                  </ol>
-                  <p>Teste la connexion avec <code>ssh -T git@github.com</code> pour t'assurer que tout fonctionne.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Comment tester une API rapidement avec Postman ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Crée une nouvelle requête, choisis GET/POST/PUT selon ton besoin.</li>
-                    <li>Ajoute l'URL, les headers (ex. <code>Content-Type: application/json</code>) et le corps si nécessaire.</li>
-                    <li>Lance la requête et analyse l'onglet <em>Body</em> pour valider la réponse.</li>
-                  </ol>
-                  <p>Utilise l'onglet <em>Tests</em> pour automatiser des assertions simples.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!-- Catégorie 3 -->
-          <section class="faq-category" data-category="Automatisation & Tests">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-robot"></i>
-                3. Automatisation &amp; Tests
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Comment écrire un premier test Robot Framework ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Structure minimale :</p>
-                  <pre><code>*** Settings ***
-Library    SeleniumLibrary
-
-*** Test Cases ***
-Vérifier la page d'accueil
-    Open Browser    ${LOGIN_URL}    chrome
-    Title Should Be    Portail de Test
-    [Teardown]    Close Browser
-</code></pre>
-                  <p>Enregistre le fichier en <code>.robot</code> puis exécute <code>robot ton_test.robot</code>.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment lancer un script Robot Framework en local ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Installe les dépendances : <code>pip install robotframework seleniumlibrary</code>.</li>
-                    <li>Installe le driver (ChromeDriver ou GeckoDriver) compatible avec ton navigateur.</li>
-                    <li>Dans un terminal, exécute <code>robot chemin/vers/test.robot</code>.</li>
-                  </ol>
-                  <p>Consulte les rapports générés (<code>log.html</code>, <code>report.html</code>) pour analyser les résultats.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Comment interpréter les rapports Robot Framework ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li><strong>report.html</strong> : synthèse (succès, échecs, durée).</li>
-                    <li><strong>log.html</strong> : détails étape par étape (keywords exécutés, captures).</li>
-                    <li>Utilise la recherche pour filtrer une suite ou un mot-clé spécifique.</li>
-                  </ul>
-                  <p>Archive les rapports après chaque sprint pour conserver l'historique.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Comment enregistrer un scénario avec Selenium IDE ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Installe l'extension Selenium IDE sur Chrome ou Firefox.</li>
-                    <li>Crée un nouveau projet, clique sur <em>Record</em> et navigue sur ton application.</li>
-                    <li>Stoppe l'enregistrement, puis édite/commente les étapes avant export.</li>
-                  </ol>
-                  <p>Pense à nettoyer les sélecteurs pour les rendre robustes.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Quelles sont les bonnes pratiques de nommage des localisateurs ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li>Préférez les attributs stables (<code>data-testid</code>, <code>aria-label</code>).</li>
-                    <li>Évitez les indices (<code>div[3]</code>) et les chemins absolus.</li>
-                    <li>Centralisez vos sélecteurs dans des mots-clés réutilisables.</li>
-                  </ul>
-                  <p>Documente chaque sélecteur dans le repo pour faciliter la maintenance.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!-- Catégorie 4 -->
-          <section class="faq-category" data-category="Gestion de projet & Documentation">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-project-diagram"></i>
-                4. Gestion de projet &amp; Documentation
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Comment rédiger une user story efficace ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Utilise le modèle :</p>
-                  <blockquote>En tant que <em>personna</em>, je veux <em>objectif</em> afin de <em>bénéfice</em>.</blockquote>
-                  <p>Ajoute 3 à 5 critères d'acceptation formulés en Gherkin et vérifie l'alignement avec l'épopée.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment structurer un plan de test conforme ISO 29119-3 ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Définis le contexte et les objectifs.</li>
-                    <li>Documente la stratégie (types de tests, niveaux, outils).</li>
-                    <li>Planifie les ressources, le calendrier et les risques.</li>
-                    <li>Ajoute les critères d'entrée/sortie et les livrables attendus.</li>
-                  </ol>
-                  <p>Utilise le template fourni dans le portail pour gagner du temps.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Comment tirer parti de Markdown pour la documentation ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li>Structure avec des titres (<code>###</code>), des listes et des tableaux.</li>
-                    <li>Incorpore des captures (<code>![alt](path)</code>) et des blocs de code.</li>
-                    <li>Prévisualise dans VS Code (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd>).</li>
-                  </ul>
-                  <p>Ajoute une table des matières automatique avec <code>[TOC]</code> si nécessaire.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Comment exporter ou importer les quiz et annonces ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Ouvre la page admin concernée (Quiz ou Annonces).</li>
-                    <li>Clique sur <em>Exporter</em> pour télécharger le JSON ou <em>Importer</em> pour charger un nouveau fichier.</li>
-                    <li>Vérifie la confirmation GitHub API avant de fermer la fenêtre.</li>
-                  </ol>
-                  <p>Conserve une copie datée des fichiers exportés pour versionner les contenus.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Comment accéder rapidement à la timeline des sprints ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Depuis le menu principal, clique sur la carte <strong>Planification et Chronologie</strong> puis navigue avec le sommaire. Les dates sont mises à jour depuis <code>config/timeline.json</code>.</p>
-                  <p>Astuce : exporte la timeline au format PDF pour l'intégrer à ton plan de sprint.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!-- Catégorie 5 -->
-          <section class="faq-category" data-category="Problèmes courants & Astuces">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-life-ring"></i>
-                5. Problèmes courants &amp; Astuces
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Que faire en cas de mot de passe oublié ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Contacte l'enseignant par email (<a href="mailto:zidtalel@gmail.com">zidtalel@gmail.com</a>) avec ton matricule et décris la situation. Une réinitialisation manuelle te sera envoyée.</p>
-                  <p>Change ton mot de passe dès la première connexion.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment réagir si je ne vois pas les annonces ou les quiz ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li>Assure-toi d'être bien connecté (rôle étudiant).</li>
-                    <li>Vérifie que ton navigateur n'a pas bloqué les scripts.</li>
-                    <li>Vide le cache ou teste dans une fenêtre privée.</li>
-                  </ul>
-                  <p>Si le problème persiste, captures une vidéo et remonte-la sur Teams.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Quelles astuces pour organiser mon travail ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li>Utilise un Kanban (Trello, Jira) pour suivre les tâches.</li>
-                    <li>Bloque des créneaux fixes pour automatiser tes tests.</li>
-                    <li>Synchronise ton calendrier avec la timeline du projet.</li>
-                  </ul>
-                  <p>Partage ton plan hebdomadaire avec ton binôme pour rester alignés.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Où retrouver les podcasts et ressources audio ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Consulte le dossier <code>ressources/podcasts</code> ou la carte <strong>Guides</strong> &gt; <em>PICT/Pairwise</em> pour accéder aux fichiers audio (FR/EN).</p>
-                  <p>Télécharge les épisodes pour une écoute hors-ligne avant les ateliers.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Comment contacter rapidement l'enseignant ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Utilise la page <strong>Contact</strong> ou envoie un message sur Teams (canal <em>#support-technique</em>). Mentionne ton équipe et le contexte du blocage.</p>
-                  <p>Pour les urgences, un email direct est recommandé.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-
-          <!-- Catégorie 6 supplémentaire -->
-          <section class="faq-category" data-category="Bonus & Optimisation">
-            <div class="faq-category-header">
-              <h2 class="faq-category-title">
-                <i class="fas fa-lightbulb"></i>
-                6. Bonus &amp; Optimisation
-              </h2>
-              <span class="faq-category-count"><i class="fas fa-list"></i> 5 questions</span>
-            </div>
-            <ul class="faq-list">
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">1</span>
-                  Comment mesurer la couverture de mes tests automatisés ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Utilise des outils comme <strong>Robotmetrics</strong> ou exporte les résultats dans un tableau de suivi (features vs scénarios). Compare avec le backlog Jira pour repérer les gaps.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">2</span>
-                  Comment partager efficacement des tutoriels avec mon équipe ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Crée un mini-guide Markdown dans <code>docs/markdown</code> avec captures d'écran. Héberge les médias dans <code>assets/images</code> et ajoute un lien depuis la FAQ.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">3</span>
-                  Quels outils utiliser pour l'analyse de logs applicatifs ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ul>
-                    <li><strong>Visual Studio Code</strong> (extension <em>Log File Highlighter</em>).</li>
-                    <li><strong>lnav</strong> pour filtrer en ligne de commande.</li>
-                    <li>Utilise des filtres <code>grep</code> pour isoler les erreurs critiques.</li>
-                  </ul>
-                  <p>Documente les patterns récurrents dans la FAQ pour enrichir la base.</p>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">4</span>
-                  Comment créer un sprint review percutant ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <ol>
-                    <li>Rappelle le périmètre et les objectifs atteints.</li>
-                    <li>Montre une démo live (ou vidéo) des automatisations.</li>
-                    <li>Partage les métriques clés (tests passés, bugs détectés).</li>
-                    <li>Collecte les feedbacks et liste les actions à suivre.</li>
-                  </ol>
-                </div>
-              </li>
-              <li class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span class="index">5</span>
-                  Comment préparer une démonstration automatisée stable ?
-                  <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Gèle les données de test, exécute un dry-run 30 minutes avant la démo et prévois un plan B (vidéo enregistrée). Documente le script dans la FAQ pour capitaliser.</p>
-                </div>
-              </li>
-            </ul>
-          </section>
-        </div>
-        -->
-
         <footer>
           <p>
-            <i class="fas fa-book"></i> Ajoute tes découvertes : <a href="mailto:zidtalel@gmail.com" style="color: var(--primary); text-decoration: none;">zidtalel@gmail.com</a><br>
-            &copy; Talel Zid | Version 1.1 — Novembre 2025 | <i class="fas fa-shield-alt"></i> Contenu pédagogique — Usage éducatif seulement
+            <i class="fas fa-book"></i> Ajoute tes découvertes :
+            <a
+              href="mailto:zidtalel@gmail.com"
+              style="color: var(--primary); text-decoration: none"
+              >zidtalel@gmail.com</a
+            ><br />
+            &copy; Talel Zid | Version 1.1 — Novembre 2025 |
+            <i class="fas fa-shield-alt"></i> Contenu pédagogique — Usage
+            éducatif seulement
           </p>
         </footer>
       </main>
@@ -916,20 +435,20 @@ Vérifier la page d'accueil
       // Charger les données FAQ depuis le fichier JSON
       async function loadFaqData() {
         try {
-          const response = await fetch('../../config/faq.json', {
+          const response = await fetch("../../config/faq.json", {
             headers: {
-              'Content-Type': 'application/json; charset=utf-8'
-            }
+              "Content-Type": "application/json; charset=utf-8",
+            },
           });
           if (!response.ok) {
-            throw new Error('Erreur lors du chargement de la FAQ');
+            throw new Error("Erreur lors du chargement de la FAQ");
           }
           // Forcer le décodage UTF-8
           const text = await response.text();
           faqData = JSON.parse(text);
           renderFaq();
         } catch (error) {
-          console.error('Erreur:', error);
+          console.error("Erreur:", error);
           categoriesContainer.innerHTML = `
             <div style="text-align: center; padding: 40px; color: #dc3545;">
               <i class="fas fa-exclamation-triangle" style="font-size: 2em; margin-bottom: 10px;"></i>
@@ -942,20 +461,22 @@ Vérifier la page d'accueil
       // Rendre l'interface FAQ
       function renderFaq() {
         // Filtrer uniquement les questions actives
-        const activeQuestions = faqData.questions.filter(q => q.active);
-        
+        const activeQuestions = faqData.questions.filter((q) => q.active);
+
         // Trier les catégories par ordre
-        const sortedCategories = [...faqData.categories].sort((a, b) => a.order - b.order);
-        
-        let html = '';
+        const sortedCategories = [...faqData.categories].sort(
+          (a, b) => a.order - b.order
+        );
+
+        let html = "";
         sortedCategories.forEach((category) => {
           // Filtrer les questions de cette catégorie
           const categoryQuestions = activeQuestions
-            .filter(q => q.categoryId === category.id)
+            .filter((q) => q.categoryId === category.id)
             .sort((a, b) => a.order - b.order);
-          
+
           if (categoryQuestions.length === 0) return;
-          
+
           html += `
             <section class="faq-category" data-category="${category.name}">
               <div class="faq-category-header">
@@ -964,11 +485,15 @@ Vérifier la page d'accueil
                   ${category.order}. ${category.name}
                 </h2>
                 <span class="faq-category-count">
-                  <i class="fas fa-list"></i> ${categoryQuestions.length} question${categoryQuestions.length > 1 ? 's' : ''}
+                  <i class="fas fa-list"></i> ${
+                    categoryQuestions.length
+                  } question${categoryQuestions.length > 1 ? "s" : ""}
                 </span>
               </div>
               <ul class="faq-list">
-                ${categoryQuestions.map((q, index) => `
+                ${categoryQuestions
+                  .map(
+                    (q, index) => `
                   <li class="faq-item">
                     <button class="faq-question" type="button" aria-expanded="false">
                       <span class="index">${index + 1}</span>
@@ -979,17 +504,21 @@ Vérifier la page d'accueil
                       ${q.answer}
                     </div>
                   </li>
-                `).join('')}
+                `
+                  )
+                  .join("")}
               </ul>
             </section>
           `;
         });
-        
+
         categoriesContainer.innerHTML = html;
-        
+
         // Réinitialiser les éléments de catégorie
-        categoryElements = Array.from(document.querySelectorAll(".faq-category"));
-        
+        categoryElements = Array.from(
+          document.querySelectorAll(".faq-category")
+        );
+
         // Attacher les event listeners
         attachEventListeners();
       }
@@ -997,8 +526,8 @@ Vérifier la page d'accueil
       // Attacher les event listeners
       function attachEventListeners() {
         categoryElements.forEach((category) => {
-          category.querySelectorAll('.faq-question').forEach((button) => {
-            button.addEventListener('click', toggleFaq);
+          category.querySelectorAll(".faq-question").forEach((button) => {
+            button.addEventListener("click", toggleFaq);
           });
         });
       }
@@ -1019,62 +548,64 @@ Vérifier la page d'accueil
 
       function toggleFaq(event) {
         const button = event.currentTarget;
-        const item = button.closest('.faq-item');
-        const answer = item.querySelector('.faq-answer');
-        const expanded = button.getAttribute('aria-expanded') === 'true';
+        const item = button.closest(".faq-item");
+        const answer = item.querySelector(".faq-answer");
+        const expanded = button.getAttribute("aria-expanded") === "true";
 
         if (!expanded) {
           closeAllExcept(item);
         }
 
-        button.setAttribute('aria-expanded', String(!expanded));
-        item.classList.toggle('open', !expanded);
+        button.setAttribute("aria-expanded", String(!expanded));
+        item.classList.toggle("open", !expanded);
         answer.hidden = expanded;
       }
 
       function filterFaq() {
         const query = searchInput.value.trim().toLowerCase();
-        clearBtn.style.display = query ? 'block' : 'none';
+        clearBtn.style.display = query ? "block" : "none";
         let matches = 0;
 
         categoryElements.forEach((category) => {
-          const items = Array.from(category.querySelectorAll('.faq-item'));
+          const items = Array.from(category.querySelectorAll(".faq-item"));
           let categoryMatch = false;
 
           items.forEach((item) => {
             const text = item.textContent.toLowerCase();
             const isMatch = text.includes(query);
-            item.style.display = isMatch ? '' : 'none';
+            item.style.display = isMatch ? "" : "none";
             if (isMatch) {
               matches += 1;
               categoryMatch = true;
             }
           });
 
-          category.style.display = categoryMatch || !query ? 'block' : 'none';
-          const countElement = category.querySelector('.faq-category-count');
+          category.style.display = categoryMatch || !query ? "block" : "none";
+          const countElement = category.querySelector(".faq-category-count");
           if (countElement) {
-            const visibleCount = items.filter((it) => it.style.display !== 'none').length;
+            const visibleCount = items.filter(
+              (it) => it.style.display !== "none"
+            ).length;
             countElement.innerHTML = `
               <i class="fas fa-list"></i>
-              ${visibleCount} question${visibleCount > 1 ? 's' : ''}
+              ${visibleCount} question${visibleCount > 1 ? "s" : ""}
             `;
           }
         });
 
-        noResult.style.display = query && matches === 0 ? 'block' : 'none';
+        noResult.style.display = query && matches === 0 ? "block" : "none";
       }
 
-      searchInput.addEventListener('input', filterFaq);
-      clearBtn.addEventListener('click', () => {
-        searchInput.value = '';
+      searchInput.addEventListener("input", filterFaq);
+      clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
         filterFaq();
         searchInput.focus();
       });
 
       // Accessibilité : fermer avec Échap
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
           closeAllExcept(null);
         }
       });
