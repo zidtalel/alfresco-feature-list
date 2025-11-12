@@ -35,6 +35,12 @@
       "name": "Bonus & Optimisation",
       "icon": "fa-lightbulb",
       "order": 6
+    },
+    {
+      "id": "github",
+      "name": "Github",
+      "icon": "fa-tag",
+      "order": 7
     }
   ],
   "questions": [
