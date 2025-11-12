@@ -884,7 +884,14 @@
           }
 
           const data = await response.json();
-          const content = atob(data.content);
+          // Décoder base64 en UTF-8 correctement
+          const base64Content = data.content.replace(/\s/g, '');
+          const binaryString = atob(base64Content);
+          const bytes = new Uint8Array(binaryString.length);
+          for (let i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          const content = new TextDecoder('utf-8').decode(bytes);
           faqData = JSON.parse(content);
 
           // Convertir l'ancien format si nécessaire
@@ -1452,11 +1459,17 @@
       // Charger depuis le fichier local JSON en fallback
       async function loadFaqDataFromLocal() {
         try {
-          const response = await fetch("../../config/faq.json");
+          const response = await fetch("../../config/faq.json", {
+            headers: {
+              "Content-Type": "application/json; charset=utf-8",
+            },
+          });
           if (!response.ok) {
             throw new Error("Fichier faq.json introuvable");
           }
-          faqData = await response.json();
+          // Forcer le décodage UTF-8
+          const text = await response.text();
+          faqData = JSON.parse(text);
 
           // Convertir l'ancien format si nécessaire
           if (
