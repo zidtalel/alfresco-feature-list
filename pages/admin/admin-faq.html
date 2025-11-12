@@ -885,13 +885,13 @@
 
           const data = await response.json();
           // Décoder base64 en UTF-8 correctement
-          const base64Content = data.content.replace(/\s/g, '');
+          const base64Content = data.content.replace(/\s/g, "");
           const binaryString = atob(base64Content);
           const bytes = new Uint8Array(binaryString.length);
           for (let i = 0; i < binaryString.length; i++) {
             bytes[i] = binaryString.charCodeAt(i);
           }
-          const content = new TextDecoder('utf-8').decode(bytes);
+          const content = new TextDecoder("utf-8").decode(bytes);
           faqData = JSON.parse(content);
 
           // Convertir l'ancien format si nécessaire
