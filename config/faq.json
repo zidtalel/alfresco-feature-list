@@ -283,6 +283,14 @@
       "answer": "<p>Gèle les données de test, exécute un dry-run 30 minutes avant la démo et prévois un plan B (vidéo enregistrée). Documente le script dans la FAQ pour capitaliser.</p>",
       "order": 5,
       "active": true
+    },
+    {
+      "id": 31,
+      "categoryId": "github",
+      "question": "Comment faire un commit et un push proprement ?",
+      "answer": "Étape 1",
+      "order": 1,
+      "active": true
     }
   ]
 }
