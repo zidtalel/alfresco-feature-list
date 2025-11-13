@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>XPath Guide de Référence & Aide-mémoire</title>
     <link rel="icon" type="image/png" href="images/xpath_icon.png" />
+    <!-- Icônes Font Awesome (pour le podcast) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 
     <!-- Script de protection d'accès - Vérification de l'authentification -->
     <script src="js/auth-guard.js"></script>
@@ -22,6 +27,67 @@
         background: linear-gradient(135deg, #c5d0db 0%, #dee2e6 100%);
         margin: 0;
         padding: 20px;
+      }
+
+      /* ====== LAYOUT GLOBAL (main + aside podcast) ====== */
+      .layout {
+        max-width: 250mm;
+        margin: 0 auto 30px auto;
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .layout main {
+        display: block;
+      }
+
+      .podcast-card {
+        background: #fff8e1;
+        border: 1px solid #ffe082;
+        border-radius: 12px;
+        padding: 18px 18px 22px 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        font-size: 0.9em;
+        margin-top: 30px; /* Align vertical start with first cheat-sheet card */
+      }
+      .podcast-card h3 {
+        margin: 0 0 10px 0;
+        font-size: 1.05em;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #333;
+      }
+      .podcast-card p {
+        margin-top: 0;
+        margin-bottom: 14px;
+        font-size: 0.85em;
+        line-height: 1.4;
+      }
+      .podcast-card label {
+        display: block;
+        font-weight: 600;
+        color: #123d57;
+        margin-bottom: 4px;
+      }
+      .podcast-card audio {
+        width: 100%;
+        margin-bottom: 14px;
+      }
+      .podcast-card .lang-block:last-of-type audio {
+        margin-bottom: 4px;
+      }
+
+      /* Responsive: empile l'aside sous le contenu principal */
+      @media (max-width: 1100px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+        .podcast-card {
+          order: 2;
+        }
       }
 
       .container {
@@ -426,7 +492,11 @@
     </style>
   </head>
   <body>
-    <a href="../main/menu.html" class="home-link" title="Retour à la page d'accueil">
+    <a
+      href="../main/menu.html"
+      class="home-link"
+      title="Retour à la page d'accueil"
+    >
       🏠 Accueil
     </a>
     <h1>XPath : Guide de Référence & Aide-mémoire</h1>
@@ -439,343 +509,405 @@
         ⬇️ Télécharger l'Aide-mémoire XPath (PDF, 2 pages)
       </a>
     </p>
-    <div class="container">
-      <div class="cheat-sheet-section paths">
-        <h2>1. Chemins Absolus & Relatifs</h2>
-        <p>
-          Un chemin absolu part de la racine. Très précis, mais fragile en cas
-          de modification du DOM.
-        </p>
-        <div
-          class="code-block"
-          data-code="/html/body/div[1]/span/div/div/section/p[2]"
-          style="
-            text-align: left !important;
-            width: 100%;
-            margin-left: 0 !important;
-            box-sizing: border-box;
-          "
-        ></div>
-        <p>Un chemin relatif (// ou .) commence n'importe où. Plus robuste.</p>
-        <div class="code-block">//div[@class='menu']/a[@id='accueil']</div>
-      </div>
+    <div class="layout" role="main">
+      <main>
+        <div class="container">
+          <div class="cheat-sheet-section paths">
+            <h2>1. Chemins Absolus & Relatifs</h2>
+            <p>
+              Un chemin absolu part de la racine. Très précis, mais fragile en
+              cas de modification du DOM.
+            </p>
+            <div
+              class="code-block"
+              data-code="/html/body/div[1]/span/div/div/section/p[2]"
+              style="
+                text-align: left !important;
+                width: 100%;
+                margin-left: 0 !important;
+                box-sizing: border-box;
+              "
+            ></div>
+            <p>
+              Un chemin relatif (// ou .) commence n'importe où. Plus robuste.
+            </p>
+            <div class="code-block">//div[@class='menu']/a[@id='accueil']</div>
+          </div>
 
-      <div class="cheat-sheet-section paths">
-        <h2>2. Séparateurs et Chemin d'Accès</h2>
-        <ul>
-          <li>
-            / (Slash simple) : Sépare un nœud de son enfant direct. Au début,
-            désigne la racine.
-            <div class="code-block">/html/body/div</div>
-          </li>
-          <li>
-            // (Double Slash) : Sépare un nœud de n'importe lequel de ses
-            descendants (n'importe où).
-            <div class="code-block">//div[@class='card']//a</div>
-          </li>
-        </ul>
-      </div>
+          <div class="cheat-sheet-section paths">
+            <h2>2. Séparateurs et Chemin d'Accès</h2>
+            <ul>
+              <li>
+                / (Slash simple) : Sépare un nœud de son enfant direct. Au
+                début, désigne la racine.
+                <div class="code-block">/html/body/div</div>
+              </li>
+              <li>
+                // (Double Slash) : Sépare un nœud de n'importe lequel de ses
+                descendants (n'importe où).
+                <div class="code-block">//div[@class='card']//a</div>
+              </li>
+            </ul>
+          </div>
 
-      <div class="cheat-sheet-section structure">
-        <h2>3. Structure Fondamentale</h2>
-        <p>
-          Une étape de localisation est composée de 3 éléments :<br /><code
-            >Axe::Test\_de\_Nœud[Prédicat]</code
-          >
-        </p>
-        <ul>
-          <li>
-            <strong>Axe</strong> : ➤ <code>child::</code> (par défaut),
-            <code>parent::</code>, <code>attribute::</code>.
-          </li>
-          <li>
-            <strong>Test de Nœud</strong> : ➤ <code>div</code>,
-            <code>span</code>, <code>input</code>, <code>*</code> (tout
-            élément).
-          </li>
-          <li>
-            <strong>Prédicat</strong> : ➤ <code>[@class='menu']</code>,
-            <code>[@id='valeur']</code>, <code>[1]</code>.
-          </li>
-        </ul>
-        <p><strong>Exemple (Les 3 éléments) :</strong></p>
-        <div class="code-block">parent::div[@class='menu']</div>
-      </div>
+          <div class="cheat-sheet-section structure">
+            <h2>3. Structure Fondamentale</h2>
+            <p>
+              Une étape de localisation est composée de 3 éléments :<br /><code
+                >Axe::Test\_de\_Nœud[Prédicat]</code
+              >
+            </p>
+            <ul>
+              <li>
+                <strong>Axe</strong> : ➤ <code>child::</code> (par défaut),
+                <code>parent::</code>, <code>attribute::</code>.
+              </li>
+              <li>
+                <strong>Test de Nœud</strong> : ➤ <code>div</code>,
+                <code>span</code>, <code>input</code>, <code>*</code> (tout
+                élément).
+              </li>
+              <li>
+                <strong>Prédicat</strong> : ➤ <code>[@class='menu']</code>,
+                <code>[@id='valeur']</code>, <code>[1]</code>.
+              </li>
+            </ul>
+            <p><strong>Exemple (Les 3 éléments) :</strong></p>
+            <div class="code-block">parent::div[@class='menu']</div>
+          </div>
 
-      <div class="cheat-sheet-section axes">
-        <h2>4. Utilisation d'index</h2>
+          <div class="cheat-sheet-section axes">
+            <h2>4. Utilisation d'index</h2>
 
-        <h3>Position et Stabilité</h3>
-        <ul>
-          <li>Index de position ://li[3] ou //li[last()].</li>
-          <li>Fonction position() ://li[position() > 5].</li>
-        </ul>
-        <div class="alert-danger">
-          ⚠️ Danger de l'Index : L'utilisation d'index numériques (comme [1])
-          est extrêmement fragile. Si un élément est ajouté ou retiré, le chemin
-          casse. Privilégiez les attributs et les fonctions texte pour la
-          stabilité.
+            <h3>Position et Stabilité</h3>
+            <ul>
+              <li>Index de position ://li[3] ou //li[last()].</li>
+              <li>Fonction position() ://li[position() > 5].</li>
+            </ul>
+            <div class="alert-danger">
+              ⚠️ Danger de l'Index : L'utilisation d'index numériques (comme
+              [1]) est extrêmement fragile. Si un élément est ajouté ou retiré,
+              le chemin casse. Privilégiez les attributs et les fonctions texte
+              pour la stabilité.
+            </div>
+          </div>
+
+          <div class="cheat-sheet-section logic">
+            <h2>5. Opérateurs & Prédicats Avancés</h2>
+            <h3>Opérateurs Logiques</h3>
+            <p>Utilisés dans les prédicats pour combiner des conditions :</p>
+            <ul>
+              <li>
+                AND : Les deux conditions doivent être vraies.
+                <div class="code-block">
+                  //input[@type='text' and @id='prenom']
+                </div>
+              </li>
+              <li>
+                OR : Au moins une condition doit être vraie.
+                <div
+                  class="code-block"
+                  data-code="//button[@name='Ajouter' or @name='Supprimer']"
+                  style="
+                    text-align: left !important;
+                    width: 100%;
+                    margin-left: 0 !important;
+                    box-sizing: border-box;
+                  "
+                ></div>
+              </li>
+            </ul>
+            <h3>Prédicats Complexes</h3>
+            <ul>
+              <li>
+                Prédicat sur un descendant :
+                <div class="code-block">//div[.//span[@class='active']]</div>
+              </li>
+              <li>
+                Filtre basé sur l'enfant direct :
+                <div class="code-block">//tr[./td[@class='type']]</div>
+              </li>
+              <li>
+                Filtre basé sur un descendant avec opérateur logique :
+                <div
+                  class="code-block"
+                  data-code="//div[.//a[@class='link' and text()='Détails']]"
+                  style="
+                    text-align: left !important;
+                    width: 100%;
+                    margin-left: 0 !important;
+                    box-sizing: border-box;
+                  "
+                ></div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="cheat-sheet-section axes">
+            <h2>6. Axes de Navigation (Relations)</h2>
+            <p>
+              Les axes définissent la direction de la navigation par rapport au
+              nœud courant. Ils sont fondamentaux pour localiser des éléments
+              parents, frères, ou descendants indirects.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Axe</th>
+                  <th>Abr.</th>
+                  <th>Rôle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>child::</td>
+                  <td>/</td>
+                  <td>Nœuds enfants directs.</td>
+                </tr>
+                <tr>
+                  <td>parent::</td>
+                  <td>..</td>
+                  <td>Nœud parent.</td>
+                </tr>
+                <tr>
+                  <td>self::</td>
+                  <td>.</td>
+                  <td>Le nœud courant.</td>
+                </tr>
+                <tr>
+                  <td>attribute::</td>
+                  <td>@</td>
+                  <td>Nœuds attributs.</td>
+                </tr>
+                <tr>
+                  <td>descendant::</td>
+                  <td>//</td>
+                  <td>Tous les descendants.</td>
+                </tr>
+                <tr>
+                  <td>ancestor::</td>
+                  <td></td>
+                  <td>Tous les ancêtres du nœud courant.</td>
+                </tr>
+                <tr>
+                  <td>following-sibling::</td>
+                  <td></td>
+                  <td>Frères/sœurs qui apparaissent APRÈS le nœud courant.</td>
+                </tr>
+                <tr>
+                  <td>preceding-sibling::</td>
+                  <td></td>
+                  <td>Frères/sœurs qui apparaissent AVANT le nœud courant.</td>
+                </tr>
+                <tr>
+                  <td>following::</td>
+                  <td></td>
+                  <td>Tous les nœuds suivants.</td>
+                </tr>
+                <tr>
+                  <td>preceding::</td>
+                  <td></td>
+                  <td>Tous les nœuds précédents.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cheat-sheet-section wildcards">
+            <h2>7. Sélecteurs Spéciaux & opérateurs</h2>
+            <p>
+              Utilisation de caractères génériques (wildcards) pour trouver des
+              éléments ou attributs avec souplesse.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Sélecteur</th>
+                  <th>Rôle</th>
+                  <th>Exemple</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>*</td>
+                  <td>Sélectionne n'importe quel élément.</td>
+                  <td><code class="code-block">//div/*/a</code></td>
+                </tr>
+                <tr>
+                  <td>@*</td>
+                  <td>Sélectionne un élément avec n'importe quel attribut.</td>
+                  <td><code class="code-block">//button[@*]</code></td>
+                </tr>
+                <tr>
+                  <td>//text()</td>
+                  <td>Sélectionne uniquement le contenu textuel du nœud.</td>
+                  <td><code class="code-block">//p[1]/text()</code></td>
+                </tr>
+              </tbody>
+            </table>
+            <h3>Opérateurs de Comparaison et Types de Nœuds</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Opérateur</th>
+                  <th>Signification</th>
+                  <th>Type de Nœud</th>
+                  <th>Explication</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>=</td>
+                  <td>Égalité</td>
+                  <td>element</td>
+                  <td>Sélectionne une balise HTML/XML (Ex: div).</td>
+                </tr>
+                <tr>
+                  <td>!=</td>
+                  <td>Non Égalité</td>
+                  <td>attribute</td>
+                  <td>Sélectionne un attribut (Ex: @id).</td>
+                </tr>
+                <tr>
+                  <td>&lt;, &gt;</td>
+                  <td>Inférieur, Supérieur</td>
+                  <td>text()</td>
+                  <td>Sélectionne le contenu textuel.</td>
+                </tr>
+                <tr>
+                  <td>&lt;=, &gt;=</td>
+                  <td>Inf. ou Ég., Sup. ou Ég.</td>
+                  <td>comment()</td>
+                  <td>Sélectionne un commentaire.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="cheat-sheet-section functions-section">
+            <h2>8. Fonctions Courantes (Texte)</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Fonction</th>
+                  <th>Rôle</th>
+                  <th>Exemple</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>contains(s, sub)</td>
+                  <td>Vrai si s contient sub.</td>
+                  <td>
+                    <code class="code-block"
+                      >//p[contains(text(), 'partiel')]</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>starts-with(s, sub)</td>
+                  <td>Vrai si s commence par sub.</td>
+                  <td>
+                    <code class="code-block"
+                      >//input[starts-with(@id, 'utilisateur')]</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>normalize-space(s)</td>
+                  <td>Nettoie les espaces multiples et début/fin.</td>
+                  <td>
+                    <code class="code-block"
+                      >//div[normalize-space(text())='Texte']</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>concat(s1, s2, ...)</td>
+                  <td>Concatène des chaînes.</td>
+                  <td><code class="code-block">concat('Nom: ', @nom)</code></td>
+                </tr>
+                <tr>
+                  <td>substring(s, start, len)</td>
+                  <td>Extrait une sous-chaîne (position 1-basée).</td>
+                  <td>
+                    <code class="code-block"
+                      >substring('ABCD', 2, 2) → 'BC'</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>substring-before(s, delim)</td>
+                  <td>Extrait avant le délimiteur.</td>
+                  <td>
+                    <code class="code-block"
+                      >substring-before('nom@dom.com', '@')</code
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td>substring-after(s, delim)</td>
+                  <td>Extrait après le délimiteur.</td>
+                  <td>
+                    <code class="code-block"
+                      >substring-after('nom@dom.com', '@')</code
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
-
-      <div class="cheat-sheet-section logic">
-        <h2>5. Opérateurs & Prédicats Avancés</h2>
-        <h3>Opérateurs Logiques</h3>
-        <p>Utilisés dans les prédicats pour combiner des conditions :</p>
-        <ul>
-          <li>
-            AND : Les deux conditions doivent être vraies.
-            <div class="code-block">//input[@type='text' and @id='prenom']</div>
-          </li>
-          <li>
-            OR : Au moins une condition doit être vraie.
-            <div
-              class="code-block"
-              data-code="//button[@name='Ajouter' or @name='Supprimer']"
-              style="
-                text-align: left !important;
-                width: 100%;
-                margin-left: 0 !important;
-                box-sizing: border-box;
-              "
-            ></div>
-          </li>
-        </ul>
-        <h3>Prédicats Complexes</h3>
-        <ul>
-          <li>
-            Prédicat sur un descendant :
-            <div class="code-block">//div[.//span[@class='active']]</div>
-          </li>
-          <li>
-            Filtre basé sur l'enfant direct :
-            <div class="code-block">//tr[./td[@class='type']]</div>
-          </li>
-          <li>
-            Filtre basé sur un descendant avec opérateur logique :
-            <div
-              class="code-block"
-              data-code="//div[.//a[@class='link' and text()='Détails']]"
-              style="
-                text-align: left !important;
-                width: 100%;
-                margin-left: 0 !important;
-                box-sizing: border-box;
-              "
-            ></div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="cheat-sheet-section axes">
-        <h2>6. Axes de Navigation (Relations)</h2>
+      </main>
+      <aside class="podcast-card" aria-label="Podcast XPath">
+        <h3>
+          <i class="fas fa-podcast" aria-hidden="true"></i> Podcast Audio :
+          XPath
+        </h3>
         <p>
-          Les axes définissent la direction de la navigation par rapport au nœud
-          courant. Ils sont fondamentaux pour localiser des éléments parents,
-          frères, ou descendants indirects.
+          Écoutez un mini-guide audio (≈ 14 min) pour consolider vos bases XPath
+          avant d'écrire des sélecteurs complexes.
         </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Axe</th>
-              <th>Abr.</th>
-              <th>Rôle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>child::</td>
-              <td>/</td>
-              <td>Nœuds enfants directs.</td>
-            </tr>
-            <tr>
-              <td>parent::</td>
-              <td>..</td>
-              <td>Nœud parent.</td>
-            </tr>
-            <tr>
-              <td>self::</td>
-              <td>.</td>
-              <td>Le nœud courant.</td>
-            </tr>
-            <tr>
-              <td>attribute::</td>
-              <td>@</td>
-              <td>Nœuds attributs.</td>
-            </tr>
-            <tr>
-              <td>descendant::</td>
-              <td>//</td>
-              <td>Tous les descendants.</td>
-            </tr>
-            <tr>
-              <td>ancestor::</td>
-              <td></td>
-              <td>Tous les ancêtres du nœud courant.</td>
-            </tr>
-            <tr>
-              <td>following-sibling::</td>
-              <td></td>
-              <td>Frères/sœurs qui apparaissent APRÈS le nœud courant.</td>
-            </tr>
-            <tr>
-              <td>preceding-sibling::</td>
-              <td></td>
-              <td>Frères/sœurs qui apparaissent AVANT le nœud courant.</td>
-            </tr>
-            <tr>
-              <td>following::</td>
-              <td></td>
-              <td>Tous les nœuds suivants.</td>
-            </tr>
-            <tr>
-              <td>preceding::</td>
-              <td></td>
-              <td>Tous les nœuds précédents.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="cheat-sheet-section wildcards">
-        <h2>7. Sélecteurs Spéciaux & opérateurs</h2>
-        <p>
-          Utilisation de caractères génériques (wildcards) pour trouver des
-          éléments ou attributs avec souplesse.
-        </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Sélecteur</th>
-              <th>Rôle</th>
-              <th>Exemple</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>*</td>
-              <td>Sélectionne n'importe quel élément.</td>
-              <td><code class="code-block">//div/*/a</code></td>
-            </tr>
-            <tr>
-              <td>@*</td>
-              <td>Sélectionne un élément avec n'importe quel attribut.</td>
-              <td><code class="code-block">//button[@*]</code></td>
-            </tr>
-            <tr>
-              <td>//text()</td>
-              <td>Sélectionne uniquement le contenu textuel du nœud.</td>
-              <td><code class="code-block">//p[1]/text()</code></td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>Opérateurs de Comparaison et Types de Nœuds</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Opérateur</th>
-              <th>Signification</th>
-              <th>Type de Nœud</th>
-              <th>Explication</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>=</td>
-              <td>Égalité</td>
-              <td>element</td>
-              <td>Sélectionne une balise HTML/XML (Ex: div).</td>
-            </tr>
-            <tr>
-              <td>!=</td>
-              <td>Non Égalité</td>
-              <td>attribute</td>
-              <td>Sélectionne un attribut (Ex: @id).</td>
-            </tr>
-            <tr>
-              <td>&lt;, &gt;</td>
-              <td>Inférieur, Supérieur</td>
-              <td>text()</td>
-              <td>Sélectionne le contenu textuel.</td>
-            </tr>
-            <tr>
-              <td>&lt;=, &gt;=</td>
-              <td>Inf. ou Ég., Sup. ou Ég.</td>
-              <td>comment()</td>
-              <td>Sélectionne un commentaire.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="cheat-sheet-section functions-section">
-        <h2>8. Fonctions Courantes (Texte)</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Fonction</th>
-              <th>Rôle</th>
-              <th>Exemple</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>contains(s, sub)</td>
-              <td>Vrai si s contient sub.</td>
-              <td>
-                <code class="code-block">//p[contains(text(), 'partiel')]</code>
-              </td>
-            </tr>
-            <tr>
-              <td>starts-with(s, sub)</td>
-              <td>Vrai si s commence par sub.</td>
-              <td>
-                <code class="code-block"
-                  >//input[starts-with(@id, 'utilisateur')]</code
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>normalize-space(s)</td>
-              <td>Nettoie les espaces multiples et début/fin.</td>
-              <td>
-                <code class="code-block"
-                  >//div[normalize-space(text())='Texte']</code
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>concat(s1, s2, ...)</td>
-              <td>Concatène des chaînes.</td>
-              <td><code class="code-block">concat('Nom: ', @nom)</code></td>
-            </tr>
-            <tr>
-              <td>substring(s, start, len)</td>
-              <td>Extrait une sous-chaîne (position 1-basée).</td>
-              <td>
-                <code class="code-block">substring('ABCD', 2, 2) → 'BC'</code>
-              </td>
-            </tr>
-            <tr>
-              <td>substring-before(s, delim)</td>
-              <td>Extrait avant le délimiteur.</td>
-              <td>
-                <code class="code-block"
-                  >substring-before('nom@dom.com', '@')</code
-                >
-              </td>
-            </tr>
-            <tr>
-              <td>substring-after(s, delim)</td>
-              <td>Extrait après le délimiteur.</td>
-              <td>
-                <code class="code-block"
-                  >substring-after('nom@dom.com', '@')</code
-                >
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+        <div class="lang-block">
+          <label for="audio-fr"
+            ><i class="fas fa-headset" style="color: #216ba5"></i> 🇫🇷
+            Français</label
+          >
+          <audio id="audio-fr" controls>
+            <source
+              src="../../ressources/podcast_xpath_fr.mp3"
+              type="audio/mp3"
+            />
+            Votre navigateur ne supporte pas le lecteur audio.
+          </audio>
+        </div>
+        <div class="lang-block">
+          <label for="audio-en"
+            ><i class="fas fa-headset" style="color: #216ba5"></i> 🇬🇧
+            English</label
+          >
+          <audio id="audio-en" controls>
+            <source
+              src="../../ressources/podcast_xpath_en.mp3"
+              type="audio/mp3"
+            />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+        <div
+          style="
+            background: #fff;
+            border: 1px solid #f1e4b5;
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 0.75em;
+            color: #6c5438;
+          "
+        >
+          Astuce : privilégiez les sélecteurs basés sur
+          <code>normalize-space()</code> et les attributs stables plutôt que les
+          index numériques.
+        </div>
+      </aside>
     </div>
 
     <footer>
