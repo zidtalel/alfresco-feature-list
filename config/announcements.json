@@ -19,12 +19,12 @@
       "priority": true
     },
     {
-      "id": 3,
+      "id": 4,
       "title": "TP2 : Date de livraison imminente",
-      "message": "Attention ! la date de livraison des livrables User Stories, Critères d'acceptation, Cas de tests est proche : 20 novembre. \nN'oubliez pas de finaliser votre plan et de le soumettre.",
+      "message": "Attention ! la date de livraison des livrables User Stories, Critères d'acceptation, Cas de tests est proche : 20 novembre. N'oubliez pas de finaliser votre plan et de le soumettre.",
       "type": "warning",
       "active": true,
-      "priority": false,
+      "priority": true,
       "date": "2025-11-13"
     }
   ]
