@@ -19,9 +19,9 @@
       "priority": true
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "TP2 : Date de livraison imminente",
-      "message": "Attention ! la date de livraison des livrables User Stories, Critères d'acceptation, Cas de tests est proche : 20 novembre. N'oubliez pas de finaliser votre plan et de le soumettre.",
+      "message": "Attention ! la date de livraison des livrables User Stories, Critères d'acceptation, Cas de tests est proche : 20 novembre. N'oubliez pas de finaliser vos travaux sur Jira/Xray.",
       "type": "warning",
       "active": true,
       "priority": true,
