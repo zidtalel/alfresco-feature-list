@@ -23,7 +23,7 @@
       "title": "TP1 : Date de livraison imminente",
       "message": "Attention ! la date de livraison du livrable Plan de test est proche : 13 novembre. N'oubliez pas de finaliser votre plan et de le soumettre.",
       "type": "warning",
-      "active": true,
+      "active": false,
       "priority": true,
       "date": "2025-11-13"
     }
