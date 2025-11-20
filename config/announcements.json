@@ -26,6 +26,15 @@
       "active": false,
       "priority": true,
       "date": "2025-11-13"
+    },
+    {
+      "id": 7,
+      "title": "TP3 : Date de livraison imminente",
+      "message": "Attention ! La campagne de tests manuels a démarré.\nL'exécution des tests doit se terminer le 27 novembre.",
+      "type": "warning",
+      "active": true,
+      "priority": true,
+      "date": "2025-11-20"
     }
   ]
 }
