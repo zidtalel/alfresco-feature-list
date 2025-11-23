@@ -211,6 +211,85 @@
         gap: 4px;
       }
 
+      /* --- Formats de Données (collapsible) --- */
+      .formats-toggle {
+        cursor: pointer;
+      }
+
+      .formats-grid {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+        transition: max-height 0.32s ease, opacity 0.28s ease;
+        overflow: hidden;
+      }
+
+      .formats-grid[hidden] {
+        max-height: 0;
+        opacity: 0;
+        padding-top: 0;
+      }
+
+      .formats-grid:not([hidden]) {
+        max-height: 800px; /* suffisamment grand pour contenir les mini-cartes */
+        opacity: 1;
+      }
+
+      .format-mini {
+        padding: 10px 12px;
+        background-color: #f8fbff;
+        border-radius: 8px;
+        border: 1px solid #dbeefb;
+        box-shadow: 0 4px 8px rgba(33, 150, 243, 0.06);
+        font-size: 0.95em;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        text-decoration: none;
+        color: var(--dark-text);
+        min-height: 56px;
+      }
+
+      .format-mini i {
+        font-size: 1.1em;
+        color: #0b79d0;
+        flex: 0 0 28px;
+        text-align: center;
+      }
+
+      .formats-toggle.expanded i {
+        transform: rotate(90deg);
+        transition: transform 0.24s ease;
+      }
+
+      /* Eviter l'espace vide : sur grands écrans, laisser la carte "Formats" occuper 2 colonnes
+         et forcer la grille déroulante à occuper toute la largeur de la nav-grid */
+      .nav-grid .formats-toggle {
+        grid-column: span 1;
+      }
+
+      /* La grille déroulante occupe toute la largeur disponible (ligne complète) */
+      #formats-grid {
+        grid-column: 1 / -1;
+      }
+
+      @media (min-width: 900px) {
+        .nav-grid .formats-toggle {
+          grid-column: span 2;
+        }
+
+        /* ensure the full-width card actually takes the full row */
+        .nav-grid .full-width-card {
+          grid-column: 1 / -1;
+        }
+      }
+
+      /* make sure the formats grid itself also uses full width */
+      .full-width-card + #formats-grid {
+        grid-column: 1 / -1;
+      }
+
       .nav-card .title {
         font-weight: 700;
         font-size: 1.02em;
@@ -1098,6 +1177,8 @@
           </div>
         </a>
 
+        <!-- formats moved to the end of the nav-grid -->
+
         <a
           class="nav-card"
           href="../guides/guide_gherkin.html"
@@ -1142,6 +1223,84 @@
             <div class="desc">Tester vos connaissances (local)</div>
           </div>
         </a>
+        <!-- Carte unique pour les Formats de Données (collapsible) - insérée en dernier -->
+        <a
+          id="formats-toggle"
+          class="nav-card formats-toggle full-width-card"
+          href="#"
+          role="button"
+          aria-expanded="false"
+          aria-controls="formats-grid"
+          title="Formats de Données : CSV / XML / JSON / YAML"
+        >
+          <i class="fas fa-database" aria-hidden="true"></i>
+          <div class="meta">
+            <div class="title">Formats de Données</div>
+            <div class="desc">CSV, XML, JSON, YAML — Aperçu & exemples</div>
+          </div>
+        </a>
+
+        <div id="formats-grid" class="formats-grid" hidden>
+          <a
+            class="nav-card format-mini"
+            href="../guides/guide_csv.html"
+            title="Guide CSV"
+          >
+            <i class="fas fa-file-csv" aria-hidden="true"></i>
+            <div class="meta">
+              <div class="title">CSV</div>
+              <div class="desc">Comma Separated Values</div>
+            </div>
+          </a>
+
+          <a
+            class="nav-card format-mini"
+            href="../guides/guide_xml.html"
+            title="Guide XML"
+          >
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <div class="meta">
+              <div class="title">XML</div>
+              <div class="desc">eXtensible Markup Language</div>
+            </div>
+          </a>
+
+          <a
+            class="nav-card format-mini"
+            href="../guides/guide_json.html"
+            title="Guide JSON"
+          >
+            <i class="fas fa-cube" aria-hidden="true"></i>
+            <div class="meta">
+              <div class="title">JSON</div>
+              <div class="desc">JavaScript Object Notation</div>
+            </div>
+          </a>
+
+          <a
+            class="nav-card format-mini"
+            href="../guides/guide_yaml.html"
+            title="Guide YAML"
+          >
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
+            <div class="meta">
+              <div class="title">YAML</div>
+              <div class="desc">YAML Ain't Markup Language</div>
+            </div>
+          </a>
+
+          <a
+            class="nav-card format-mini"
+            href="../guides/guide_data_formats.html"
+            title="Autres formats"
+          >
+            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+            <div class="meta">
+              <div class="title">Autres</div>
+              <div class="desc">Autres formats et références</div>
+            </div>
+          </a>
+        </div>
       </div>
 
       <!-- Pied de page avec date de mise à jour -->
@@ -1432,6 +1591,44 @@
           console.warn("Erreur lors du chargement des annonces:", e);
         }
       })();
+    </script>
+
+    <script>
+      // Toggle pour la carte "Formats de Données" (collapsible)
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          const toggle = document.getElementById("formats-toggle");
+          const grid = document.getElementById("formats-grid");
+
+          if (!toggle || !grid) return;
+
+          toggle.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const isHidden = grid.hasAttribute("hidden");
+            if (isHidden) {
+              grid.removeAttribute("hidden");
+              toggle.classList.add("expanded");
+              toggle.setAttribute("aria-expanded", "true");
+            } else {
+              grid.setAttribute("hidden", "");
+              toggle.classList.remove("expanded");
+              toggle.setAttribute("aria-expanded", "false");
+            }
+          });
+
+          // Fermer le panneau si on clique en dehors
+          document.addEventListener("click", function (e) {
+            if (!toggle.contains(e.target) && !grid.contains(e.target)) {
+              grid.setAttribute("hidden", "");
+              toggle.classList.remove("expanded");
+              toggle.setAttribute("aria-expanded", "false");
+            }
+          });
+        } catch (err) {
+          console.warn("Erreur toggle formats:", err);
+        }
+      });
     </script>
   </body>
 </html>
