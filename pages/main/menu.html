@@ -46,8 +46,8 @@
 
       /* Conteneur principal */
       .accueil-container {
-        width: 92%;
-        max-width: 1100px;
+        width: 96%;
+        max-width: 1400px;
         background-color: #ffffff;
         padding: 30px;
         border-radius: 15px;
@@ -113,25 +113,35 @@
       .nav-grid {
         margin-top: 20px;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 16px;
+        /* base: allow responsive fit but use smaller min width so more columns fit */
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
         text-align: left;
+      }
+
+      /* On large viewports prefer exactly 4 columns */
+      @media (min-width: 1200px) {
+        .nav-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+        }
       }
 
       .nav-card {
         display: flex;
         flex-direction: row;
-        gap: 14px;
+        gap: 12px;
         align-items: flex-start;
-        padding: 14px 16px;
+        padding: 12px 14px 18px 14px; /* top/right/bottom/left - bottom increased to clear badges */
+        padding-right: 80px; /* réserve de l'espace pour badges positionnés bottom-right */
         text-decoration: none;
         color: var(--dark-text);
         background-color: #ecf0f1;
         border-radius: 10px;
         border: 1px solid #e1e7ea;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.08);
-        min-height: 76px;
+        transition: all 0.28s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+        min-height: 68px; /* réduit pour compacter */
         position: relative;
         overflow: hidden;
       }
@@ -934,7 +944,8 @@
         }
 
         .nav-card {
-          padding: 12px 14px;
+          padding: 12px 14px 18px 14px;
+          padding-right: 56px; /* slightly smaller on mobile */
           font-size: 0.97em;
         }
       }
@@ -1216,7 +1227,6 @@
           href="quiz.html"
           title="Quiz & Évaluation des connaissances"
         >
-          <span class="new-badge">Nouveau</span>
           <i class="fas fa-question-circle" aria-hidden="true"></i>
           <div class="meta">
             <div class="title">Quiz & Évaluation</div>
@@ -1233,6 +1243,7 @@
           aria-controls="formats-grid"
           title="Formats de Données : CSV / XML / JSON / YAML"
         >
+          <span class="new-badge">Nouveau</span>
           <i class="fas fa-database" aria-hidden="true"></i>
           <div class="meta">
             <div class="title">Formats de Données</div>
@@ -1291,13 +1302,13 @@
 
           <a
             class="nav-card format-mini"
-            href="../guides/guide_data_formats.html"
-            title="Autres formats"
+            href="../guides/guide_properties.html"
+            title="Guide .properties"
           >
-            <i class="fas fa-ellipsis-h" aria-hidden="true"></i>
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
             <div class="meta">
-              <div class="title">Autres</div>
-              <div class="desc">Autres formats et références</div>
+              <div class="title">.properties</div>
+              <div class="desc">Format propriétés Java</div>
             </div>
           </a>
         </div>
@@ -1314,7 +1325,7 @@
           color: #9ca3af;
         "
       >
-        Dernière mise à jour : 12 novembre 2025
+        Dernière mise à jour : 23 novembre 2025
       </footer>
     </div>
 

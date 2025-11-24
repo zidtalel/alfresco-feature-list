@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Guide — Format .properties</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+        color: #222;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--maxw);
+      }
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(33, 107, 165, 0.12),
+          rgba(29, 119, 184, 0.06)
+        );
+        padding: 20px 24px;
+        border-radius: calc(var(--radius)+4px);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(13, 66, 104, 0.06);
+      }
+      footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(33, 107, 165, 0.12);
+      }
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+      }
+      .home-link:hover {
+        background-color: #e9ecef;
+        color: #007bff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #083b5a;
+      }
+      p.lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .card {
+        background: var(--card);
+        padding: 22px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 20px rgba(20, 30, 40, 0.04);
+        border: 1px solid rgba(16, 24, 32, 0.03);
+      }
+      main.card {
+        padding: 26px;
+      }
+      h2 {
+        color: #0f3e5f;
+        margin-top: 0;
+        font-size: 18px;
+        border-bottom: 2px solid #e6edf4;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+      h3 {
+        color: #123d57;
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      p,
+      li {
+        color: #233242;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      ul,
+      ol {
+        margin-left: 18px;
+        padding-left: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #e6edf4;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f7fb;
+        color: #123d57;
+        font-weight: 600;
+      }
+      pre {
+        background: #f6fbff;
+        padding: 15px;
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #0b3b57;
+        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .tip-box {
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="../main/menu.html"
+      class="home-link"
+      title="Retour à la page d'accueil"
+      >🏠 Accueil</a
+    >
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo"><i class="fas fa-project-diagram"></i></div>
+        <div>
+          <h1>Guide — Format .properties (Java)</h1>
+          <p class="lead">
+            Introduction, bonnes pratiques et exemples pour les fichiers de
+            propriétés Java.
+          </p>
+        </div>
+      </header>
+      <main class="card">
+        <h2>Introduction au Format .properties</h2>
+        <p>
+          Le format <code>.properties</code> est un format de fichier texte
+          minimaliste, essentiel dans l'écosystème Java pour stocker des paires
+          clé-valeur. Il est principalement utilisé pour la gestion des
+          configurations d'applications, des paramètres d'environnement, et la
+          gestion des chaînes de texte pour l'internationalisation.
+        </p>
+
+        <h2>1. Structure et Syntaxe</h2>
+        <p>
+          Un fichier <code>.properties</code> contient une liste d'entrées, une
+          par ligne, sous la forme d'une simple association entre une clé
+          (unique) et une valeur. Le séparateur principal est le signe égal
+          <code>=</code>, mais le deux-points <code>:</code> ou un espace sont
+          aussi acceptés.
+        </p>
+
+        <h3>A. Paires Clé-Valeur</h3>
+        <p>
+          Une entrée est définie par une clé et sa valeur associée. Exemple :
+        </p>
+        <pre>
+environment.name=QA
+environment.url=https://qa.projet1292.com
+environment.browser=chrome</pre
+        >
+
+        <h3>B. Commentaires et Sauts de Ligne</h3>
+        <p>
+          Les lignes commençant par <code>#</code> ou <code>!</code> sont
+          ignorées (commentaires). Pour étendre une valeur sur plusieurs lignes,
+          terminez la ligne par une barre oblique inversée <code>\</code>.
+        </p>
+        <pre>
+# Message d'erreur multilingue
+error.login.failed=La connexion \
+ a échoué.</pre
+        >
+
+        <h2>2. Rôle dans l'Automatisation des Tests</h2>
+        <p>
+          Les fichiers <code>.properties</code> offrent une méthode simple pour
+          externaliser les données de configuration de votre code.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Cas d'Usage</th>
+              <th>Description</th>
+              <th>Exemple de Clé</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Séparation des Environnements</td>
+              <td>Stocker les URLs, ports ou chemins par environnement</td>
+              <td><code>url.base</code>, <code>port.db</code></td>
+            </tr>
+            <tr>
+              <td>Variables d'Exécution</td>
+              <td>Paramètres influençant le runtime du test</td>
+              <td><code>browser.type</code>, <code>max.retries</code></td>
+            </tr>
+            <tr>
+              <td>Internationalisation (i18n)</td>
+              <td>Fichiers séparés par locale (messages_fr.properties)</td>
+              <td><code>label.login</code>, <code>button.save</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>3. Gestion des Caractères Spéciaux</h2>
+        <p>
+          Le format est historiquement ASCII. Pour inclure des caractères
+          non-ASCII, on utilise l'échappement Unicode <code>\uXXXX</code>.
+          Cependant, les outils Java modernes supportent souvent UTF-8
+          directement.
+        </p>
+        <pre>message.accueil=\u0042ienvenue</pre>
+
+        <h2>4. Avantages et Inconvénients</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Caractéristique</th>
+              <th>Avantage (+)</th>
+              <th>Inconvénient (-)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Simplicité</td>
+              <td>Très facile à parser et manipuler</td>
+              <td>Manque de structure et d'hierarchie</td>
+            </tr>
+            <tr>
+              <td>Commentaires</td>
+              <td>Supporte # et ! pour documenter</td>
+              <td>Gestion des accents compliquée sans UTF-8</td>
+            </tr>
+            <tr>
+              <td>Standard</td>
+              <td>Format de configuration de facto pour Java</td>
+              <td>Moins lisible que YAML pour de longues chaînes</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip-box">
+          <strong>Astuce :</strong> Pour des configurations plus structurées,
+          préférez YAML ou JSON. Utilisez <code>.properties</code> pour des
+          paires simples et l'internationalisation.
+        </div>
+      </main>
+      <footer>
+        <p>
+          &copy; Talel Zid | Version 1.0 — Novembre 2025 | Guide .properties |
+          Usage personnel ou éducatif.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

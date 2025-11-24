@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Guide — Format XML</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+        color: #222;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--maxw);
+      }
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(33, 107, 165, 0.12),
+          rgba(29, 119, 184, 0.06)
+        );
+        padding: 20px 24px;
+        border-radius: calc(var(--radius) + 4px);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(13, 66, 104, 0.06);
+      }
+      footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(33, 107, 165, 0.12);
+      }
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+      }
+      .home-link:hover {
+        background-color: #e9ecef;
+        color: #007bff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #083b5a;
+      }
+      p.lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .card {
+        background: var(--card);
+        padding: 22px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 20px rgba(20, 30, 40, 0.04);
+        border: 1px solid rgba(16, 24, 32, 0.03);
+      }
+      main.card {
+        padding: 26px;
+      }
+      h2 {
+        color: #0f3e5f;
+        margin-top: 0;
+        font-size: 18px;
+        border-bottom: 2px solid #e6edf4;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+      h3 {
+        color: #123d57;
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      p,
+      li {
+        color: #233242;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      ul,
+      ol {
+        margin-left: 18px;
+        padding-left: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #e6edf4;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f7fb;
+        color: #123d57;
+        font-weight: 600;
+      }
+      pre {
+        background: #f6fbff;
+        padding: 15px;
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #0b3b57;
+        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .tip-box {
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+      .tip-box h4 {
+        color: var(--accent);
+        margin: 0 0 5px 0;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="../main/menu.html"
+      class="home-link"
+      title="Retour à la page d'accueil"
+      >🏠 Accueil</a
+    >
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo"><i class="fas fa-file-code"></i></div>
+        <div>
+          <h1>Guide du format XML</h1>
+          <p class="lead">
+            Comprendre la structure XML, la validation et l'usage en tests.
+          </p>
+        </div>
+      </header>
+      <main class="card">
+        <h2>Introduction au XML</h2>
+        <p>
+          <strong>XML</strong> (eXtensible Markup Language) est un langage de
+          balisage conçu pour stocker et transporter des données. Il est
+          <strong>auto-descriptif</strong> : la structure du document est
+          intégrée aux données. Contrairement à HTML (avec des balises
+          prédéfinies), XML permet de
+          <strong>définir ses propres balises</strong>. Il est souvent utilisé
+          pour des services web (SOAP), des fichiers de configuration et partout
+          où une validation stricte de la structure est importante.
+        </p>
+
+        <h2>1. La Structure Fondamentale de XML</h2>
+        <h3>A. Le Prologue et l'Élément Racine</h3>
+        <p>
+          Un document XML commence éventuellement par une déclaration (prologue)
+          et doit contenir exactement un <em>élément racine</em> qui englobe
+          tous les autres éléments.
+        </p>
+
+        <pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;tickets&gt; &lt;/tickets&gt;</pre
+        >
+
+        <h3>B. Les Éléments (Balises) et les Attributs</h3>
+        <p>
+          Les données sont encapsulées entre des balises ouvrantes
+          (&lt;nom_balise&gt;) et fermantes (&lt;/nom_balise&gt;). Les
+          <strong>éléments</strong> représentent les données, et les
+          <strong>attributs</strong> fournissent des métadonnées (ex:
+          identifiants, références).
+        </p>
+
+        <pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;tickets count="2"&gt;
+    &lt;ticket id="456" priorite="Haute"&gt;
+        &lt;sujet&gt;Lien page d'accueil cassé&lt;/sujet&gt;
+        &lt;statut&gt;En cours&lt;/statut&gt;
+        &lt;assigned_to&gt;Alice&lt;/assigned_to&gt;
+    &lt;/ticket&gt;
+    &lt;ticket id="457" priorite="Basse"&gt;
+        &lt;sujet&gt;Documentation à jour&lt;/sujet&gt;
+        &lt;statut&gt;Nouveau&lt;/statut&gt;
+    &lt;/ticket&gt;
+&lt;/tickets&gt;</pre
+        >
+
+        <h2>2. Validation et Schémas (XSD)</h2>
+        <p>
+          Un des principaux atouts de XML est la validation stricte via des
+          schémas. <strong>XSD</strong> (XML Schema Definition) permet de
+          définir :
+        </p>
+        <ul>
+          <li>
+            La structure autorisée des éléments (quels enfants sont permis).
+          </li>
+          <li>
+            Les types de données (int, date, string) pour les éléments et
+            attributs.
+          </li>
+          <li>Les contraintes (taille, valeurs par défaut, cardinalités).</li>
+        </ul>
+        <p>
+          Pour les tests, la validation XSD garantit que la réponse XML est
+          conforme au contrat attendu avant d'effectuer des assertions sur le
+          contenu.
+        </p>
+
+        <h2>3. XML et l'Automatisation des Tests</h2>
+        <h3>A. Services Web SOAP</h3>
+        <p>
+          Les services SOAP utilisent XML pour les échanges. Les tests
+          construisent souvent des enveloppes SOAP pour les requêtes et
+          analysent les réponses XML.
+        </p>
+
+        <pre>
+&lt;soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+  &lt;soap:Body&gt;
+    &lt;ObtenirStatutTicket xmlns="http://monprojet.com/api"&gt;
+      &lt;ticketId&gt;456&lt;/ticketId&gt;
+    &lt;/ObtenirStatutTicket&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</pre
+        >
+
+        <h3>B. L'Interrogation avec XPath</h3>
+        <p>
+          <strong>XPath</strong> est le langage standard pour sélectionner des
+          nœuds (éléments, attributs, texte) dans un document XML. Il est
+          essentiel pour les assertions dans les tests.
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Expression XPath</th>
+              <th>Description</th>
+              <th>Résultat (exemple)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/tickets/ticket[1]</code></td>
+              <td>
+                Sélectionne le premier élément <code>ticket</code> enfant de
+                <code>tickets</code>.
+              </td>
+              <td><code>&lt;ticket id="456"&gt;...&lt;/ticket&gt;</code></td>
+            </tr>
+            <tr>
+              <td><code>//ticket[@priorite='Basse']</code></td>
+              <td>
+                Sélectionne tous les <code>ticket</code> avec l'attribut
+                <code>priorite</code> égal à "Basse".
+              </td>
+              <td><code>&lt;ticket id="457"&gt;...&lt;/ticket&gt;</code></td>
+            </tr>
+            <tr>
+              <td><code>//ticket[@id='456']/statut/text()</code></td>
+              <td>
+                Récupère la valeur textuelle de l'élément <code>statut</code> du
+                ticket d'ID 456.
+              </td>
+              <td><code>En cours</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>4. Avantages et Inconvénients</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Caractéristique</th>
+              <th>Avantage (+)</th>
+              <th>Inconvénient (-)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Robustesse</strong></td>
+              <td>Validation formelle via XSD.</td>
+              <td>Structure verbeuse (plus volumineuse que JSON).</td>
+            </tr>
+            <tr>
+              <td><strong>Interrogation</strong></td>
+              <td>Support puissant via <code>XPath</code>.</td>
+              <td>Parsing et manipulation plus complexes que JSON.</td>
+            </tr>
+            <tr>
+              <td><strong>Standardisation</strong></td>
+              <td>
+                Adapté aux environnements stricts (banque, administrations).
+              </td>
+              <td>Moins utilisé pour les nouvelles API REST modernes.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Exercice de Test supprimé par demande de l'utilisateur -->
+      </main>
+      <footer>
+        <p>
+          &copy; Talel Zid | Version 1.0 — Novembre 2025 | Guide XML |<br />Usage
+          personnel ou éducatif.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
