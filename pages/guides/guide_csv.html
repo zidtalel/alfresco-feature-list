@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Guide — Format CSV</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * { box-sizing: border-box; }
+      html, body { height:100%; margin:0; font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system, "Helvetica Neue", Arial; }
+      body { background: linear-gradient(180deg,#f7fbff 0%, var(--bg) 100%); color:#222; padding:28px; display:flex; justify-content:center; }
+      .wrap { width:100%; max-width:var(--maxw); }
+      header { background: linear-gradient(90deg, rgba(33,107,165,0.12), rgba(29,119,184,0.06)); padding:20px 24px; border-radius:calc(var(--radius)+4px); margin-bottom:18px; display:flex; gap:18px; align-items:center; border:1px solid rgba(13,66,104,0.06); }
+        footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .logo { width:64px; height:64px; border-radius:12px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:20px; box-shadow:0 6px 18px rgba(33,107,165,0.12); }
+      .home-link { position:fixed; top:20px; left:20px; z-index:1000; font-size:0.95em; font-weight:600; text-decoration:none; color:#495057; padding:8px 15px; border-radius:20px; background-color:#f8f9fa; border:1px solid #dee2e6; box-shadow:0 2px 5px rgba(0,0,0,0.1); transition:all 0.2s ease-in-out; }
+      .home-link:hover { background-color:#e9ecef; color:#007bff; box-shadow:0 4px 8px rgba(0,0,0,0.15); transform:translateY(-1px); }
+      @media screen and (max-width:768px) { .home-link { font-size:0.85em; padding:5px 10px; top:10px; left:10px; } }
+      h1 { margin:0; font-size:20px; color:#083b5a; }
+      p.lead { margin:2px 0 0 0; color:var(--muted); font-size:13px; }
+      .card { background:var(--card); padding:22px; border-radius:var(--radius); box-shadow:0 6px 20px rgba(20,30,40,0.04); border:1px solid rgba(16,24,32,0.03); }
+      main.card { padding:26px; }
+      h2 { color:#0f3e5f; margin-top:0; font-size:18px; border-bottom:2px solid #e6edf4; padding-bottom:5px; margin-bottom:15px; }
+      h3 { color:#123d57; margin-bottom:8px; margin-top:20px; font-size:16px; }
+      p, li { color:#233242; line-height:1.6; font-size:15px; }
+      .muted { color:var(--muted); font-size:13px; }
+      ul, ol { margin-left:18px; padding-left:0; }
+      table { width:100%; border-collapse:collapse; margin-top:15px; margin-bottom:15px; font-size:14px; }
+      th, td { padding:10px; border:1px solid #e6edf4; text-align:left; vertical-align:top; }
+      th { background:#f2f7fb; color:#123d57; font-weight:600; }
+      pre { background:#f6fbff; padding:15px; border-left:4px solid var(--accent); border-radius:8px; overflow:auto; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace; font-size:13px; color:#0b3b57; line-height:1.5; margin-top:15px; margin-bottom:20px; }
+      .tip-box { background:#e6f7ff; border:1px solid #b3e0ff; padding:15px; border-radius:8px; margin-top:20px; }
+    </style>
+  </head>
+  <body>
+    <a href="../main/menu.html" class="home-link" title="Retour à la page d'accueil">🏠 Accueil</a>
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo"><i class="fas fa-file-csv"></i></div>
+        <div>
+          <h1>Guide du format CSV</h1>
+          <p class="lead">Le format simple et universel pour les données tabulaires, très utilisé en Data-Driven Testing.</p>
+        </div>
+      </header>
+      <main class="card">
+        <h2>Introduction au CSV</h2>
+        <p><strong>CSV</strong> (Comma-Separated Values) est un format texte simple pour représenter des données tabulaires. Chaque ligne est un enregistrement et les valeurs sont séparées par un caractère appelé <strong>délimiteur</strong>. Ce format est léger, lisible et très répandu (Excel, outils ETL, scripts).</p>
+
+        <h2>1. La Structure Fondamentale de CSV</h2>
+        <h3>A. En-tête (Header)</h3>
+        <p>La première ligne est généralement l'<strong>en-tête</strong>, qui définit le nom de chaque colonne. C'est fortement recommandé pour la lisibilité et l'automatisation.</p>
+
+        <h3>B. Délimiteur (Separator)</h3>
+        <p>Le délimiteur le plus courant est la <strong>virgule</strong>, mais le <strong>point-virgule</strong> ou la <strong>tabulation</strong> sont également utilisés selon les régions et outils.</p>
+
+        <h3>C. Les Lignes de Données</h3>
+        <p>Chaque ligne suivante représente un enregistrement. Le nombre de valeurs doit correspondre au nombre de champs définis dans l'en-tête.</p>
+
+        <b>Exemple de fichier <code>scenarios_a_tester.csv</code> (délimiteur : point-virgule)</b>
+        <pre>ID_Test;Scenario;Utilisateur;Résultat_Attendu;Statut_Initial
+T001;Connexion réussie;user_valid;Page d'accueil;Déconnecté
+T002;Mot de passe incorrect;user_invalid;Message d'erreur;Déconnecté
+T003;Changement de rôle;admin_test;Nouveau rôle appliqué;Connecté</pre>
+
+        <h2>2. Le Rôle Clé dans le Data-Driven Testing (DDT)</h2>
+        <p>Le CSV est couramment utilisé pour le <strong>Data-Driven Testing</strong>. On écrit un seul scénario et on le réexécute pour chaque ligne de données.</p>
+
+        <h3>Principe du DDT</h3>
+        <p>La même logique de test est paramétrée par les valeurs lues dans le CSV, permettant de multiplier facilement les cas de test sans dupliquer le scénario.</p>
+
+        <b>Exemple (Gherkin - Scenario Outline)</b>
+        <pre>Scenario Outline: Tester le processus de connexion
+  Given je suis sur la page de connexion en statut "<Statut_Initial>"
+  When je me connecte avec l'utilisateur "<Utilisateur>"
+  Then je vois le "<Résultat_Attendu>"</pre>
+
+        <h2>3. Gestion des Données Complexes</h2>
+        <p>Le CSV étant un format simple, il existe des règles pour éviter les ambiguïtés :</p>
+        <table>
+          <thead>
+            <tr><th>Problème</th><th>Solution standard</th><th>Exemple</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Valeur contenant le délimiteur</strong></td><td>Entourer la valeur par des guillemets doubles (<code>"</code>).</td><td><code>"Service Client, Priorité Haute"</code></td></tr>
+            <tr><td><strong>Valeur contenant un guillemet</strong></td><td>Doubler les guillemets (<code>""</code>) à l'intérieur.</td><td><code>"Le message est : ""Erreur""."</code></td></tr>
+            <tr><td><strong>Sauts de ligne</strong></td><td>Entourer l'enregistrement par des guillemets doubles.</td><td><code>"Description sur plusieurs lignes. Ligne 2."</code></td></tr>
+          </tbody>
+        </table>
+
+        <div class="tip-box">
+          <h4><i class="fas fa-lightbulb"></i> Astuce</h4>
+          <p class="muted">Pour les tests, préférez des fichiers CSV simples (évitez les guillemets et sauts de ligne) afin de limiter les problèmes de parsing.</p>
+        </div>
+
+        <h2>4. Avantages et Inconvénients</h2>
+        <table>
+          <thead><tr><th>Caractéristique</th><th>Avantage (+)</th><th>Inconvénient (-)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Simplicité</strong></td><td>Très facile à lire, écrire et créer (Excel, éditeurs).</td><td>Pas de structure hiérarchique ni d'imbrication.</td></tr>
+            <tr><td><strong>Compatibilité</strong></td><td>Universellement pris en charge par outils et langages.</td><td>Encodages et délimiteurs peuvent causer des erreurs.</td></tr>
+            <tr><td><strong>Performance</strong></td><td>Idéal pour grands volumes de données de test.</td><td>Typage des données non explicite, géré par l'application.</td></tr>
+          </tbody>
+        </table>
+
+      </main>
+        <footer>
+          <p>
+            &copy; Talel Zid | Version 1.0 — Novembre 2025 | Guide CSV |<br />Usage
+            personnel ou éducatif.
+          </p>
+        </footer>
+    </div>
+  </body>
+</html>

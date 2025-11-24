@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Guide — Format YAML</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f4f7fa;
+        --card: #fff;
+        --muted: #6b7280;
+        --accent: #216ba5;
+        --accent-2: #1d77b8;
+        --radius: 12px;
+        --maxw: 1100px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: Inter, "Segoe UI", Roboto, system-ui, -apple-system,
+          "Helvetica Neue", Arial;
+      }
+      body {
+        background: linear-gradient(180deg, #f7fbff 0%, var(--bg) 100%);
+        color: #222;
+        padding: 28px;
+        display: flex;
+        justify-content: center;
+      }
+      .wrap {
+        width: 100%;
+        max-width: var(--maxw);
+      }
+      header {
+        background: linear-gradient(
+          90deg,
+          rgba(33, 107, 165, 0.12),
+          rgba(29, 119, 184, 0.06)
+        );
+        padding: 20px 24px;
+        border-radius: calc(var(--radius)+4px);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        border: 1px solid rgba(13, 66, 104, 0.06);
+      }
+      footer {
+        margin-top: 25px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        box-shadow: 0 6px 18px rgba(33, 107, 165, 0.12);
+      }
+      .home-link {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        font-size: 0.95em;
+        font-weight: 600;
+        text-decoration: none;
+        color: #495057;
+        padding: 8px 15px;
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease-in-out;
+      }
+      .home-link:hover {
+        background-color: #e9ecef;
+        color: #007bff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+      @media screen and (max-width: 768px) {
+        .home-link {
+          font-size: 0.85em;
+          padding: 5px 10px;
+          top: 10px;
+          left: 10px;
+        }
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #083b5a;
+      }
+      p.lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .card {
+        background: var(--card);
+        padding: 22px;
+        border-radius: var(--radius);
+        box-shadow: 0 6px 20px rgba(20, 30, 40, 0.04);
+        border: 1px solid rgba(16, 24, 32, 0.03);
+      }
+      main.card {
+        padding: 26px;
+      }
+      h2 {
+        color: #0f3e5f;
+        margin-top: 0;
+        font-size: 18px;
+        border-bottom: 2px solid #e6edf4;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+      }
+      h3 {
+        color: #123d57;
+        margin-bottom: 8px;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+      p,
+      li {
+        color: #233242;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      ul,
+      ol {
+        margin-left: 18px;
+        padding-left: 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        font-size: 14px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #e6edf4;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f2f7fb;
+        color: #123d57;
+        font-weight: 600;
+      }
+      pre {
+        background: #f6fbff;
+        padding: 15px;
+        border-left: 4px solid var(--accent);
+        border-radius: 8px;
+        overflow: auto;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono",
+          monospace;
+        font-size: 13px;
+        color: #0b3b57;
+        line-height: 1.5;
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .tip-box {
+        background: #e6f7ff;
+        border: 1px solid #b3e0ff;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="../main/menu.html"
+      class="home-link"
+      title="Retour à la page d'accueil"
+      >🏠 Accueil</a
+    >
+    <div class="wrap" role="main" aria-labelledby="title">
+      <header>
+        <div class="logo"><i class="fas fa-project-diagram"></i></div>
+        <div>
+          <h1>Guide du format YAML</h1>
+          <p class="lead">
+            Lisibilité, configuration et orchestration — YAML pour les fichiers
+            de configuration et pipelines.
+          </p>
+        </div>
+      </header>
+      <main class="card">
+        <h2>Introduction au YAML</h2>
+        <p>
+          <strong>YAML</strong> (YAML Ain't Markup Language) est un format de
+          sérialisation conçu pour être très lisible par l'humain. Il est
+          souvent préféré à JSON et XML pour les fichiers de configuration et
+          les définitions d'orchestration, grâce à l'usage de l'<strong
+            >indentation</strong
+          >
+          pour représenter la structure.
+        </p>
+
+        <h2>1. La Structure Fondamentale de YAML</h2>
+        <p>
+          YAML supporte les mêmes structures que JSON (mappings/objets et
+          sequences/listes) mais utilise une syntaxe minimale sans accolades ni
+          crochets.
+        </p>
+
+        <h3>A. Le Mapping (Objets Clé-Valeur)</h3>
+        <p>
+          Les paires clé-valeur s'écrivent avec un deux-points et un espace
+          (<code>: </code>). L'indentation définit la hiérarchie.
+        </p>
+        <pre>
+projet: documentation_tests
+version: 1.0
+auteur:
+  nom: Groupe 1292
+  email: contact@exemple.com
+date_creation: 2025-11-23</pre
+        >
+
+        <h3>B. La Séquence (Tableaux/Listes)</h3>
+        <p>
+          Les éléments de liste sont préfixés par un tiret et un espace (<code
+            >- </code
+          >).
+        </p>
+        <pre>
+dependances:
+  - nom: selenium
+    version: 4.15
+  - nom: rest-assured
+    version: 5.3</pre
+        >
+
+        <h3>C. Les Scalaires (Types de Valeurs)</h3>
+        <p>
+          Les scalaires (chaînes, nombres, booléens) s'écrivent directement ;
+          les chaînes n'ont pas besoin de guillemets sauf si elles contiennent
+          des caractères spéciaux.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Exemple YAML</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chaîne</strong></td>
+              <td><code>url_serveur: http://api.dev.com</code></td>
+            </tr>
+            <tr>
+              <td><strong>Nombre</strong></td>
+              <td><code>delai_max_secondes: 30</code></td>
+            </tr>
+            <tr>
+              <td><strong>Booléen</strong></td>
+              <td><code>activer_logs: true</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>2. YAML et la Configuration des Projets de Tests</h2>
+        <p>
+          La lisibilité de YAML en fait un excellent choix pour gérer des
+          paramètres entre environnements et outils.
+        </p>
+
+        <h3>A. Configurations d'Environnement</h3>
+        <pre>
+environnements:
+  dev:
+    url_api: http://api.dev.local/v1
+    timeout: 15
+  qa:
+    url_api: https://qa.projet-test.com/v1
+    timeout: 30
+tests_globaux:
+  navigateur: chrome
+  headless: true</pre
+        >
+
+        <h3>B. Orchestration et CI/CD</h3>
+        <p>
+          YAML est le langage standard pour Docker Compose, GitLab CI, GitHub
+          Actions, etc. Les étudiants le rencontreront fréquemment dans les
+          fichiers <code>docker-compose.yml</code> et les pipelines CI/CD.
+        </p>
+
+        <h2>3. YAML Avancé : Style Compact et Types</h2>
+        <h3>A. Style "Flow" (Compact)</h3>
+        <p>
+          YAML autorise une syntaxe compacte compatible JSON pour les structures
+          courtes.
+        </p>
+        <pre>
+tags_specifiques: [smoke, regression, priorite_haute]
+utilisateur_defaut: {nom: "guest", role: "public"}</pre
+        >
+
+        <h3>B. Les Commentaires</h3>
+        <p>
+          YAML supporte les commentaires avec <code>#</code>, utile pour
+          documenter les configurations.
+        </p>
+        <pre>
+# Cette section définit les identifiants pour l'accès à la DB de tests
+database:
+  user: test_user
+  password: secure_password # À remplacer par une variable d'environnement en production</pre
+        >
+
+        <h2>4. Avantages et Inconvénients</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Caractéristique</th>
+              <th>Avantage (+)</th>
+              <th>Inconvénient (-)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Lisibilité</strong></td>
+              <td>Indentation claire et lisible (comme Python).</td>
+              <td>
+                Sensible à l'indentation : une mauvaise tabulation invalide le
+                fichier.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Commentaires</strong></td>
+              <td>Support natif des commentaires (<code>#</code>).</td>
+              <td>Le parsing peut être plus lent que JSON.</td>
+            </tr>
+            <tr>
+              <td><strong>Configuration</strong></td>
+              <td>Idéal pour configurations complexes.</td>
+              <td>
+                Moins adapté pour l'échange direct d'APIs où JSON est standard.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </main>
+      <footer>
+        <p>
+          &copy; Talel Zid | Version 1.0 — Novembre 2025 | Guide YAML |<br />Usage
+          personnel ou éducatif.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
